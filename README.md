@@ -48,3 +48,15 @@ These cover the older source site. The alternative-v2/qa-proposal*.mjs scripts c
 - The 185 unchanged source files match the original folder byte-for-byte. The only modified supplied files are .gitignore and stats/config.php, for publication exclusions and removal of embedded credentials.
 - Exact original secret values and common credential patterns were checked against the publication copy, with no matches.
 - PHP runtime behavior, browser workflows and external providers were not newly exercised for this source import. Earlier browser results in alternative-v2/README.md remain historical evidence.
+
+## GitHub Pages hosting
+
+The publishing workflow in .github/workflows/pages.yml builds the newer design and uploads only alternative-v2/site/. Successful pushes to main publish automatically at:
+
+https://ariongj.github.io/ITD2027/
+
+The workflow validates all 39 HTML pages and their local links and CSS assets before publishing. The source files, legacy PHP endpoints and operational configuration are not part of the Pages website.
+
+The newer design retains its preview noindex setting. The itdks.tech domain and its existing hosting are unchanged. Forms retain the existing Formspree connection; actual inbox delivery requires a separately authorized submission test.
+
+Check the repository's Actions tab for each deployment result. Revert an unwanted source commit and push main to publish the prior version again.
