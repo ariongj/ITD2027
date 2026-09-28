@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en" data-analytics="off">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stats Admin | IT Department</title>
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="theme-color" content="#050505" />
+  <link rel="icon" type="image/png" href="../assets/brand/favicon.png" />
+  <script src="/analytics-config.js"></script>
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: rgba(16, 18, 22, 0.9);
+      --panel-soft: rgba(255, 255, 255, 0.045);
+      --line: rgba(255, 255, 255, 0.11);
+      --line-strong: rgba(255, 255, 255, 0.2);
+      --text: #f6f7fb;
+      --muted: rgba(246, 247, 251, 0.68);
+      --dim: rgba(246, 247, 251, 0.48);
+      --green: #8dfc8a;
+      --cyan: #4ee8ff;
+      --red: #ff4a4a;
+      --orange: #ffb24a;
+      --shadow: 0 26px 90px rgba(0, 0, 0, 0.42);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Manrope, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(224, 0, 0, 0.22), transparent 24%),
+        radial-gradient(circle at 92% 4%, rgba(78, 232, 255, 0.16), transparent 22%),
+        linear-gradient(145deg, #030303 0%, #071016 45%, #060606 100%);
+    }
+
+    a { color: inherit; }
+
+    .stats-shell {
+      width: min(1440px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 32px 0 56px;
+    }
+
+    .stats-topbar,
+    .stats-panel,
+    .metric-card,
+    .event-row,
+    .setup-card {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.035));
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .stats-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 18px 20px;
+      border-radius: 14px;
+      position: sticky;
+      top: 16px;
+      z-index: 5;
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line-strong);
+      background: #060606;
+      color: var(--red);
+      font-weight: 900;
+      border-radius: 10px;
+    }
+
+    .brand-lockup strong,
+    .section-title h2,
+    .metric-value {
+      font-family: Sora, Manrope, system-ui, sans-serif;
+    }
+
+    .brand-lockup strong {
+      display: block;
+      font-size: 15px;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-lockup span,
+    .stat-note,
+    .metric-label,
+    .setup-card p,
+    .event-row small {
+      color: var(--muted);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line-strong);
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .button-primary {
+      border: 0;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      color: #031014;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(360px, 0.9fr);
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 28px;
+    }
+
+    .stats-panel {
+      border-radius: 18px;
+      padding: 28px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 840px;
+      font-family: Sora, Manrope, system-ui, sans-serif;
+      font-size: clamp(42px, 7vw, 86px);
+      line-height: 0.96;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .status-grid,
+    .metrics-grid,
+    .setup-grid,
+    .split-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .status-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 26px;
+    }
+
+    .status-pill {
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .status-pill strong {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--orange);
+      box-shadow: 0 0 22px currentColor;
+    }
+
+    .dot.live { background: var(--green); }
+    .dot.off { background: var(--red); }
+
+    .status-pill span {
+      display: block;
+      margin-top: 8px;
+      color: var(--dim);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .metrics-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 24px;
+    }
+
+    .metric-card {
+      min-height: 136px;
+      padding: 18px;
+      border-radius: 14px;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+    }
+
+    .metric-value {
+      margin-top: 22px;
+      font-size: 36px;
+      line-height: 1;
+    }
+
+    .metric-note {
+      margin-top: 10px;
+      color: var(--dim);
+      font-size: 12px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 34px 0 14px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: 0;
+    }
+
+    .split-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr);
+    }
+
+    .event-list {
+      display: grid;
+      gap: 10px;
+      max-height: 520px;
+      overflow: auto;
+      padding-right: 6px;
+    }
+
+    .event-row {
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr) 120px;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 16px;
+      border-radius: 12px;
+      box-shadow: none;
+    }
+
+    .event-row strong {
+      font-size: 13px;
+    }
+
+    .event-row span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .setup-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .activity-panel {
+      margin-top: 24px;
+    }
+
+    .hour-chart {
+      display: grid;
+      grid-template-columns: repeat(24, minmax(12px, 1fr));
+      align-items: end;
+      gap: 6px;
+      min-height: 150px;
+      padding-top: 20px;
+    }
+
+    .hour-bar {
+      position: relative;
+      min-height: 8px;
+      border-radius: 999px 999px 4px 4px;
+      background: linear-gradient(180deg, var(--cyan), var(--green));
+      opacity: 0.92;
+    }
+
+    .hour-bar span {
+      position: absolute;
+      left: 50%;
+      bottom: -24px;
+      transform: translateX(-50%) rotate(-45deg);
+      transform-origin: center;
+      color: var(--dim);
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .setup-card {
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: none;
+    }
+
+    .setup-card h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    code {
+      display: inline-block;
+      max-width: 100%;
+      padding: 4px 7px;
+      border-radius: 7px;
+      border: 1px solid var(--line);
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--green);
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .empty {
+      padding: 30px;
+      border: 1px dashed var(--line-strong);
+      border-radius: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 1040px) {
+      .hero,
+      .split-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics-grid,
+      .status-grid,
+      .setup-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .stats-shell {
+        width: min(100% - 28px, 1440px);
+        padding-top: 14px;
+      }
+
+      .stats-topbar,
+      .section-title {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .top-actions {
+        justify-content: stretch;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .metrics-grid,
+      .status-grid,
+      .setup-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .event-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="stats-shell">
+    <header class="stats-topbar">
+      <div class="brand-lockup">
+        <span class="brand-mark">ITD</span>
+        <div>
+          <strong>Stats Admin</strong>
+          <span>Hidden analytics panel for itdks.tech</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <a class="button" href="/" target="_blank" rel="noreferrer">Open Site</a>
+        <button class="button" type="button" data-action="admin-key">Admin Key</button>
+        <button class="button" type="button" data-action="export">Export CSV</button>
+        <button class="button" type="button" data-action="refresh">Refresh</button>
+        <button class="button button-primary" type="button" data-action="clear">Clear Local Cache</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <article class="stats-panel">
+        <h1>Visitor and behaviour details.</h1>
+        <p>This private view now reads live server events from the deployed website. It shows visitors, page views, CTA clicks, country or locale region, top pages, devices, referrers and recent behaviour from real users.</p>
+        <div class="status-grid">
+          <div class="status-pill"><strong><i class="dot" data-provider-dot="ga"></i>Google Analytics</strong><span data-provider="ga">Checking</span></div>
+          <div class="status-pill"><strong><i class="dot" data-provider-dot="clarity"></i>Microsoft Clarity</strong><span data-provider="clarity">Checking</span></div>
+          <div class="status-pill"><strong><i class="dot" data-provider-dot="plausible"></i>Plausible</strong><span data-provider="plausible">Checking</span></div>
+        </div>
+      </article>
+
+      <aside class="stats-panel">
+        <div class="section-title" style="margin-top:0">
+          <h2>What gets tracked</h2>
+        </div>
+        <p class="stat-note">Page views, language, page type, referrer, UTM source/campaign, scroll depth, WhatsApp clicks, booking clicks, outbound links, service selections, package selections and form attempts/results.</p>
+        <p class="stat-note"><strong>Important:</strong> visitor IDs and IPs are stored only as anonymous hashes. Country uses hosting/CDN headers when available, with browser locale as a fallback signal.</p>
+      </aside>
+    </section>
+
+    <section class="metrics-grid" aria-label="Live server metrics">
+      <article class="metric-card"><div class="metric-label">Visitors 24h</div><div class="metric-value" data-metric="visitors">0</div><div class="metric-note">Anonymous unique visitors</div></article>
+      <article class="metric-card"><div class="metric-label">Page Views 24h</div><div class="metric-value" data-metric="pageviews">0</div><div class="metric-note">Pages opened by visitors</div></article>
+      <article class="metric-card"><div class="metric-label">Sessions 24h</div><div class="metric-value" data-metric="sessions">0</div><div class="metric-note">Visits with grouped actions</div></article>
+      <article class="metric-card"><div class="metric-label">CTA Clicks 24h</div><div class="metric-value" data-metric="ctas">0</div><div class="metric-note">WhatsApp, booking, forms</div></article>
+      <article class="metric-card"><div class="metric-label">Conversion 24h</div><div class="metric-value" data-metric="conversion">0%</div><div class="metric-note">Sessions with CTA action</div></article>
+      <article class="metric-card"><div class="metric-label">Bounce 24h</div><div class="metric-value" data-metric="bounce">0%</div><div class="metric-note">One-page sessions, no CTA</div></article>
+      <article class="metric-card"><div class="metric-label">Avg Session</div><div class="metric-value" data-metric="avg-session">0s</div><div class="metric-note">Based on behaviour events</div></article>
+      <article class="metric-card"><div class="metric-label">Stored Events</div><div class="metric-value" data-metric="events-all">0</div><div class="metric-note">Recent behaviour records</div></article>
+    </section>
+
+    <section class="stats-panel activity-panel">
+      <div class="section-title" style="margin-top:0">
+        <h2>Activity by hour</h2>
+        <span class="stat-note">Last 24 hours, server time</span>
+      </div>
+      <div class="hour-chart" data-hourly></div>
+    </section>
+
+    <section class="split-grid">
+      <article>
+        <div class="section-title">
+          <h2>Latest live behaviour events</h2>
+          <span class="stat-note" data-summary-status>Waiting for server stats.</span>
+        </div>
+        <div class="event-list" data-events></div>
+      </article>
+
+      <aside>
+        <div class="section-title">
+          <h2>Top live signals</h2>
+        </div>
+        <div class="setup-grid">
+          <div class="setup-card">
+            <h3>Top pages 24h</h3>
+            <p data-top="pages">Waiting for server data.</p>
+          </div>
+          <div class="setup-card">
+            <h3>Top events 24h</h3>
+            <p data-top="events">Waiting for server data.</p>
+          </div>
+          <div class="setup-card">
+            <h3>Countries 7d</h3>
+            <p data-top="countries">Waiting for server data.</p>
+          </div>
+          <div class="setup-card">
+            <h3>Timezones 7d</h3>
+            <p data-top="timezones">Waiting for server data.</p>
+          </div>
+          <div class="setup-card">
+            <h3>Devices 7d</h3>
+            <p data-top="devices">Waiting for server data.</p>
+          </div>
+          <div class="setup-card">
+            <h3>Browsers 7d</h3>
+            <p data-top="browsers">Waiting for server data.</p>
+          </div>
+          <div class="setup-card">
+            <h3>Platforms 7d</h3>
+            <p data-top="platforms">Waiting for server data.</p>
+          </div>
+          <div class="setup-card">
+            <h3>Languages 7d</h3>
+            <p data-top="languages">Waiting for server data.</p>
+          </div>
+          <div class="setup-card">
+            <h3>Referrers 7d</h3>
+            <p data-top="referrers">Waiting for server data.</p>
+          </div>
+          <div class="setup-card">
+            <h3>UTM Sources 7d</h3>
+            <p data-top="sources">Waiting for server data.</p>
+          </div>
+          <div class="setup-card">
+            <h3>Campaigns 7d</h3>
+            <p data-top="campaigns">Waiting for server data.</p>
+          </div>
+          <div class="setup-card">
+            <h3>Connection 7d</h3>
+            <p data-top="connections">Waiting for server data.</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+      var storageKey = "itd_analytics_debug_events";
+      var adminKeyStorage = "itd_stats_admin_key";
+      var config = window.ITD_ANALYTICS_CONFIG || {};
+      var summaryEndpoint = config.statsSummaryEndpoint || "/stats/summary.php";
+      var exportEndpoint = config.statsExportEndpoint || "/stats/export.php";
+
+      function localEvents() {
+        try {
+          return JSON.parse(localStorage.getItem(storageKey) || "[]");
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function providerStatus(key, label, active) {
+        var text = document.querySelector("[data-provider='" + key + "']");
+        var dot = document.querySelector("[data-provider-dot='" + key + "']");
+        if (!text || !dot) return;
+        text.textContent = active ? label + " connected" : label + " not connected yet";
+        dot.className = "dot " + (active ? "live" : "off");
+      }
+
+      function number(value) {
+        return new Intl.NumberFormat("en").format(Number(value || 0));
+      }
+
+      function duration(seconds) {
+        seconds = Number(seconds || 0);
+        if (seconds < 60) return seconds + "s";
+        return Math.floor(seconds / 60) + "m " + Math.round(seconds % 60) + "s";
+      }
+
+      function status(message) {
+        var node = document.querySelector("[data-summary-status]");
+        if (node) node.textContent = message;
+      }
+
+      function adminKey(force) {
+        var params = new URLSearchParams(window.location.search);
+        var urlKey = (params.get("key") || "").trim();
+        if (urlKey) {
+          sessionStorage.setItem(adminKeyStorage, urlKey);
+          localStorage.setItem(adminKeyStorage, urlKey);
+          window.history.replaceState({}, document.title, window.location.pathname);
+          return urlKey;
+        }
+        var existing = sessionStorage.getItem(adminKeyStorage) || localStorage.getItem(adminKeyStorage) || "";
+        if (existing && !force) return existing;
+        var next = window.prompt("Enter ITD stats admin key", existing);
+        if (next === null) return existing;
+        next = next.trim();
+        if (next) {
+          sessionStorage.setItem(adminKeyStorage, next);
+          localStorage.setItem(adminKeyStorage, next);
+        }
+        return next;
+      }
+
+      function renderTop(target, values) {
+        var node = document.querySelector("[data-top='" + target + "']");
+        if (!node) return;
+        var entries = Object.entries(values || {});
+        if (!entries.length) {
+          node.textContent = "No data yet.";
+          return;
+        }
+        node.innerHTML = "";
+        entries.forEach(function (entry, index) {
+          if (index) node.appendChild(document.createElement("br"));
+          var code = document.createElement("code");
+          code.textContent = entry[0];
+          node.appendChild(code);
+          node.appendChild(document.createTextNode(" " + number(entry[1])));
+        });
+      }
+
+      function renderHourly(values) {
+        var node = document.querySelector("[data-hourly]");
+        if (!node) return;
+        node.innerHTML = "";
+        var entries = Object.entries(values || {});
+        if (!entries.length) {
+          node.innerHTML = "<div class='empty'>No hourly activity yet.</div>";
+          return;
+        }
+        var max = entries.reduce(function (top, entry) {
+          return Math.max(top, Number(entry[1] || 0));
+        }, 1);
+        entries.forEach(function (entry) {
+          var bar = document.createElement("div");
+          bar.className = "hour-bar";
+          bar.style.height = Math.max(8, Math.round((Number(entry[1] || 0) / max) * 120)) + "px";
+          bar.title = entry[0] + " - " + number(entry[1]) + " events";
+          var label = document.createElement("span");
+          label.textContent = entry[0];
+          bar.appendChild(label);
+          node.appendChild(bar);
+        });
+      }
+
+      function renderLocalFallback(message) {
+        var list = localEvents();
+        var pageviews = list.filter(function (event) { return event.event === "page_view"; }).length;
+        var ctas = list.filter(function (event) {
+          return ["whatsapp_click", "booking_click", "form_submit_attempt", "form_submit_success"].indexOf(event.event) !== -1;
+        }).length;
+        document.querySelector("[data-metric='visitors']").textContent = list.length;
+        document.querySelector("[data-metric='pageviews']").textContent = pageviews;
+        document.querySelector("[data-metric='sessions']").textContent = list.length ? 1 : 0;
+        document.querySelector("[data-metric='ctas']").textContent = ctas;
+        document.querySelector("[data-metric='conversion']").textContent = list.length && ctas ? "100%" : "0%";
+        document.querySelector("[data-metric='bounce']").textContent = pageviews <= 1 && !ctas ? "100%" : "0%";
+        document.querySelector("[data-metric='avg-session']").textContent = "0s";
+        document.querySelector("[data-metric='events-all']").textContent = list.length;
+        renderTop("pages", {});
+        renderTop("events", {});
+        renderTop("countries", {});
+        renderTop("timezones", {});
+        renderTop("devices", {});
+        renderTop("browsers", {});
+        renderTop("platforms", {});
+        renderTop("languages", {});
+        renderTop("referrers", {});
+        renderTop("sources", {});
+        renderTop("campaigns", {});
+        renderTop("connections", {});
+        renderHourly({});
+        status(message || "Server stats unavailable. Showing this browser cache only.");
+
+        var container = document.querySelector("[data-events]");
+        container.innerHTML = "";
+        if (!list.length) {
+          container.innerHTML = "<div class='empty'>No server data loaded yet. Enter the admin key, then refresh after the uploaded site receives visits.</div>";
+          return;
+        }
+        list.slice(-80).reverse().forEach(function (event) {
+          var row = document.createElement("div");
+          row.className = "event-row";
+          var time = new Date(event.timestamp || Date.now()).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+          row.innerHTML = "<strong></strong><span></span><small></small>";
+          row.children[0].textContent = event.event || "event";
+          row.children[1].textContent = event.label || event.title || event.path || "";
+          row.children[2].textContent = time;
+          container.appendChild(row);
+        });
+      }
+
+      function renderSummary(summary) {
+        var totals = summary.totals || {};
+        document.querySelector("[data-metric='visitors']").textContent = number(totals.visitors_24h);
+        document.querySelector("[data-metric='pageviews']").textContent = number(totals.pageviews_24h);
+        document.querySelector("[data-metric='sessions']").textContent = number(totals.sessions_24h);
+        document.querySelector("[data-metric='ctas']").textContent = number(totals.cta_24h);
+        document.querySelector("[data-metric='conversion']").textContent = number(totals.conversion_rate_24h) + "%";
+        document.querySelector("[data-metric='bounce']").textContent = number(totals.bounce_rate_24h) + "%";
+        document.querySelector("[data-metric='avg-session']").textContent = duration(totals.avg_session_seconds_24h);
+        document.querySelector("[data-metric='events-all']").textContent = number(totals.events_all);
+
+        renderTop("pages", summary.top && summary.top.pages_24h);
+        renderTop("events", summary.top && summary.top.events_24h);
+        renderTop("countries", summary.top && summary.top.countries_7d);
+        renderTop("timezones", summary.top && summary.top.timezones_7d);
+        renderTop("devices", summary.top && summary.top.devices_7d);
+        renderTop("browsers", summary.top && summary.top.browsers_7d);
+        renderTop("platforms", summary.top && summary.top.platforms_7d);
+        renderTop("languages", summary.top && summary.top.languages_7d);
+        renderTop("referrers", summary.top && summary.top.referrers_7d);
+        renderTop("sources", summary.top && summary.top.utm_sources_7d);
+        renderTop("campaigns", summary.top && summary.top.utm_campaigns_7d);
+        renderTop("connections", summary.top && summary.top.connections_7d);
+        renderHourly(summary.hourly_24h);
+
+        var generated = summary.generated_at ? new Date(summary.generated_at).toLocaleString() : "";
+        status("Live server stats loaded" + (generated ? " at " + generated : "") + ".");
+
+        var container = document.querySelector("[data-events]");
+        container.innerHTML = "";
+        var list = summary.latest || [];
+        if (!list.length) {
+          container.innerHTML = "<div class='empty'>The collector is ready. New visits will appear here after users open the uploaded site.</div>";
+          return;
+        }
+        list.forEach(function (event) {
+          var row = document.createElement("div");
+          row.className = "event-row";
+          var label = event.label || event.service || event.title || event.path || "";
+          var location = event.country || event.timezone || "";
+          var small = [location, event.device, event.browser, event.platform, event.browser_language].filter(Boolean).join(" / ");
+          var time = event.time ? new Date(event.time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" }) : "";
+          row.innerHTML = "<strong></strong><span></span><small></small>";
+          row.children[0].textContent = event.event || "event";
+          row.children[1].textContent = label;
+          row.children[2].textContent = (time ? time + " " : "") + small;
+          container.appendChild(row);
+        });
+      }
+
+      function refreshSummary(forceKey) {
+        var key = adminKey(Boolean(forceKey));
+        if (!key) {
+          renderLocalFallback("Admin key needed for live server stats.");
+          return;
+        }
+        status("Loading live server stats...");
+        fetch(summaryEndpoint + "?key=" + encodeURIComponent(key) + "&t=" + Date.now(), {
+          cache: "no-store",
+          credentials: "same-origin"
+        })
+          .then(function (response) {
+            if (response.status === 401) {
+              sessionStorage.removeItem(adminKeyStorage);
+              localStorage.removeItem(adminKeyStorage);
+              throw new Error("Wrong admin key.");
+            }
+            if (!response.ok) throw new Error("Stats endpoint returned " + response.status + ".");
+            return response.json();
+          })
+          .then(function (summary) {
+            if (!summary.ok) throw new Error(summary.error || "Stats endpoint error.");
+            renderSummary(summary);
+          })
+          .catch(function (error) {
+            renderLocalFallback(error.message || "Could not load live server stats.");
+          });
+      }
+
+      providerStatus("ga", "GA4", /^G-[A-Z0-9]+$/i.test(config.gaMeasurementId || ""));
+      providerStatus("clarity", "Clarity", /^[a-z0-9]{5,}$/i.test(config.clarityProjectId || ""));
+      providerStatus("plausible", "Plausible", Boolean(config.plausibleDomain));
+      refreshSummary(false);
+
+      document.querySelector("[data-action='admin-key']").addEventListener("click", function () {
+        refreshSummary(true);
+      });
+      document.querySelector("[data-action='export']").addEventListener("click", function () {
+        var key = adminKey(false);
+        if (!key) {
+          status("Admin key needed before export.");
+          return;
+        }
+        window.location.href = exportEndpoint + "?key=" + encodeURIComponent(key);
+      });
+      document.querySelector("[data-action='refresh']").addEventListener("click", function () {
+        refreshSummary(false);
+      });
+      document.querySelector("[data-action='clear']").addEventListener("click", function () {
+        localStorage.removeItem(storageKey);
+        renderLocalFallback("Local browser cache cleared. Server stats are not deleted.");
+      });
+    })();
+  </script>
+</body>
+</html>

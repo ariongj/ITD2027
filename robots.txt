@@ -1,0 +1,42 @@
+User-agent: *
+Disallow: /stats/
+Allow: /
+
+# AI and search assistant crawlers are welcome to index public business pages.
+User-agent: OAI-SearchBot
+Disallow: /stats/
+Allow: /
+
+User-agent: GPTBot
+Disallow: /stats/
+Allow: /
+
+User-agent: ChatGPT-User
+Disallow: /stats/
+Allow: /
+
+User-agent: Googlebot
+Disallow: /stats/
+Allow: /
+
+User-agent: Google-Extended
+Disallow: /stats/
+Allow: /
+
+User-agent: PerplexityBot
+Disallow: /stats/
+Allow: /
+
+User-agent: ClaudeBot
+Disallow: /stats/
+Allow: /
+
+User-agent: Claude-SearchBot
+Disallow: /stats/
+Allow: /
+
+# AI-readable summary:
+# https://itdks.tech/llms.txt
+# https://itdks.tech/llms-full.txt
+
+Sitemap: https://itdks.tech/sitemap.xml

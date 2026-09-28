@@ -1,0 +1,92 @@
+AddDefaultCharset UTF-8
+ErrorDocument 404 /404
+AddType image/webp .webp
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Consolidate the public www host with the canonical HTTPS domain.
+  RewriteCond %{HTTP_HOST} ^www\.itdks\.tech$ [NC]
+  RewriteRule ^ https://itdks.tech%{REQUEST_URI} [R=301,L,NE]
+
+  RewriteCond %{THE_REQUEST} \s/+index\.html[?\s] [NC]
+  RewriteRule ^index\.html$ / [R=301,L]
+
+  RewriteCond %{THE_REQUEST} \s/+index-en\.html[?\s] [NC]
+  RewriteRule ^index-en\.html$ /en [R=301,L]
+
+  RewriteCond %{THE_REQUEST} \s/+index-de\.html[?\s] [NC]
+  RewriteRule ^index-de\.html$ /de [R=301,L]
+
+  RewriteRule ^index$ / [R=301,L]
+  RewriteRule ^index-en$ /en [R=301,L]
+  RewriteRule ^index-de$ /de [R=301,L]
+  RewriteRule ^stats/?$ /stats/admin [R=301,L]
+  RewriteRule ^stats/storage/ - [F,L]
+
+  RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[?\s] [NC]
+  RewriteRule ^(.+?)\.html$ /$1 [R=301,L,NE]
+
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} .+/$
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  RewriteRule ^en$ index-en.html [L]
+  RewriteRule ^de$ index-de.html [L]
+  RewriteRule ^stats/admin$ stats/admin.html [L]
+
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+)$ $1.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <Files "chatbot.js">
+    Header set Cache-Control "public, max-age=300, must-revalidate"
+  </Files>
+  <Files "analytics-config.js">
+    Header set Cache-Control "public, max-age=300, must-revalidate"
+  </Files>
+  <FilesMatch "\.(png|jpe?g|webp|svg|ico|webmanifest)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "public, max-age=300, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "\.(php)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+  </FilesMatch>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), browsing-topics=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.googleadservices.com https://www.google.com https://www.clarity.ms https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://formspree.io https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com https://www.google.com https://ad.doubleclick.net https://*.clarity.ms https://plausible.io; frame-src https://www.google.com https://www.googletagmanager.com https://assistant.krakenos.cloud; worker-src 'self' blob:; upgrade-insecure-requests"
+</IfModule>
+
+<FilesMatch "^\.env">
+  Require all denied
+</FilesMatch>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/html "access plus 5 minutes"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css application/javascript application/json image/svg+xml
+</IfModule>

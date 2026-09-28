@@ -1,0 +1,4 @@
+import {chromium} from 'file:///C:/Users/A/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';import {writeFile} from 'node:fs/promises';
+const browser=await chromium.launch({headless:true,channel:'chrome'});const page=await browser.newPage();const results=[];
+for(const width of [1121,1180,1280,1366])for(const lang of ['','-en','-de']){await page.setViewportSize({width,height:900});await page.goto('http://127.0.0.1:8790/index'+lang+'.html');await page.evaluate(()=>document.fonts.ready);results.push({width,lang, ...await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,menu:getComputedStyle(document.querySelector('.menu-toggle')).display,headerEnd:document.querySelector('#main-nav').getBoundingClientRect().right}))});}
+await writeFile(new URL('qa/proposal/breakpoint-report.json',import.meta.url),JSON.stringify(results,null,2));console.log(JSON.stringify(results));await browser.close();

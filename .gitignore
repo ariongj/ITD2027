@@ -1,0 +1,26 @@
+# Private configuration and keys
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+# Runtime visitor data and caches
+stats/storage/
+node_modules/
+__pycache__/
+*.pyc
+*.log
+*.pid
+.tools/
+# Local releases, backup copies and private design references
+backups/
+tmp/
+deploy-ready*/
+ITD-Hostinger-*/
+*.zip
+stats-admin-qa.png
+alternative-v2/history/
+alternative-v2/reference/
+alternative-v2/rejected-assets/
+alternative-v2/qa/
