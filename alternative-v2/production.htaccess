@@ -1,0 +1,73 @@
+# Prepared for the canonical itdks.tech Apache/LiteSpeed host. Not deployed by GitHub Pages.
+# Keeps the live root's protections and routes: secrets denied, /stats routing, /index redirects, HSTS.
+AddDefaultCharset UTF-8
+AddType image/webp .webp
+Options -Indexes -MultiViews
+ErrorDocument 404 /404.html
+
+# Never serve secrets or server files (the live root holds .env with the chat API key).
+<FilesMatch "^\.(env|ht)">
+Require all denied
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.itdks\.tech$ [NC]
+RewriteRule ^ https://itdks.tech%{REQUEST_URI} [R=301,L,NE]
+# Remove only the obsolete template parameter; preserve all other URL semantics.
+# (A trailing "?" drops the query string on every Apache/LiteSpeed version, unlike QSD.)
+RewriteCond %{QUERY_STRING} ^optech_footer=[^&]*$ [NC]
+RewriteRule ^ %{REQUEST_URI}? [R=301,L,NE]
+# Redirects and routes the live site already has.
+RewriteCond %{THE_REQUEST} ^[A-Z]+\s/+index\.html[?\s] [NC]
+RewriteRule ^index\.html$ / [R=301,L]
+RewriteCond %{THE_REQUEST} ^[A-Z]+\s/+index-en\.html[?\s] [NC]
+RewriteRule ^index-en\.html$ /en [R=301,L]
+RewriteCond %{THE_REQUEST} ^[A-Z]+\s/+index-de\.html[?\s] [NC]
+RewriteRule ^index-de\.html$ /de [R=301,L]
+RewriteRule ^index$ / [R=301,L]
+RewriteRule ^index-en$ /en [R=301,L]
+RewriteRule ^index-de$ /de [R=301,L]
+RewriteRule ^stats/?$ /stats/admin [R=301,L]
+RewriteRule ^stats/storage/ - [F,L]
+# .html -> clean URL. Anchored to the requested path, so ".html" in a query string or an
+# internal rewrite can never trigger it (the unanchored form could loop).
+RewriteCond %{THE_REQUEST} ^[A-Z]+\s/+([^?\s]+?)\.html[?\s] [NC]
+RewriteRule ^(.+?)\.html$ /$1 [R=301,L,NE]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} .+/$
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+RewriteRule ^en$ index-en.html [L]
+RewriteRule ^de$ index-de.html [L]
+RewriteRule ^stats/admin$ stats/admin.html [L]
+# Clean URLs: check the real file for the whole path and rewrite only paths without a dot.
+# The %{REQUEST_FILENAME}.html form rewrites /services/x to services/x.html, .html.html, ...
+# and answers 500 (as the live site still does on 5 Oct 2026); this gives a proper 404.
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^([^.]+)$ $1.html [L]
+# No blanket homepage redirect: unknown routes keep a genuine 404.
+</IfModule>
+
+<IfModule mod_headers.c>
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), browsing-topics=()"
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+# The strict policy is for the new pages. The existing /stats dashboard uses inline code,
+# so it keeps the live site's current policy instead of breaking.
+SetEnvIf Request_URI "^/stats/" ITD_LEGACY_STATS
+Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; frame-src https://calendly.com; script-src 'self' https://www.googletagmanager.com https://assets.calendly.com; style-src 'self'; font-src 'self'; img-src 'self' https://www.google-analytics.com https://region1.google-analytics.com; connect-src 'self' https://formspree.io https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com; form-action https://formspree.io; upgrade-insecure-requests" env=!ITD_LEGACY_STATS
+Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; upgrade-insecure-requests" env=ITD_LEGACY_STATS
+<FilesMatch "\.(html|css|js|xml|txt)$">
+Header set Cache-Control "public, max-age=300, must-revalidate"
+</FilesMatch>
+<FilesMatch "\.(php)$">
+Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+</FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript application/xml image/svg+xml
+</IfModule>

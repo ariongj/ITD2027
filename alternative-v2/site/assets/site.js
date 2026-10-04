@@ -3,7 +3,14 @@ const $=(s,root=document)=>root.querySelector(s);
 const $$=(s,root=document)=>[...root.querySelectorAll(s)];
 const copy=JSON.parse($('#site-copy').textContent);
 const menu=$('.menu-toggle'),nav=$('#main-nav');
-function closeMenu(restore=false){menu.setAttribute('aria-expanded','false');nav.classList.remove('is-open');if(restore)menu.focus();}
+const labsButton=$('.labs-toggle'),labsMenu=$('#labs-menu');
+function closeLabs(restore=false){labsButton.setAttribute('aria-expanded','false');labsMenu.hidden=true;if(restore)labsButton.focus();}
+labsButton.addEventListener('click',()=>{const open=labsButton.getAttribute('aria-expanded')!=='true';labsButton.setAttribute('aria-expanded',String(open));labsMenu.hidden=!open;});
+document.addEventListener('click',e=>{if(!e.target.closest('.labs-nav'))closeLabs();});
+document.addEventListener('focusin',e=>{if(!e.target.closest('.labs-nav'))closeLabs();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!labsMenu.hidden){e.stopImmediatePropagation();closeLabs(true);}});
+
+function closeMenu(restore=false){closeLabs();menu.setAttribute('aria-expanded','false');nav.classList.remove('is-open');if(restore)menu.focus();}
 menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav.classList.toggle('is-open',open);});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.getAttribute('aria-expanded')==='true')closeMenu(true);});
 document.addEventListener('click',e=>{if(!e.target.closest('.header'))closeMenu();});
@@ -57,6 +64,8 @@ $$('.enquiry-form').forEach(form=>{
   try{
    const response=await fetch(form.action,{method:'POST',body:data,headers:{Accept:'application/json'},signal:controller.signal});
    const result=await response.json();if(!response.ok||result.ok!==true)throw new Error('Unconfirmed delivery');
+   const selected=data.get('service')||'';window.ITDTracking?.record('generate_lead',selected);
+   if(new URLSearchParams(location.search).get('intent')==='demo')window.ITDTracking?.record('request_demo',selected,'demo');
    status.textContent=copy.success;status.dataset.state='success';form.reset();try{sessionStorage.removeItem(key);}catch{}
   }catch{
    status.textContent=copy.failure;status.dataset.state='error';recovery.hidden=false;
@@ -67,4 +76,4 @@ $$('.enquiry-form').forEach(form=>{
 });
 // Carry selected service through language changes without carrying personal data in URLs.
 const requestedService=new URLSearchParams(location.search).get('service');
-if(requestedService)$$('.languages a').forEach(a=>{const url=new URL(a.href);url.searchParams.set('service',requestedService.slice(0,200));a.href=url.href;});
+if(requestedService)$$('.languages a').forEach(a=>{const url=new URL(a.href);url.searchParams.set('service',requestedService.slice(0,200));if(new URLSearchParams(location.search).get('intent')==='demo')url.searchParams.set('intent','demo');a.href=url.href;});

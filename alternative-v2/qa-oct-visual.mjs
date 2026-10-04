@@ -1,0 +1,4 @@
+import {chromium} from 'file:///C:/Users/A/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+const b=await chromium.launch({headless:true,channel:'chrome'});const p=await b.newPage({viewport:{width:1440,height:950}});
+for(const route of ['index','itd-labs','web-software','kraken-communications']){await p.goto('http://127.0.0.1:8791/'+route+'.html');await p.evaluate(()=>document.fonts.ready);await p.screenshot({path:'alternative-v2/qa/proposal/'+route+'-oct-desktop.png',fullPage:true});}
+await p.setViewportSize({width:390,height:844});for(const route of ['index','itd-labs','web-software','kraken-communications']){await p.goto('http://127.0.0.1:8791/'+route+'.html');await p.screenshot({path:'alternative-v2/qa/proposal/'+route+'-oct-mobile.png',fullPage:true});}await b.close();

@@ -3,10 +3,10 @@ import {readFile, stat} from 'node:fs/promises';
 import {resolve, dirname, extname, sep} from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=resolve(dirname(fileURLToPath(import.meta.url)), 'site');
-const port=8790;
-const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.png':'image/png','.webp':'image/webp','.txt':'text/plain; charset=utf-8','.ttf':'font/ttf','.svg':'image/svg+xml'};
+const port=8791;
+const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.png':'image/png','.webp':'image/webp','.txt':'text/plain; charset=utf-8','.ttf':'font/ttf','.svg':'image/svg+xml','.xml':'application/xml'};
 http.createServer(async(req,res)=>{
- const headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','X-Robots-Tag':'noindex, nofollow','Content-Security-Policy':"default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; connect-src https://formspree.io; form-action https://formspree.io; frame-ancestors 'none'; base-uri 'none'"};
+ const headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','X-Robots-Tag':'noindex, nofollow','Content-Security-Policy':"default-src 'self'; script-src 'self' https://assets.calendly.com; style-src 'self'; font-src 'self'; img-src 'self'; connect-src https://formspree.io; form-action https://formspree.io; frame-src https://calendly.com; frame-ancestors 'none'; base-uri 'none'"};
  try {
   if(!['GET','HEAD'].includes(req.method)){res.writeHead(405,headers);return res.end();}
   let pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);

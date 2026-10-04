@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://itdks.tech/</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/en</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/de</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/services</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/services" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/services-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/services-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/services" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/services-en</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/services" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/services-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/services-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/services" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/services-de</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/services" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/services-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/services-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/services" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/ai-agents</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/ai-agents" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/ai-agents-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/ai-agents-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/ai-agents" />
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/ai-agents-en</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/ai-agents" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/ai-agents-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/ai-agents-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/ai-agents" />
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/ai-agents-de</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/ai-agents" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/ai-agents-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/ai-agents-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/ai-agents" />
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/projects</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/projects" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/projects-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/projects-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/projects" />
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/projects-en</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/projects" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/projects-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/projects-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/projects" />
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/projects-de</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/projects" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/projects-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/projects-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/projects" />
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/creative</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/creative" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/creative-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/creative-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/creative" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/creative-en</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/creative" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/creative-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/creative-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/creative" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/creative-de</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/creative" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/creative-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/creative-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/creative" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/about</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/about-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/about-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/about" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/about-en</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/about-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/about-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/about" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/about-de</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/about-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/about-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/about" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/contact</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/contact-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/contact-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/contact" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/contact-en</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/contact-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/contact-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/contact" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/contact-de</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/contact-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/contact-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/contact" />
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/privacy-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/privacy-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/privacy" />
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/privacy-en</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/privacy-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/privacy-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/privacy" />
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/privacy-de</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/privacy-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/privacy-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/privacy" />
+    <lastmod>2026-09-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/terms</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/terms" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/terms-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/terms-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/terms" />
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/terms-en</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/terms" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/terms-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/terms-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/terms" />
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://itdks.tech/terms-de</loc>
+    <xhtml:link rel="alternate" hreflang="sq" href="https://itdks.tech/terms" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://itdks.tech/terms-en" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://itdks.tech/terms-de" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://itdks.tech/terms" />
+    <lastmod>2026-08-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+</urlset>

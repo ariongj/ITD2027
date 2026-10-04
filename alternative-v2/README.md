@@ -1,6 +1,10 @@
+# Current October 2026 revision
+
+See [implementation and verification](OCTOBER-2026-IMPLEMENTATION.md) for the latest scope, checks, deferred client cases, and deployment limits. Preview: http://127.0.0.1:8791/. Current build: 51 pages. The earlier proposal notes below describe the previous baseline.
+
 # IT Department — supplied design proposal applied
 
-Local preview: http://127.0.0.1:8790/
+Local preview: http://127.0.0.1:8791/
 
 Version: 27 September 2026. Implemented and locally verified; not deployed to itdks.tech. User acceptance and production verification remain separate.
 
@@ -26,7 +30,7 @@ The nine original platform SVG files are also retained. Their neutral display co
 - site/assets/site.js: navigation, filters, disclosures, image viewer and enquiry forms.
 - site/: generated static website and its self-contained assets.
 - site/assets/fonts/: Sora and Manrope fonts with OFL licenses.
-- preview.mjs: loopback-only preview on the fixed project port 8790.
+- preview.mjs: loopback-only preview on the fixed project port 8791.
 - start-preview.ps1 / stop-preview.ps1: start or stop only this preview.
 
 Run build.py with Python 3. The builder uses only the standard library and reads the parent website plus its public site.config.json. Node runs the preview server. No application database or new dependency installation is required.

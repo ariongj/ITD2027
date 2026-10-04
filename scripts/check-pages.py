@@ -26,8 +26,8 @@ class Page(HTMLParser):
 pages = {path.resolve(): Page(path.read_text(encoding="utf-8-sig"))
          for path in ROOT.glob("*.html")}
 errors, checked = [], 0
-if len(pages) != 39 or not (ROOT / "index.html").is_file():
-    errors.append("Expected the complete newer website with 39 HTML pages.")
+if len(pages) != 51 or not (ROOT / "index.html").is_file():
+    errors.append("Expected the complete newer website with 51 HTML pages.")
 
 def check_reference(source, reference):
     global checked

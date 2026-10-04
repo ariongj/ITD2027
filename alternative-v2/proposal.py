@@ -126,7 +126,7 @@ def partners(l,t):
  note=tr(l,'Platformat e paraqitura janë pjesë e ekosistemit teknologjik. Listimi nuk nënkupton certifikim apo status zyrtar partneri.','These platforms form part of the technology ecosystem. Listing does not imply certification or official partner status.','Diese Plattformen gehören zum Technologie-Ökosystem. Die Nennung bedeutet keine Zertifizierung oder offiziellen Partnerstatus.')
  return intro(c['partners'],c['partnerlead'],t,labels(l)[3])+partner_rows(l,t)+f'<section class="wrap section partner-profiles"><p class="section-note">{note}</p>{profiles}</section>'+ending(l,t)
 def enquiry_form(l,t,kind='contact'):
- c=copy(l); options=c['families']+['KrakenOS','Starter €99','Business €299','Enterprise €779']
+ c=copy(l); options=c['families']+['KrakenOS','Kraken Communications','Starter €99','Business €299','Enterprise €779']
  if kind=='creative': options=['Branding','Social Media','Video & Motion',tr(l,'Fushatë','Campaign','Kampagne')]
  if kind=='ai': options=['Ari','Dita','Nora','Leo','Mira','Fin']
  options=''.join(f'<option>{esc(x)}</option>' for x in options)
@@ -172,7 +172,20 @@ def krakenos(l,t):
  gallery=''.join(f'<a class="product-shot card" href="assets/krakenos/{key}.png" data-lightbox="KrakenOS / {label}"><img src="assets/krakenos/{key}.png" width="802" height="644" loading="lazy" alt="KrakenOS — {label}"><div><h3>{label}</h3>{A}</div></a>' for key,label in [('overview',tr(l,'Përmbledhje','Overview','Übersicht')),('workspace','Workspace'),('finance',tr(l,'Financat','Finance','Finanzen'))])
  return hero+'<section class="wrap section" id="modules">'+heading('KRAKENOS',tr(l,'Një sistem. Pjesët që të duhen.','One system. The parts you need.','Ein System. Die Teile, die Sie brauchen.'))+'<div class="grid four">'+cards+'</div></section><section class="wrap section"><div class="kraken-special"><div><p class="eyebrow">'+tr(l,'SIPAS BIZNESIT','BUILT AROUND YOUR BUSINESS','PASSEND ZUM UNTERNEHMEN')+'</p><h2>'+tr(l,'Hapësirë për mënyrën tënde të punës.','Room for the way you work.','Raum für Ihre Arbeitsweise.')+'</h2></div><div><div class="chips"><a href="'+route('contact',l)+'?service=KrakenOS%20PMS">PMS ↗</a><a href="'+route('contact',l)+'?service=KrakenOS%20Medical">Medical ↗</a><a href="'+route('contact',l)+'?service=KrakenOS%20Hospitality">Hospitality ↗</a></div><p>'+tr(l,'Modulet, administrimi, rolet dhe përshtatjet sektoriale përcaktohen sipas projektit dhe verifikohen në demo.','Modules, administration, roles and sector-specific adaptations are scoped per project and reviewed in the demo.','Module, Verwaltung, Rollen und branchenspezifische Anpassungen werden je Projekt festgelegt und in der Demo geprüft.')+'</p></div></div></section><section class="wrap section">'+heading(c['screenshot'],tr(l,'Shiko si lidhen pjesët.','See how the pieces connect.','So greifen die Teile ineinander.'))+'<div class="grid three">'+gallery+'</div></section><section class="wrap section"><div class="kraken-cta"><h2>'+tr(l,'Ta shohim në kontekstin tënd.','Let’s see it in your context.','Sehen wir es in Ihrem Kontext.')+'</h2><p>'+tr(l,'Na trego ekipin dhe procesin. E nisim demonstrimin nga ajo që ka rëndësi për ty.','Tell us about the team and process. We’ll start the demonstration with what matters to you.','Beschreiben Sie Team und Ablauf. Wir beginnen die Demo mit dem, was für Sie zählt.')+'</p>'+button(c['demo'],route('contact',l)+'?service=KrakenOS')+'</div></section>'
 
-builders={"index":home,"services":services,"projects":projects,"partners":partners,"creative":creative,"ai-agents":ai,"about":about,"contact":contact,"krakenos":krakenos,"project-detail":case_detail,"terms":terms}
+exec(compile((BASE/"revision.py").read_text(encoding="utf-8-sig"),str(BASE/"revision.py"),"exec"))
+
+import os
+PUBLIC_BASE=os.environ.get("ITD_SITE_URL","https://ariongj.github.io/ITD2027").rstrip("/")
+PRODUCTION=os.environ.get("ITD_PRODUCTION")=="1"
+INDEXABLE=PRODUCTION and os.environ.get("ITD_INDEXABLE","1")=="1"
+if not PUBLIC_BASE.startswith("https://") or (PRODUCTION and "github.io" in PUBLIC_BASE): raise ValueError("Production requires the approved HTTPS domain")
+
+def public_path(page,l):
+ if not PRODUCTION: return route(page,l)
+ if page=="index": return "" if l=="sq" else l
+ return route(page,l).removesuffix(".html")
+
+builders={"itd-labs":labs,"kraken-communications":communications,"web-software":web_software,"ai-automation":ai_automation,"index":home,"services":services,"projects":projects,"partners":partners,"creative":creative,"ai-agents":ai,"about":about,"contact":contact,"krakenos":krakenos,"project-detail":case_detail,"terms":terms}
 for l,t in T.items():
  c=copy(l)
  for page in [*builders,'privacy','404']:
@@ -181,10 +194,38 @@ for l,t in T.items():
   else: body=intro(t['notfound'],t['notfoundbody'],t,'404')+f'<div class="wrap error-back">{button(t["back"],route("index",l))}</div>'
   title=dict(zip(PAGES,labels(l))).get(page,{'project-detail':c['casefull'],'privacy':t['privacy'],'terms':t['terms'],'404':'404'}.get(page,''))
   if page=='index': title=c['home']
-  description={'index':c['homelead'],'services':t['servicelead'],'projects':t['projectsLead'],'partners':c['partnerlead'],'creative':t['creativeLead'],'ai-agents':t['aiLead'],'about':t['aboutLead'],'contact':c['contact'],'krakenos':tr(l,'Një platformë modulare për kompaninë tuaj.','A modular platform for your company.','Eine modulare Plattform für Ihr Unternehmen.'),'project-detail':t['examplesNote'],'privacy':t['privacyTitle'],'terms':t['terms'],'404':t['notfoundbody']}[page]
+  if page=='contact': title=c['contact']
+  if page=='ai-agents': title=t['aiTitle']
+  if page=='404': title='404 · '+t['notfound']
+  description={'index':c['homelead'],'services':t['servicelead'],'projects':t['projectsLead'],'partners':c['partnerlead'],'creative':t['creativeLead'],'ai-agents':t['aiLead'],'about':t['aboutLead'],'contact':c['contact'],'krakenos':tr(l,'Një platformë modulare për kompaninë tuaj.','A modular platform for your company.','Eine modulare Plattform für Ihr Unternehmen.'),'project-detail':t['examplesNote'],'privacy':t['privacyTitle'],'terms':t['terms'],'404':t['notfoundbody']}.get(page,'')
+  if page in NEW_META: title,description=[tr(l,*v) for v in NEW_META[page]]
+  if page=='privacy' and PRODUCTION and os.environ.get('ITD_ANALYTICS')=='1':
+   body=intro(t['privacyTitle'],'',t)+f'<div class="wrap legal"><p>{tr(l,"Google Analytics aktivizohet vetëm me pëlqimin tënd dhe mund të çaktivizohet te Cilësimet e privatësisë në fund të faqes. Matim faqen, gjuhën, shërbimin ose produktin dhe veprimin; nuk përfshijmë emër, email, telefon apo mesazh në eventet tona. Formularët përpunohen nga Formspree. Drafti ruhet në sessionStorage në këtë skedë. Calendly dhe WhatsApp kanë politikat e tyre. Mos dërgo të dhëna të ndjeshme. Për pyetje: info@itdks.tech.","Google Analytics activates only with your consent and can be disabled through Privacy settings in the footer. We measure page, language, service or product and action; our events exclude names, emails, phone numbers and messages. Forms are processed by Formspree. The draft stays in sessionStorage in this tab. Calendly and WhatsApp have their own policies. Do not send sensitive data. Questions: info@itdks.tech.","Google Analytics wird nur mit Ihrer Einwilligung aktiviert und kann über die Datenschutzeinstellungen im Footer deaktiviert werden. Wir messen Seite, Sprache, Leistung oder Produkt und Aktion; unsere Ereignisse enthalten keine Namen, E-Mails, Telefonnummern oder Nachrichten. Formulare werden von Formspree verarbeitet. Der Entwurf bleibt im sessionStorage dieses Tabs. Calendly und WhatsApp haben eigene Richtlinien. Senden Sie keine sensiblen Daten. Fragen: info@itdks.tech.")}</p></div>'
   data=json.dumps({**{k:c[k] for k in ['send','sending','success','failure','invalid','count']},'close':t['close']},ensure_ascii=False).replace('<','\\u003c')
-  alternates=''.join(f'<link rel="alternate" hreflang="{lang}" href="{route(page,lang)}">' for lang in ['sq','en','de'])
-  html=f'''<!doctype html><html lang="{l}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | IT Department</title><meta name="description" content="{esc(description)}"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#17181a"><link rel="icon" href="assets/brand/favicon.png">{alternates}<link rel="stylesheet" href="assets/site.css"><script type="application/json" id="site-copy">{data}</script><script src="assets/site.js" defer></script></head><body data-page="{page}">{header(page,l,t)}<main id="main">{body}</main>{footer(l,t,page)}<dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title"><div class="lightbox-toolbar"><strong id="lightbox-title"></strong><button class="lightbox-close" type="button">{t['close']}<span aria-hidden="true">×</span></button></div><img id="lightbox-image" alt=""></dialog></body></html>'''
+  alternates=''.join(f'<link rel="alternate" hreflang="{lang}" href="{PUBLIC_BASE}/{public_path(page,lang)}">' for lang in ['sq','en','de'])
+  alternates+=f'<link rel="alternate" hreflang="x-default" href="{PUBLIC_BASE}/{public_path(page,"sq")}"><link rel="canonical" href="{PUBLIC_BASE}/{public_path(page,l)}">'
+  robots="index,follow" if INDEXABLE and page!="404" else "noindex,follow"
+  html=f'''<!doctype html><html lang="{l}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | IT Department</title><meta name="description" content="{esc(description)}"><meta name="robots" content="{robots}"><meta name="theme-color" content="#0b0d10"><link rel="icon" href="assets/brand/favicon.png">{alternates}<link rel="preload" href="assets/fonts/plus-jakarta.ttf" as="font" type="font/ttf" crossorigin><link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/revision.css"><script type="application/json" id="site-copy">{data}</script><script src="assets/measurement-config.js" defer></script><script src="assets/measurement.js" defer></script><script src="assets/site.js" defer></script><script src="assets/booking.js" defer></script></head><body data-page="{page}">{header(page,l,t)}<main id="main">{body}</main>{footer(l,t,page)}<dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title"><div class="lightbox-toolbar"><strong id="lightbox-title"></strong><button class="lightbox-close" type="button">{t['close']}<span aria-hidden="true">×</span></button></div><img id="lightbox-image" alt=""></dialog></body></html>'''
+  if PRODUCTION:
+   for linked_page in [*builders,'privacy','404']:
+    for linked_lang in T:
+     old=route(linked_page,linked_lang); new=public_path(linked_page,linked_lang) or './'
+     for suffix in ['"','?','#']:
+      html=html.replace('href="'+old+suffix,'href="'+new+suffix)
+  if page=='404':
+   # The 404 page is served for missing URLs at any depth (/a/b, /ITD2027/calm/x), so its
+   # links must not depend on the folder: make them absolute. In-page #anchors stay as they are.
+   import re
+   html=re.sub(r'(href|src)="(?!https?:|//|#|mailto:|tel:|data:)([^"]*)"',lambda m:m.group(1)+'="'+PUBLIC_BASE+'/'+m.group(2).removeprefix('./')+'"',html)
   (OUT/route(page,l)).write_text(html,encoding='utf-8')
-(OUT/'robots.txt').write_text('User-agent: *\nDisallow: /\n',encoding='utf-8')
-print('Generated 39 pages from the supplied proposal in SQ, EN and DE.')
+(OUT/'robots.txt').write_text('User-agent: *\nAllow: /\n'+('Sitemap: '+PUBLIC_BASE+'/sitemap.xml\n' if INDEXABLE else ''),encoding='utf-8')
+urls=[PUBLIC_BASE+'/'+public_path(p,l) for p in [*builders,'privacy'] for l in T]
+(OUT/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+esc(u)+'</loc></url>' for u in urls)+'</urlset>',encoding='utf-8')
+(OUT/'assets/measurement-config.js').write_text('window.ITD_MEASUREMENT='+json.dumps({'enabled':PRODUCTION and os.environ.get('ITD_ANALYTICS')=='1','id':'G-B0S3HLRPWD','origin':PUBLIC_BASE})+';',encoding='utf-8')
+print('Generated '+str((len(builders)+2)*3)+' pages in SQ, EN and DE. Production: '+str(PRODUCTION))
+
+if PRODUCTION:
+ htaccess=(BASE/'production.htaccess').read_text(encoding='utf-8-sig')
+ domain=PUBLIC_BASE.removeprefix('https://')
+ htaccess=htaccess.replace('https://itdks.tech','https://'+domain).replace('^www\\.itdks\\.tech$', '^www\\.'+domain.replace('.',r'\.')+'$')
+ (OUT/'.htaccess').write_text(htaccess,encoding='utf-8',newline='\n')

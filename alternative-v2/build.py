@@ -2,10 +2,13 @@ from pathlib import Path
 from html.parser import HTMLParser
 from html import escape
 from urllib.parse import quote
-import json, shutil, hashlib
+import json, shutil, hashlib, os
 BASE=Path(__file__).resolve().parent
 ROOT=BASE.parent
 OUT=BASE/"site"
+if os.environ.get("ITD_PRODUCTION")=="1":
+ OUT=BASE/"qa"/"production"
+ shutil.copytree(BASE/"site"/"assets",OUT/"assets",dirs_exist_ok=True)
 class Node:
  def __init__(self,tag="",attrs=()):
   self.tag=tag; self.attrs=dict(attrs); self.children=[]

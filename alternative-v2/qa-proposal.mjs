@@ -1,6 +1,6 @@
 import {chromium} from 'file:///C:/Users/A/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
 import {readdir,readFile,writeFile} from 'node:fs/promises';import {createHash} from 'node:crypto';import {fileURLToPath} from 'node:url';
-const root=new URL('./',import.meta.url),site=new URL('./site/',root),origin='http://127.0.0.1:8790/';const report={routes:[],layouts:[],interactions:[],errors:[],external:[],logoHashes:[],sourceChanges:[]};
+const root=new URL('./',import.meta.url),site=new URL('./site/',root),origin='http://127.0.0.1:8791/';const report={routes:[],layouts:[],interactions:[],errors:[],external:[],logoHashes:[],sourceChanges:[]};
 const browser=await chromium.launch({headless:true,channel:'chrome'});const page=await browser.newPage();page.on('pageerror',e=>report.errors.push(String(e)));page.on('request',r=>{if(!r.url().startsWith(origin))report.external.push(r.url());});const targets=new Set();
 const files=(await readdir(site)).filter(f=>f.endsWith('.html'));
 for(const width of [1440,768,390,320]){
