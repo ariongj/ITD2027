@@ -13,6 +13,7 @@ L = {
     "urls": {
         "home": "/en",
         "services": "/services-en",
+        "web": "/web-software-en",
         "ai": "/ai-agents-en",
         "projects": "/projects-en",
         "labs": "/itd-labs-en",
@@ -49,6 +50,12 @@ L = {
         "requestDemo": "Request a demo",
         "waDemo": "Hello! I'm interested in a demo of {product}.",
         "crumbLabel": "Breadcrumb",
+        "booking": {
+            "opening": "Opening the calendar…",
+            "fallback": "If the calendar does not open, continue on Calendly.",
+            "open": "Open Calendly",
+            "confirmed": "Your call is booked. The confirmation arrives by email.",
+        },
         "learnMore": "Learn more",
         "heroNote": "We work in Albanian, English and German",
         "navLabel": "Main navigation",
@@ -61,8 +68,8 @@ L = {
         "footerServices": "Services",
         "footerContact": "Contact",
         "footerServiceLinks": [
-            ("Websites", "/services-en#websites"),
-            ("Business systems", "/services-en#business-systems"),
+            ("Websites", "/web-software-en"),
+            ("Business systems", "/web-software-en"),
             ("AI agents", "/ai-agents-en"),
             ("IT support", "/services-en#it-support"),
             ("Cybersecurity", "/services-en#cybersecurity"),
@@ -128,8 +135,8 @@ L = {
             "h2": "Everything your business needs from technology, in one place.",
             "lead": "Start with the one thing that hurts most. We make sure it fits the rest of the business.",
             "items": [
-                {"icon": "globe", "title": "Websites", "text": "Business websites and landing pages that explain your offer clearly, load fast and make contact easy.", "href": "/services-en#websites"},
-                {"icon": "grid", "title": "Business systems & software", "text": "Systems for clients, orders, bookings, inventory and reporting. Panels with roles, automated workflows, integrations.", "href": "/services-en#business-systems"},
+                {"icon": "globe", "title": "Websites", "text": "Business websites and landing pages that explain your offer clearly, load fast and make contact easy.", "href": "/web-software-en"},
+                {"icon": "grid", "title": "Business systems & software", "text": "Systems for clients, orders, bookings, inventory and reporting. Panels with roles, automated workflows, integrations.", "href": "/web-software-en"},
                 {"icon": "sparkle", "title": "AI agents & automation", "text": "Agents that answer, organise, report and follow up on repetitive work, with human approval for sensitive decisions.", "href": "/ai-agents-en"},
                 {"icon": "server", "title": "IT support & infrastructure", "text": "Networks, servers, devices, email, users and backups, with monitoring, maintenance and documentation.", "href": "/services-en#it-support"},
                 {"icon": "shield", "title": "Cybersecurity & audit", "text": "Access control, firewalls, malware protection, secure backups and a recovery plan. Audits with clear priorities.", "href": "/services-en#cybersecurity"},
@@ -179,6 +186,7 @@ L = {
 
     # -------------------------------------------------------------- SERVICES
     "services": {
+        "crumb": "Services",
         "title": "Web, Business Systems & IT Services | IT Department",
         "desc": "Services in Prishtina and Kosovo: website development, business systems, IT support, cybersecurity, creative branding and digital marketing. Explore our work.",
         "hero": {
@@ -202,15 +210,15 @@ L = {
             "asideText": "First we understand how the business works. Then we add the structure, tools and support that make daily work easier.",
         },
         "items": [
-            {"id": "websites", "num": "01", "title": "Website design & development",
+            {"id": "websites", "link": ("Learn more", "/web-software-en"), "num": "01", "title": "Website design & development",
              "text": "Business websites in Prishtina and Kosovo: company profiles, service pages and landing pages. Designed for mobile and desktop, with technical SEO and contact forms.",
              "bullets": ["Clear structure: company profile, services, references and contact details", "Professional design that stays consistent on every device", "High speed, technical security and search optimisation", "Integrations when needed: forms, internal systems, payments and APIs"],
              "result": "clearer communication and stronger trust."},
-            {"id": "business-systems", "num": "02", "title": "Business management systems & software",
+            {"id": "business-systems", "link": ("Learn more", "/web-software-en"), "num": "02", "title": "Business management systems & software",
              "text": "Systems for managing clients, orders, bookings, inventory and reporting. Administrative panels with roles and permissions, workflow automation and integrations with your business tools.",
              "bullets": ["Management systems for clients, orders, bookings, inventory and reporting", "Admin panels with clear roles and permission levels", "Workflow automation for approvals, notifications and process control", "Integrations with the company's existing systems"],
              "result": "faster processes, fewer mistakes and more accurate reporting."},
-            {"id": "applications", "num": "03", "title": "Applications (mobile & web)",
+            {"id": "applications", "link": ("Learn more", "/web-software-en"), "num": "03", "title": "Applications (mobile & web)",
              "text": "Applications that staff or clients can use easily, without unnecessary complexity.",
              "bullets": ["Mobile or web solutions, depending on the business need", "Focused functions that solve one real job", "Planned maintenance and controlled updates"],
              "result": "a tool that gets used every day, not a project that sits unused."},
@@ -275,6 +283,50 @@ L = {
             "h2": "Tell us what you need and we'll turn it into a clear plan.",
             "text": "Send your request or book a call. We reply with the first steps: what has priority, what needs clarifying and how we start.",
         },
+    },
+
+    # ------------------------------------------------------- WEB & SOFTWARE
+    # Copy: sourced from this file (services, home.how, about.faq, projects.cases)
+    # and the SEO report; reviewed for language and claims (translation-review-notes.csv).
+    "web": {
+        "title": "Websites & Software in Prishtina, Kosovo | IT Department",
+        "desc": "Websites, business systems and apps for companies in Kosovo: what we build, who it is for, how the work runs and how to book a 30-minute call.",
+        "crumb": "Websites & software",
+        "eyebrow": "Websites & software",
+        "h1": "Websites and software built around how you work.",
+        "lead": "We build business websites, management systems and applications around your offer and your process, from the first plan to maintenance.",
+        "forH2": "Who it is for",
+        "forItems": [
+            "Businesses that need a website that explains the offer and makes contact easy.",
+            "Teams using Excel, chat apps and email as the company system.",
+            "Companies with an existing system that needs improving or connecting.",
+            "Teams that want to work in Albanian, English or German, remotely, on site or a mix.",
+        ],
+        "whatEyebrow": "Services",
+        "whatH2": "What we build",
+        "what": [
+            {"title": "Websites", "text": "Company profiles, service pages and landing pages, built for mobile and desktop.",
+             "bullets": ["Services explained in plain words", "Visible contact routes: forms and WhatsApp", "Fast pages with technical SEO", "Integrations with CRM, payments or APIs when needed"]},
+            {"title": "Business systems & software", "text": "Systems for clients, orders, bookings, inventory and reporting, built around your real process.",
+             "bullets": ["Admin panel with clear roles and permissions", "Automated approvals, notifications and reminders", "Integrations with your existing systems"]},
+            {"title": "Apps", "text": "Mobile and web apps that staff or clients can use without unnecessary complexity.",
+             "bullets": ["For orders, bookings, staff or field work", "Web, Windows, Android and iOS", "Planned maintenance and controlled updates"]},
+        ],
+        "howEyebrow": "How we work",
+        "how": [
+            {"title": "Understand", "text": "A 30-minute online call about how you work today and what gets in the way."},
+            {"title": "Plan", "text": "We agree what comes first, what can wait and what it will cost. We can start with one part and expand step by step."},
+            {"title": "Build", "text": "In controlled steps, with testing, documentation and a clear handover."},
+            {"title": "Support", "text": "After delivery we can continue with updates, monitoring and support."},
+        ],
+        "example": {
+            "eyebrow": "Illustrative example",
+            "h2": "Reports and approvals without unnecessary steps.",
+            "text": "A professional services team needed less manual work and one clear way to report.",
+            "bullets": ["Workflow automation", "Automatic notifications and escalation", "Unified reporting", "Fewer manual steps"],
+            "note": "Illustrative example from our projects page, described without naming the client and without result figures. Ask us for the case closest to your sector.",
+        },
+        "cta": {"h2": "Tell us what you want to build.", "text": "Book a 30-minute online call or send us a message. We reply with the first steps: what has priority and how we start."},
     },
 
     # -------------------------------------------------------------------- AI

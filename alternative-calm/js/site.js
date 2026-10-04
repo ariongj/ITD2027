@@ -287,6 +287,65 @@
     });
   });
 
+  /* ---- Calendly inside the page (booking dialog) --------------------------
+     "Book a call" links open Calendly in a dialog instead of a new tab, so the
+     visitor stays on the site. book_meeting is recorded only when Calendly's
+     own frame reports a scheduled event: opening the calendar is not a booking.
+     Ctrl/Cmd/Shift clicks and browsers without <dialog> keep the plain link. */
+  var booking = doc.getElementById("booking-dialog");
+  if (booking && typeof booking.showModal === "function") {
+    var bookingHost = booking.querySelector(".booking-host");
+    var bookingStatus = booking.querySelector(".booking-status");
+    var bookingFallback = booking.querySelector("[data-booking-external]");
+    var bookingFrame = null;
+    var bookingTrigger = null;
+    var bookingTimer = 0;
+    var bookedEvents = {};
+    var setBooking = function (text) { bookingStatus.textContent = text || ""; };
+    doc.addEventListener("click", function (event) {
+      var link = event.target.closest ? event.target.closest("a[href^='https://calendly.com/']") : null;
+      if (!link || link.hasAttribute("data-booking-external") || event.defaultPrevented || event.button !== 0 ||
+          event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      bookingTrigger = link;
+      bookingFallback.href = link.href;
+      if (!bookingFrame) {
+        bookingFrame = doc.createElement("iframe");
+        bookingFrame.src = link.href + (link.href.indexOf("?") === -1 ? "?" : "&") + "embed_domain=" +
+          encodeURIComponent(window.location.hostname || "itdks.tech") + "&embed_type=Inline";
+        bookingFrame.title = doc.getElementById("booking-title").textContent;
+        bookingHost.appendChild(bookingFrame);
+        setBooking(booking.dataset.msgOpening);
+        bookingTimer = window.setTimeout(function () { setBooking(booking.dataset.msgFallback); }, 15000);
+      }
+      booking.showModal();
+    });
+    booking.addEventListener("click", function (event) {
+      if (event.target === booking || event.target.closest("[data-booking-close]")) booking.close();
+    });
+    booking.addEventListener("close", function () {
+      if (bookingTrigger) bookingTrigger.focus({ preventScroll: true });
+    });
+    window.addEventListener("message", function (event) {
+      if (event.origin !== "https://calendly.com" || !bookingFrame || event.source !== bookingFrame.contentWindow) return;
+      var data = event.data;
+      if (!data || typeof data.event !== "string" || data.event.indexOf("calendly.") !== 0) return;
+      window.clearTimeout(bookingTimer);
+      if (data.event === "calendly.event_scheduled") {
+        var uri = data.payload && data.payload.event && data.payload.event.uri;
+        if (typeof uri !== "string" || uri.indexOf("https://api.calendly.com/scheduled_events/") !== 0 || bookedEvents[uri]) return;
+        bookedEvents[uri] = true;
+        setBooking(booking.dataset.msgConfirmed);
+        try {
+          // Only the fact of a confirmed booking: no invitee details leave the page.
+          if (window.ITDAnalytics && window.ITDAnalytics.track) window.ITDAnalytics.track("book_meeting", {});
+        } catch (error) { /* tracking must never break booking */ }
+      } else if (bookingStatus.textContent === booking.dataset.msgOpening || bookingStatus.textContent === booking.dataset.msgFallback) {
+        setBooking("");  // Calendly answered: the calendar is there.
+      }
+    });
+  }
+
   /* ---- Footer year -------------------------------------------------------- */
   Array.prototype.forEach.call(doc.querySelectorAll("[data-year]"), function (el) {
     el.textContent = String(new Date().getFullYear());

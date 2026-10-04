@@ -30,7 +30,7 @@ sys.path.insert(0, HERE)
 XLSX = os.path.join(HERE, "texts.xlsx")
 LANGS = [("en", "English"), ("sq", "Albanian"), ("de", "German")]
 SKIP_KEYS = {"icon", "href", "id", "slug", "file", "urls", "lang", "locale", "suffix", "anchors", "featured", "langName", "num", "page"}
-PAGE_NAMES = {"ui": "All pages", "home": "Home", "services": "Services", "ai": "AI Agents", "projects": "Projects",
+PAGE_NAMES = {"ui": "All pages", "home": "Home", "services": "Services", "web": "Web & software", "ai": "AI Agents", "projects": "Projects",
               "labs": "ITD Labs", "krakenos": "Kraken OS", "communications": "Kraken Communications",
               "creative": "Creative", "about": "About", "contact": "Contact", "privacy": "Privacy",
               "terms": "Terms", "notfound": "404 page"}

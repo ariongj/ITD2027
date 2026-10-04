@@ -9,6 +9,7 @@ L = {
     "urls": {
         "home": "/de",
         "services": "/services-de",
+        "web": "/web-software-de",
         "ai": "/ai-agents-de",
         "projects": "/projects-de",
         "labs": "/itd-labs-de",
@@ -45,6 +46,12 @@ L = {
         "requestDemo": "Demo anfragen",
         "waDemo": "Hallo! Ich interessiere mich für eine Demo von {product}.",
         "crumbLabel": "Pfadnavigation",
+        "booking": {
+            "opening": "Kalender wird geöffnet …",
+            "fallback": "Falls der Kalender nicht lädt, öffnen Sie Calendly direkt.",
+            "open": "Calendly öffnen",
+            "confirmed": "Ihr Gespräch ist gebucht. Die Bestätigung erhalten Sie per E-Mail.",
+        },
         "learnMore": "Mehr erfahren",
         "heroNote": "Wir arbeiten auf Albanisch, Englisch und Deutsch",
         "navLabel": "Hauptnavigation",
@@ -57,8 +64,8 @@ L = {
         "footerServices": "Leistungen",
         "footerContact": "Kontakt",
         "footerServiceLinks": [
-            ("Websites", "/services-de#websites"),
-            ("Geschäftssysteme", "/services-de#business-systems"),
+            ("Websites", "/web-software-de"),
+            ("Geschäftssysteme", "/web-software-de"),
             ("AI Agents", "/ai-agents-de"),
             ("IT-Support", "/services-de#it-support"),
             ("Cybersicherheit", "/services-de#cybersecurity"),
@@ -124,8 +131,8 @@ L = {
             "h2": "Alles, was Ihr Unternehmen an Technologie braucht, aus einer Hand.",
             "lead": "Beginnen Sie mit dem, was am meisten stört. Wir sorgen dafür, dass es zum Rest des Unternehmens passt.",
             "items": [
-                {"icon": "globe", "title": "Websites", "text": "Unternehmenswebsites und Landingpages, die Ihr Angebot klar erklären, schnell laden und die Kontaktaufnahme erleichtern.", "href": "/services-de#websites"},
-                {"icon": "grid", "title": "Geschäftssysteme & Software", "text": "Systeme für Kunden, Aufträge, Buchungen, Lager und Reporting. Panels mit Rollen, automatisierte Abläufe, Integrationen.", "href": "/services-de#business-systems"},
+                {"icon": "globe", "title": "Websites", "text": "Unternehmenswebsites und Landingpages, die Ihr Angebot klar erklären, schnell laden und die Kontaktaufnahme erleichtern.", "href": "/web-software-de"},
+                {"icon": "grid", "title": "Geschäftssysteme & Software", "text": "Systeme für Kunden, Aufträge, Buchungen, Lager und Reporting. Panels mit Rollen, automatisierte Abläufe, Integrationen.", "href": "/web-software-de"},
                 {"icon": "sparkle", "title": "AI Agents & Automatisierung", "text": "Agenten, die antworten, organisieren, berichten und wiederkehrende Arbeit nachverfolgen, mit menschlicher Freigabe bei sensiblen Entscheidungen.", "href": "/ai-agents-de"},
                 {"icon": "server", "title": "IT-Support & Infrastruktur", "text": "Netzwerke, Server, Geräte, E-Mail, Benutzer und Backups, mit Monitoring, Wartung und Dokumentation.", "href": "/services-de#it-support"},
                 {"icon": "shield", "title": "Cybersicherheit & Audit", "text": "Zugriffskontrolle, Firewalls, Malware-Schutz, sichere Backups und ein Wiederherstellungsplan. Audits mit klaren Prioritäten.", "href": "/services-de#cybersecurity"},
@@ -175,6 +182,7 @@ L = {
 
     # -------------------------------------------------------------- SERVICES
     "services": {
+        "crumb": "Leistungen",
         "title": "Web, Verwaltungssoftware & IT-Services | IT Department",
         "desc": "Leistungen in Prishtina und Kosovo: Webentwicklung, Verwaltungssoftware, IT-Support, Cybersicherheit, kreatives Branding und digitales Marketing.",
         "hero": {
@@ -198,15 +206,15 @@ L = {
             "asideText": "Zuerst verstehen wir, wie das Unternehmen arbeitet. Dann ergänzen wir Struktur, Tools und Support, die den Alltag leichter machen.",
         },
         "items": [
-            {"id": "websites", "num": "01", "title": "Webdesign & Webentwicklung",
+            {"id": "websites", "link": ("Mehr erfahren", "/web-software-de"), "num": "01", "title": "Webdesign & Webentwicklung",
              "text": "Websites für Unternehmen in Prishtina und im Kosovo: Firmenprofile, Leistungsseiten und Landingpages. Design für Mobilgeräte und Desktop, technisches SEO und Kontaktformulare.",
              "bullets": ["Klare Struktur: Unternehmensprofil, Leistungen, Referenzen und Kontakt", "Professionelles Design, das auf jedem Gerät konsistent bleibt", "Hohe Geschwindigkeit, technische Sicherheit und Suchmaschinenoptimierung", "Integrationen bei Bedarf: Formulare, interne Systeme, Zahlungen und APIs"],
              "result": "klarere Kommunikation und stärkeres Vertrauen."},
-            {"id": "business-systems", "num": "02", "title": "Verwaltungssoftware & Geschäftssysteme",
+            {"id": "business-systems", "link": ("Mehr erfahren", "/web-software-de"), "num": "02", "title": "Verwaltungssoftware & Geschäftssysteme",
              "text": "Systeme für Kunden, Aufträge, Buchungen, Lagerbestand und Berichte. Verwaltungspanels mit Rollen und Berechtigungen, automatisierten Abläufen und Schnittstellen zu Ihren Geschäftstools.",
              "bullets": ["Managementsysteme für Kunden, Bestellungen, Buchungen, Lager und Reporting", "Admin-Panels mit klaren Rollen und Berechtigungen", "Workflow-Automatisierung für Freigaben, Benachrichtigungen und Prozesskontrolle", "Integrationen mit den bestehenden Systemen des Unternehmens"],
              "result": "schnellere Prozesse, weniger Fehler und genaueres Reporting."},
-            {"id": "applications", "num": "03", "title": "Applikationen (Mobile & Web)",
+            {"id": "applications", "link": ("Mehr erfahren", "/web-software-de"), "num": "03", "title": "Applikationen (Mobile & Web)",
              "text": "Applikationen, die Mitarbeitende oder Kunden einfach nutzen können, ohne unnötige Komplexität.",
              "bullets": ["Mobile- oder Web-Lösungen, je nach Bedarf des Unternehmens", "Fokussierte Funktionen, die eine echte Aufgabe lösen", "Geplante Wartung und kontrollierte Updates"],
              "result": "ein Werkzeug, das täglich genutzt wird, kein Projekt, das ungenutzt bleibt."},
@@ -271,6 +279,50 @@ L = {
             "h2": "Sagen Sie uns, was Sie brauchen, und wir machen daraus einen klaren Plan.",
             "text": "Senden Sie Ihre Anfrage oder buchen Sie ein Gespräch. Wir melden uns mit den ersten Schritten: was Priorität hat, was zu klären ist und wie wir starten.",
         },
+    },
+
+    # ------------------------------------------------------- WEB & SOFTWARE
+    # Copy: sourced from this file (services, home.how, about.faq, projects.cases)
+    # and the SEO report; reviewed for language and claims (translation-review-notes.csv).
+    "web": {
+        "title": "Websites & Software aus Prishtina, Kosovo | IT Department",
+        "desc": "Websites, Geschäftssysteme und Apps aus Prishtina: was wir bauen, für wen, wie die Arbeit abläuft und wie Sie ein 30-Minuten-Gespräch buchen.",
+        "crumb": "Websites & Software",
+        "eyebrow": "Websites & Software",
+        "h1": "Websites und Software, die zu Ihrer Arbeitsweise passen.",
+        "lead": "Wir entwickeln Unternehmenswebsites, Verwaltungssysteme und Applikationen passend zu Ihrem Angebot und Ihren Abläufen, von der ersten Planung bis zur Wartung.",
+        "forH2": "Für wen das passt",
+        "forItems": [
+            "Unternehmen, deren Website ihr Angebot klar erklären und den Kontakt erleichtern soll.",
+            "Teams, die Excel, Chat-Apps und E-Mail als Unternehmenssystem nutzen.",
+            "Firmen mit einem bestehenden System, das verbessert oder mit anderen Tools verbunden werden soll.",
+            "Teams, die auf Deutsch, Englisch oder Albanisch arbeiten möchten, remote, vor Ort oder gemischt.",
+        ],
+        "whatEyebrow": "Leistungen",
+        "whatH2": "Was wir bauen",
+        "what": [
+            {"title": "Websites", "text": "Firmenprofile, Leistungsseiten und Landingpages, optimiert für Mobilgeräte und Desktop.",
+             "bullets": ["Leistungen in klaren Worten", "Sichtbare Kontaktwege: Formulare und WhatsApp", "Schnelle Seiten mit technischem SEO", "Bei Bedarf Anbindung an CRM, Zahlungsanbieter oder APIs"]},
+            {"title": "Geschäftssysteme & Software", "text": "Systeme für Kunden, Aufträge, Buchungen, Lager und Reporting, ausgerichtet an Ihren tatsächlichen Abläufen.",
+             "bullets": ["Admin-Panel mit klaren Rollen und Berechtigungen", "Automatisierte Freigaben, Benachrichtigungen und Erinnerungen", "Integrationen mit Ihren bestehenden Systemen"]},
+            {"title": "Applikationen", "text": "Mobile Apps und Web-Apps, die Mitarbeitende oder Kunden einfach nutzen können, ohne unnötige Komplexität.",
+             "bullets": ["Für Bestellungen, Buchungen, Personal oder Außendienst", "Web, Windows, Android und iOS", "Geplante Wartung und kontrollierte Updates"]},
+        ],
+        "howEyebrow": "Wie wir arbeiten",
+        "how": [
+            {"title": "Verstehen", "text": "Ein 30-minütiges Online-Gespräch darüber, wie Sie heute arbeiten und was Sie bremst."},
+            {"title": "Planen", "text": "Wir legen gemeinsam fest, was zuerst kommt, was warten kann und was es kostet. Wir können mit einem Teil starten und Schritt für Schritt erweitern."},
+            {"title": "Umsetzen", "text": "In kontrollierten Schritten, mit Tests, Dokumentation und klarer Übergabe."},
+            {"title": "Betreuen", "text": "Nach der Übergabe übernehmen wir auf Wunsch Updates, Monitoring und Support."},
+        ],
+        "example": {
+            "eyebrow": "Illustratives Beispiel",
+            "h2": "Berichte und Freigaben ohne unnötige Schritte.",
+            "text": "Ein Team aus der Beratungs- und Dienstleistungsbranche brauchte weniger manuelle Arbeit und einen klaren Reporting-Prozess.",
+            "bullets": ["Workflow-Automatisierung", "Automatische Benachrichtigungen und Eskalation", "Einheitliches Reporting", "Weniger manuelle Schritte"],
+            "note": "Illustratives Beispiel von unserer Projektseite, ohne Nennung des Kunden und ohne Ergebniszahlen. Fragen Sie uns nach dem Projekt, das Ihrer Branche am nächsten kommt.",
+        },
+        "cta": {"h2": "Sagen Sie uns, was Sie umsetzen möchten.", "text": "Buchen Sie ein 30-minütiges Online-Gespräch oder schreiben Sie uns. Wir melden uns mit den ersten Schritten: was Priorität hat und wie wir starten."},
     },
 
     # -------------------------------------------------------------------- AI

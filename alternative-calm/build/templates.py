@@ -16,8 +16,8 @@ PHONE_TEL = "tel:+38349573570"
 EMAIL = "info@itdks.tech"
 FORM = "https://formspree.io/f/xpqypezj"
 MAP = "https://www.google.com/maps/search/?api=1&query=Prishtina%2C+Kosovo"
-VERSION = "20261003"
-TODAY = "2026-10-03"
+VERSION = "20261005"
+TODAY = "2026-10-05"
 YEAR = "2026"
 CHAT_VERSION = "kraken-20260930"
 
@@ -31,10 +31,10 @@ PARTNERS = [
     ("hostinger", "Hostinger"), ("imatrix", "iMatrix"), ("mikrotik", "MikroTik"),
     ("paysera", "Paysera"), ("raiffeisen", "Raiffeisen Bank"),
 ]
-PAGE_ORDER = ["home", "services", "ai", "projects", "labs", "krakenos", "communications", "creative", "about", "contact", "privacy", "terms"]
+PAGE_ORDER = ["home", "services", "web", "ai", "projects", "labs", "krakenos", "communications", "creative", "about", "contact", "privacy", "terms"]
 LANGS = ["sq", "en", "de"]
-# ITD Labs: product pages sit under the Labs page (breadcrumbs, nav highlight).
-PARENT = {"krakenos": "labs", "communications": "labs"}
+# Sub-pages: breadcrumbs and the menu highlight of their section.
+PARENT = {"krakenos": "labs", "communications": "labs", "web": "services"}
 # ?product= values the contact form understands, with the name shown to the visitor.
 DEMO_PRODUCTS = {"itd-labs": "ITD Labs", "krakenos": "Kraken OS", "kraken-communications": "Kraken Communications"}
 PRODUCT_SLUG = {"labs": "itd-labs", "krakenos": "krakenos", "communications": "kraken-communications"}
@@ -413,9 +413,22 @@ def tail():
             f'<script src="/chatbot.js?v={CHAT_VERSION}" defer></script>\n</body>\n</html>\n')
 
 
+def booking_dialog(L):
+    """Calendly opens here instead of a new tab (site.js). Without JavaScript the
+    Calendly links simply open calendly.com, so nothing depends on this."""
+    ui, B = L["ui"], L["ui"]["booking"]
+    return (f'<dialog class="booking-dialog" id="booking-dialog" aria-labelledby="booking-title" '
+            f'data-msg-opening="{attr(B["opening"])}" data-msg-fallback="{attr(B["fallback"])}" data-msg-confirmed="{attr(B["confirmed"])}">'
+            f'<div class="booking-bar"><h2 class="h3" id="booking-title">{ui["bookCall"]}</h2>'
+            f'<button class="icon-btn" type="button" data-booking-close aria-label="{attr(ui["close"])}">{icon("close")}</button></div>'
+            '<p class="booking-status" role="status" aria-live="polite"></p><div class="booking-host"></div>'
+            f'<p class="booking-fallback"><a href="{CAL}" target="_blank" rel="noopener noreferrer" data-booking-external>'
+            f'{B["open"]}{icon("external")}</a></p></dialog>')
+
+
 def wrap(L, ALL, key, title, desc, body_class, main_html):
     return (head(L, ALL, key, title, desc, body_class) + header(L, ALL, key)
-            + f'<main id="main">{main_html}</main>' + footer(L, ALL, key) + tail())
+            + f'<main id="main">{main_html}</main>' + footer(L, ALL, key) + booking_dialog(L) + tail())
 
 
 # ------------------------------------------------------------------ pages
@@ -511,6 +524,45 @@ def page_services(L, ALL):
            f'<div class="reveal">{check_list(W["items"])}</div></div></section>')
 
     return hero + problems + catalogue + support + process + why + cta_band(L, S["cta"]["h2"], S["cta"]["text"])
+
+
+def crumbs(L, key):
+    ui, u, parent = L["ui"], L["urls"], PARENT[key]
+    return (f'<nav class="crumbs" aria-label="{attr(ui["crumbLabel"])}"><ol><li><a href="{u[parent]}">{L[parent]["crumb"]}</a></li>'
+            f'<li><span aria-current="page">{L[key]["crumb"]}</span></li></ol></nav>')
+
+
+def page_web(L, ALL):
+    """Web & software: the first of the two priority services in the SEO report.
+    (AI automation already has its own page, /ai-agents.)"""
+    ui, u, W = L["ui"], L["urls"], L["web"]
+    ctas = (f'<div class="cta-row">{btn_cal(ui["bookCall"], "btn btn-primary btn-lg")}'
+            f'{btn(ui["writeUs"], u["contact"] + "#write", "btn btn-secondary btn-lg")}</div>')
+    hero = (f'<section class="page-hero"><div class="container page-hero-inner reveal">{crumbs(L, "web")}'
+            f'<p class="eyebrow">{W["eyebrow"]}</p><h1 class="display display--sm">{W["h1"]}</h1>'
+            f'<p class="lead">{W["lead"]}</p>{ctas}</div></section>')
+
+    who = (f'<section class="section section--tight"><div class="container why-grid">'
+           f'<div class="reveal"><h2>{W["forH2"]}</h2></div><div class="reveal">{check_list(W["forItems"])}</div></div></section>')
+
+    rows = "".join(
+        f'<article class="service-row reveal"><div class="service-row-head"><span class="service-num">{i:02d}</span><h3>{it["title"]}</h3></div>'
+        f'<div class="service-row-body"><p>{it["text"]}</p>{check_list(it.get("bullets", [])) if it.get("bullets") else ""}</div></article>'
+        for i, it in enumerate(W["what"], 1))
+    what = (f'<section class="section section--alt"><div class="container">{section_head(W["whatEyebrow"], W["whatH2"])}'
+            f'<div class="service-list">{rows}</div></div></section>')
+
+    how = (f'<section class="section"><div class="container">{section_head(W["howEyebrow"], L["services"]["process"]["h2"])}'
+           f'{steps(W["how"])}</div></section>')
+
+    E = W["example"]
+    bullets = check_list(E["bullets"]) if E.get("bullets") else ""
+    example = (f'<section class="section section--alt section--tight"><div class="container">'
+               f'<div class="card example-card reveal"><p class="eyebrow">{E["eyebrow"]}</p><h2 class="h3">{E["h2"]}</h2>'
+               f'<p>{E["text"]}</p>{bullets}<p class="fine-print">{E["note"]}</p>'
+               f'<div class="cta-row">{btn(ui["viewProjects"], u["projects"], "btn btn-ghost", True)}</div></div></div></section>')
+
+    return hero + who + what + how + example + cta_band(L, W["cta"]["h2"], W["cta"]["text"])
 
 
 def page_ai(L, ALL):
@@ -640,13 +692,11 @@ def cta_demo(L, h2, text, product):
 
 
 def product_hero(L, key, img):
-    ui, u, P = L["ui"], L["urls"], L[key]
-    H, parent = P["hero"], PARENT[key]
-    crumbs = (f'<nav class="crumbs" aria-label="{attr(ui["crumbLabel"])}"><ol><li><a href="{u[parent]}">{L[parent]["crumb"]}</a></li>'
-              f'<li><span aria-current="page">{P["crumb"]}</span></li></ol></nav>')
+    ui, P = L["ui"], L[key]
+    H = P["hero"]
     ctas = (f'<div class="cta-row">{btn(ui["requestDemo"], demo_url(L, PRODUCT_SLUG[key]), "btn btn-primary btn-lg")}'
             f'{btn_cal(ui["bookCall"], "btn btn-secondary btn-lg")}</div>')
-    return (f'<section class="page-hero product-hero"><div class="container"><div class="page-hero-inner reveal">{crumbs}'
+    return (f'<section class="page-hero product-hero"><div class="container"><div class="page-hero-inner reveal">{crumbs(L, key)}'
             f'<p class="eyebrow">{H["eyebrow"]}</p><h1 class="display display--sm">{H["h1"]}</h1>'
             f'<p class="product-tagline product-tagline--hero">{H["tagline"]}</p><p class="lead">{H["lead"]}</p>{ctas}</div>'
             f'<div class="product-hero-shot reveal">{img}</div></div></section>')
@@ -870,7 +920,7 @@ def page_legal(L, ALL, key):
 
 
 RENDERERS = {
-    "home": page_home, "services": page_services, "ai": page_ai, "projects": page_projects,
+    "home": page_home, "services": page_services, "web": page_web, "ai": page_ai, "projects": page_projects,
     "labs": page_labs, "krakenos": page_krakenos, "communications": page_communications,
     "creative": page_creative, "about": page_about, "contact": page_contact,
     "privacy": lambda L, ALL: page_legal(L, ALL, "privacy"),
@@ -880,7 +930,7 @@ RENDERERS = {
 
 def render(L, ALL, key):
     P = L[key]
-    body_class = f"page-{key}" + (" accent-kraken" if key in PARENT else "")
+    body_class = f"page-{key}" + (" accent-kraken" if PARENT.get(key) == "labs" else "")
     return wrap(L, ALL, key, P["title"], P["desc"], body_class, RENDERERS[key](L, ALL))
 
 
@@ -898,7 +948,7 @@ def render_404(ALL):
             f'<section class="section section--tight"><div class="container grid grid-3 stagger">{"".join(blocks)}</div></section>')
     page = head(L, ALL, "home", L["notfound"]["title"], L["notfound"]["text"], "page-404") + header(L, ALL, "home")
     page = page.replace('<meta name="robots" content="index, follow">', '<meta name="robots" content="noindex, follow">')
-    return page + f'<main id="main">{main}</main>' + footer(L, ALL, "home") + tail()
+    return page + f'<main id="main">{main}</main>' + footer(L, ALL, "home") + booking_dialog(L) + tail()
 
 
 def filename(L, key):

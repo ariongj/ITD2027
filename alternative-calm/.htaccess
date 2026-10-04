@@ -12,6 +12,11 @@ Options -Indexes
   RewriteCond %{HTTP_HOST} ^www\.itdks\.tech$ [NC]
   RewriteRule ^ https://itdks.tech%{REQUEST_URI} [R=301,L,NE]
 
+  # Old template links such as /?optech_footer=footer (listed in Search Console):
+  # same page without the obsolete parameter. Only when it is the sole parameter.
+  RewriteCond %{QUERY_STRING} ^optech_footer=[^&]*$ [NC]
+  RewriteRule ^ %{REQUEST_URI}? [R=301,L,NE]
+
   RewriteCond %{THE_REQUEST} \s/+index\.html[?\s] [NC]
   RewriteRule ^index\.html$ / [R=301,L]
 
@@ -28,7 +33,9 @@ Options -Indexes
   RewriteRule ^stats/storage/ - [F,L]
   RewriteRule ^build/ - [F,L]
 
-  RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[?\s] [NC]
+  # Anchored to the request path, so ".html" in a query string or an internal
+  # rewrite can never trigger it (that combination could loop).
+  RewriteCond %{THE_REQUEST} ^[A-Z]+\s/+([^?\s]+?)\.html[?\s] [NC]
   RewriteRule ^(.+?)\.html$ /$1 [R=301,L,NE]
 
   RewriteCond %{REQUEST_FILENAME} !-d
@@ -39,9 +46,14 @@ Options -Indexes
   RewriteRule ^de$ index-de.html [L]
   RewriteRule ^stats/admin$ stats/admin.html [L]
 
+  # Clean URLs: /services-en -> services-en.html. Checks the real file for the
+  # whole path and only rewrites paths without a dot. The earlier rule checked
+  # %{REQUEST_FILENAME}.html, which for /services/x found services.html and
+  # rewrote to services/x.html, .html.html, ... until the server answered 500
+  # (still the case on the live site on 5 Oct 2026). Now that gives a 404.
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteCond %{REQUEST_FILENAME}.html -f
-  RewriteRule ^(.+)$ $1.html [L]
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^([^.]+)$ $1.html [L]
 </IfModule>
 
 <IfModule mod_headers.c>
@@ -68,7 +80,7 @@ Options -Indexes
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), browsing-topics=()"
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
-  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.googleadservices.com https://www.google.com https://www.clarity.ms https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://formspree.io https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com https://www.google.com https://ad.doubleclick.net https://*.clarity.ms https://plausible.io; frame-src https://www.google.com https://www.googletagmanager.com https://assistant.krakenos.cloud; worker-src 'self' blob:; upgrade-insecure-requests"
+  Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.googleadservices.com https://www.google.com https://www.clarity.ms https://plausible.io; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://formspree.io https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://stats.g.doubleclick.net https://www.googleadservices.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com https://www.google.com https://ad.doubleclick.net https://*.clarity.ms https://plausible.io; frame-src https://www.google.com https://www.googletagmanager.com https://assistant.krakenos.cloud https://calendly.com; worker-src 'self' blob:; upgrade-insecure-requests"
 </IfModule>
 
 <FilesMatch "^\.env">

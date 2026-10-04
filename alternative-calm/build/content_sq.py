@@ -9,6 +9,7 @@ L = {
     "urls": {
         "home": "/",
         "services": "/services",
+        "web": "/web-software",
         "ai": "/ai-agents",
         "projects": "/projects",
         "labs": "/itd-labs",
@@ -45,6 +46,12 @@ L = {
         "requestDemo": "Kërko një demonstrim",
         "waDemo": "Përshëndetje! Më intereson një demonstrim për {product}.",
         "crumbLabel": "Ku ndodhesh",
+        "booking": {
+            "opening": "Po hapet kalendari…",
+            "fallback": "Nëse kalendari nuk hapet, vazhdo në Calendly.",
+            "open": "Hap në Calendly",
+            "confirmed": "Takimi u caktua. Konfirmimin e merr me email.",
+        },
         "learnMore": "Mëso më shumë",
         "heroNote": "Punojmë në shqip, anglisht dhe gjermanisht",
         "navLabel": "Navigimi kryesor",
@@ -57,8 +64,8 @@ L = {
         "footerServices": "Shërbimet",
         "footerContact": "Kontakt",
         "footerServiceLinks": [
-            ("Faqe web", "/services#websites"),
-            ("Sisteme biznesi", "/services#business-systems"),
+            ("Faqe web", "/web-software"),
+            ("Sisteme biznesi", "/web-software"),
             ("AI agents", "/ai-agents"),
             ("Mbështetje IT", "/services#it-support"),
             ("Siguri kibernetike", "/services#cybersecurity"),
@@ -124,8 +131,8 @@ L = {
             "h2": "Gjithçka që i duhet biznesit nga teknologjia, në një vend.",
             "lead": "Fillo me atë që të pengon më shumë. Ne sigurohemi që të lidhet me pjesën tjetër të biznesit.",
             "items": [
-                {"icon": "globe", "title": "Faqe web", "text": "Faqe web dhe landing pages që e shpjegojnë ofertën qartë, hapen shpejt dhe e bëjnë kontaktin të lehtë.", "href": "/services#websites"},
-                {"icon": "grid", "title": "Sisteme biznesi & softuer", "text": "Sisteme për klientë, porosi, rezervime, stok dhe raporte. Panele me role, procese të automatizuara dhe integrime.", "href": "/services#business-systems"},
+                {"icon": "globe", "title": "Faqe web", "text": "Faqe web dhe landing pages që e shpjegojnë ofertën qartë, hapen shpejt dhe e bëjnë kontaktin të lehtë.", "href": "/web-software"},
+                {"icon": "grid", "title": "Sisteme biznesi & softuer", "text": "Sisteme për klientë, porosi, rezervime, stok dhe raporte. Panele me role, procese të automatizuara dhe integrime.", "href": "/web-software"},
                 {"icon": "sparkle", "title": "AI agents & automatizim", "text": "Agjentë që përgjigjen, organizojnë, raportojnë dhe ndjekin punët e përsëritura, me aprovim njerëzor për vendimet e ndjeshme.", "href": "/ai-agents"},
                 {"icon": "server", "title": "Mbështetje IT & infrastrukturë", "text": "Rrjete, serverë, pajisje, email, përdorues dhe backup, me monitorim, mirëmbajtje dhe dokumentim.", "href": "/services#it-support"},
                 {"icon": "shield", "title": "Siguri kibernetike & auditim", "text": "Kontroll qasjesh, firewall, mbrojtje nga malware, backup i sigurt dhe plan rikuperimi. Auditime me prioritete të qarta.", "href": "/services#cybersecurity"},
@@ -175,6 +182,7 @@ L = {
 
     # -------------------------------------------------------------- SERVICES
     "services": {
+        "crumb": "Shërbimet",
         "title": "Web, Sisteme Administrimi & Shërbime IT | IT Department",
         "desc": "Shërbime në Prishtinë dhe Kosovë: zhvillim web, sisteme administrimi, IT support, siguri kibernetike, branding dhe marketing digjital. Shiko zgjidhjet tona.",
         "hero": {
@@ -198,15 +206,15 @@ L = {
             "asideText": "Së pari kuptojmë si punon biznesi. Pastaj shtojmë strukturën, mjetet dhe mbështetjen që e bëjnë punën e përditshme më të lehtë.",
         },
         "items": [
-            {"id": "websites", "num": "01", "title": "Dizajn dhe zhvillim i faqeve web",
+            {"id": "websites", "link": ("Mëso më shumë", "/web-software"), "num": "01", "title": "Dizajn dhe zhvillim i faqeve web",
              "text": "Faqe web për biznese në Prishtinë dhe Kosovë: prezantim kompanie, faqe shërbimesh dhe landing pages. Dizajn për telefon e desktop, SEO teknik dhe formularë kontakti.",
              "bullets": ["Shërbime të shpjeguara thjesht", "Formularë, WhatsApp dhe rrugë kontakti të dukshme", "Dizajn profesional, shpejtësi e lartë dhe strukturë për Google", "Integrime me CRM, formularë, pagesa, API ose sisteme të brendshme"],
              "result": "klienti kupton më shpejt çfarë ofron dhe si të kontaktojë."},
-            {"id": "business-systems", "num": "02", "title": "Sisteme administrimi & softuer biznesi",
+            {"id": "business-systems", "link": ("Mëso më shumë", "/web-software"), "num": "02", "title": "Sisteme administrimi & softuer biznesi",
              "text": "Sisteme për administrimin e klientëve, porosive, rezervimeve, stokut dhe raporteve. Panele me role dhe leje, automatizim procesesh dhe integrime me mjetet e biznesit.",
              "bullets": ["Sisteme për klientë, porosi, rezervime, stok, raporte dhe detyra", "Role të qarta përdorimi dhe panel administrimi për ekipin", "Automatizim i aprovimeve, njoftimeve dhe kujtesave", "Integrime me sistemet ekzistuese të kompanisë"],
              "result": "punë më e organizuar, më pak hapa manualë dhe raportim më i qartë."},
-            {"id": "applications", "num": "03", "title": "Aplikacione (mobile & web)",
+            {"id": "applications", "link": ("Mëso më shumë", "/web-software"), "num": "03", "title": "Aplikacione (mobile & web)",
              "text": "Aplikacione që stafi ose klientët i përdorin lehtë, pa kompleksitet të panevojshëm.",
              "bullets": ["Aplikacione mobile ose web për porosi, rezervime, staf ose terren", "Funksione të fokusuara që zgjidhin një punë reale", "Mirëmbajtje e planifikuar dhe përditësime të kontrolluara"],
              "result": "një mjet që përdoret çdo ditë, jo një projekt që mbetet pa u përdorur."},
@@ -271,6 +279,50 @@ L = {
             "h2": "Na trego çfarë të duhet dhe ne e kthejmë në plan të qartë.",
             "text": "Dërgo kërkesën ose cakto një bisedë. Ne të kthehemi me hapat e parë: çfarë ka prioritet, çfarë duhet sqaruar dhe si fillojmë.",
         },
+    },
+
+    # ------------------------------------------------------- WEB & SOFTWARE
+    # Copy: sourced from this file (services, home.how, about.faq, projects.cases)
+    # and the SEO report; reviewed for language and claims (translation-review-notes.csv).
+    "web": {
+        "title": "Faqe interneti & softuer në Prishtinë | IT Department",
+        "desc": "Faqe web, sisteme biznesi dhe aplikacione në Kosovë: çfarë ndërtojmë, për kë, si punojmë dhe si të caktosh një bisedë 30-minutëshe me ne.",
+        "crumb": "Faqe interneti & softuer",
+        "eyebrow": "Faqe interneti & softuer",
+        "h1": "Faqe web dhe softuer të ndërtuara sipas mënyrës si punon.",
+        "lead": "Ndërtojmë faqe web, sisteme administrimi dhe aplikacione të përshtatura me ofertën dhe proceset e tua, nga plani i parë deri te mirëmbajtja.",
+        "forH2": "Për kë është",
+        "forItems": [
+            "Biznese që duan një faqe që e shpjegon qartë ofertën dhe e lehtëson kontaktin.",
+            "Ekipe që përdorin Excel, Viber dhe email si sistem pune.",
+            "Kompani me një sistem ekzistues që duhet përmirësuar ose lidhur me mjetet e tjera.",
+            "Ekipe që duan të punojnë në shqip, anglisht ose gjermanisht, në distancë, në terren ose me kombinim.",
+        ],
+        "whatEyebrow": "Shërbimet",
+        "whatH2": "Çfarë ndërtojmë",
+        "what": [
+            {"title": "Faqe web", "text": "Prezantim kompanie, faqe shërbimesh dhe landing pages, për telefon dhe desktop.",
+             "bullets": ["Shërbime të shpjeguara thjesht", "Mënyra kontakti të dukshme: formularë dhe WhatsApp", "Faqe të shpejta me SEO teknik", "Integrime me CRM, pagesa ose API kur duhen"]},
+            {"title": "Sisteme biznesi & softuer", "text": "Sisteme për klientë, porosi, rezervime, stok dhe raporte, sipas procesit real të kompanisë.",
+             "bullets": ["Panel administrimi me role dhe leje të qarta", "Automatizim i aprovimeve, njoftimeve dhe kujtesave", "Integrime me sistemet ekzistuese"]},
+            {"title": "Aplikacione", "text": "Aplikacione mobile dhe web që stafi ose klientët i përdorin lehtë, pa kompleksitet të panevojshëm.",
+             "bullets": ["Për porosi, rezervime, stafin ose punën në terren", "Web, Windows, Android dhe iOS", "Mirëmbajtje e planifikuar dhe përditësime të kontrolluara"]},
+        ],
+        "howEyebrow": "Si punojmë",
+        "how": [
+            {"title": "Kuptojmë", "text": "Një bisedë 30-minutëshe online: si punon sot dhe çfarë të pengon."},
+            {"title": "Planifikojmë", "text": "Vendosim bashkë çfarë bëhet së pari, çfarë mund të presë dhe sa kushton. Mund të fillojmë me një pjesë dhe ta zgjerojmë punën hap pas hapi."},
+            {"title": "Ndërtojmë", "text": "Me hapa të kontrolluar, me testim, dokumentim dhe dorëzim të qartë."},
+            {"title": "Mbështesim", "text": "Pas dorëzimit mund të vazhdojmë me përditësime, monitorim dhe suport."},
+        ],
+        "example": {
+            "eyebrow": "Shembull ilustrues",
+            "h2": "Raporte dhe aprovime pa hapa të tepërt.",
+            "text": "Një ekip në fushën e shërbimeve profesionale kishte nevojë për më pak punë manuale dhe për një mënyrë të vetme raportimi.",
+            "bullets": ["Automatizim i rrjedhave të punës", "Njoftime dhe eskalime automatike", "Raportim i unifikuar", "Reduktim i hapave manualë"],
+            "note": "Shembull ilustrues nga faqja e projekteve, i përshkruar pa emrin e klientit dhe pa shifra rezultati. Na pyet për rastin më të afërt me sektorin tënd.",
+        },
+        "cta": {"h2": "Na trego çfarë dëshiron të ndërtosh.", "text": "Cakto një bisedë 30-minutëshe online ose na shkruaj. Ne të kthehemi me hapat e parë: çfarë ka prioritet dhe si fillojmë."},
     },
 
     # -------------------------------------------------------------------- AI

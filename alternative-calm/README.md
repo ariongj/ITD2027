@@ -95,6 +95,28 @@ product pages highlight it) and in the footer.
   folds into the Menu button (a side panel on tablets). Checked from 320 px to
   1,440 px in all three languages: no wrapping, no sideways scrolling.
 
+## Web & software page, booking dialog (5 October 2026)
+
+- **Web & software** (`/web-software`, `-en`, `-de`): the first of the two
+  priority services in the SEO report: who it is for, what is built, how the
+  work runs, an example labelled as illustrative (the projects page's
+  "professional services" case) and how to book a call. AI automation already
+  has its own page (`/ai-agents`), so no second, near-duplicate page was made.
+  Every sentence comes from this site's existing copy or the SEO report; the
+  language and claims review is logged in `build/translation-review-notes.csv`.
+  The home tiles for websites and business systems, the matching items on the
+  services page and the footer now link to it.
+- **Booking dialog.** "Book a call" opens Calendly inside the page (the CSP now
+  allows `https://calendly.com` frames). `book_meeting` is sent only when
+  Calendly's own frame reports a scheduled event, once per booking, with no
+  invitee details; opening the calendar still counts only as `booking_click`.
+  Ctrl/Cmd-click and pages without JavaScript keep the plain Calendly link.
+  Tested with a stand-in Calendly page; a real booking was not made, so check
+  `book_meeting` once in GA4 DebugView after going live.
+- **Old `/?optech_footer=…` links** (listed in Search Console) now redirect
+  with a 301 to the same page without the parameter. `/teams/` stays a 404:
+  the live address returns 404 and has no equivalent page.
+
 ## Folder layout
 
 ```
@@ -120,9 +142,9 @@ stats/, chat.php, consent.*, analytics*    unchanged from the current site
 
 ### In Excel (easiest)
 
-All 881 pieces of text are in `build/texts.xlsx`: one row each, with English,
-Albanian and German side by side, grouped by page (ITD Labs, Kraken OS and
-Kraken Communications have their own groups).
+All 937 pieces of text are in `build/texts.xlsx`: one row each, with English,
+Albanian and German side by side, grouped by page (Web & software, ITD Labs,
+Kraken OS and Kraken Communications have their own groups).
 
 1. Refresh the workbook so it matches the site:
    `py -X utf8 build/texts.py export`
@@ -216,7 +238,7 @@ is still in use; it is not part of this folder.
    anything goes wrong, uploading those files again restores the old site.
 2. **Rebuild and check:** `py -X utf8 build/build.py` then
    `py -X utf8 build/check.py` must say "No problems found."
-3. **See what will upload:** `.\deploy-hostinger.cmd -DryRun` (88 files at
+3. **See what will upload:** `.\deploy-hostinger.cmd -DryRun` (91 files at
    the time of writing; `build/`, `README.md`, `.claude/` and `.env*` are
    left out).
 4. **Upload:** `.\deploy-hostinger.cmd` as described in `DEPLOY.md`.
@@ -225,7 +247,11 @@ is still in use; it is not part of this folder.
    - send one real enquiry from `/contact-en` and confirm the email arrives;
    - "Ask about Business" on the home page opens the contact form with the
      package filled in;
-   - "Book a 30-min call" opens Calendly, WhatsApp buttons open WhatsApp;
+   - "Book a 30-min call" opens the Calendly calendar in a dialog (and the
+     "Open Calendly" link in it opens calendly.com), WhatsApp buttons open
+     WhatsApp;
+   - `/web-software-en` loads and the home tiles link to it;
+   - `/?optech_footer=footer` redirects to `/`;
    - the chat button opens the assistant;
    - `/itd-labs` shows the three products; "Request a demo" on `/krakenos`
      opens the contact form with Kraken OS filled in; "Open the chat" on

@@ -72,3 +72,17 @@ SQ,ITD Labs,krakenos.start.note,…dhe shërbimet AI…,…dhe shërbimet e AI-s
 SQ,ITD Labs,communications.hero.alt,"…bisedat e hapura, të pacaktuara dhe kërkesat me afat të kaluar","…bisedat e hapura dhe të pacaktuara, si dhe kërkesat me afat të kaluar","The screenshot card says 'Overdue requests', so the Albanian was right; the English and German alt texts were corrected to 'overdue requests' instead.",error (EN/DE),Applied
 SQ,ITD Labs,communications.features.items.1.text,Marrja e bisedës…,Marrja përsipër e bisedës…,Plain 'marrja' can read as receiving a conversation.,improvement,Applied
 SQ,ITD Labs,communications.included.h2,"Një paketë, e qartë.","Një paketë, e përcaktuar qartë.",'e qartë' alone loses 'defined'.,improvement,Applied
+SQ,Web & software,web.cta.text,Të kthehemi me hapat e parë…,Ne të kthehemi me hapat e parë…,Without 'Ne' it reads as 'let's go back'.,error,Applied
+SQ,Web & software,web.cta.h2,Na trego çfarë do të ndërtosh.,Na trego çfarë dëshiron të ndërtosh.,'do të' reads as future tense.,improvement,Applied
+SQ,Web & software,web.desc,…si cakton një bisedë…,…si të caktosh një bisedë…,Subjunctive needed in a 'how to' list.,improvement,Applied
+SQ,Web & software,web.h1,…sipas punës tënde.,…sipas mënyrës si punon.,"Vague, colloquial oblique form.",improvement,Applied
+SQ,Web & software,web.lead,…rreth ofertës dhe procesit tënd…,…të përshtatura me ofertën dhe proceset e tua…,'rreth' copies 'built around'.,improvement,Applied
+SQ,Web & software,web.example.text,…një mënyrë të njëjtë raportimi.,…për një mënyrë të vetme raportimi.,'të njëjtë' means 'the same as'.,improvement,Applied
+SQ,Web & software,web.how.0.text / forItems.0 / what.0.bullets.1 / what.2.bullets.0 / example.bullets.1,(calques),(reviewer wording),Calques and agreement.,improvement,Applied
+SQ,Web & software,web.how.1.text,…mund të ecin me faza.,Mund të fillojmë me një pjesë dhe ta zgjerojmë punën hap pas hapi.,Language reviewer proposed 'realizohen në faza'; the claims reviewer's wording was used because it is the source's (about.faq).,improvement,Applied (claims wording)
+SQ,Web & software,web.how.2.text,Me hapa të kontrolluar…,Hap pas hapi…,"Kept: same wording as the home page's existing step, and 'hap pas hapi' is now used in the step before.",suggestion,Kept
+DE,Web & software,web.lead / forH2 / forItems.0 / forItems.2 / what.0.text / what.0.bullets.3 / what.1.text / what.2.text / how.3.text / example.text / example.note / cta.h2,(calques),(reviewer wording),"Calques, word order, 'Zahlungsanbieter', 'umsetzen'.",improvement,Applied
+DE,Web & software,web.how.0.title,Erstgespräch,Verstehen,All four step titles now reuse the home page's existing series.,improvement,Applied
+ALL,Web & software,web.forItems.3,…remotely or on site.,"…remotely, on site or a mix.",Claims: the source (about.faq) names three options.,error,Applied
+ALL,Web & software,web.how.1.text,Larger projects can run in phases.,We can start with one part and expand step by step.,Claims: matches the source (about.faq 'Can we work in phases?').,improvement,Applied
+ALL,Web & software,home teaser (homeTitle/homeText),(drafted),(not used),No new home band: the existing home tiles now link to the page instead.,suggestion,Not used
