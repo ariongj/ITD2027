@@ -1,0 +1,13 @@
+{
+  "name": "IT Department",
+  "short_name": "IT Department",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#e00000",
+  "background_color": "#f7f6f3",
+  "icons": [
+    { "src": "/assets/brand/favicon.png", "sizes": "64x64", "type": "image/png" },
+    { "src": "/assets/brand/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/assets/brand/logo-shield.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

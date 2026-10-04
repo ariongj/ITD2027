@@ -24,10 +24,19 @@ jobs:
         run: python3 alternative-v2/build.py
       - name: Check the publishing directory
         run: python3 scripts/check-pages.py
+      - name: Build and check the calm alternative
+        run: |
+          python3 alternative-calm/build/build.py
+          python3 alternative-calm/build/check.py
+      - name: Assemble the site (proposal at the root, calm alternative under /calm/)
+        run: |
+          mkdir -p _site
+          cp -R alternative-v2/site/. _site/
+          python3 alternative-calm/build/pages.py _site/calm
       - name: Upload the static website
         uses: actions/upload-pages-artifact@v4
         with:
-          path: alternative-v2/site
+          path: _site
 
   deploy:
     needs: build

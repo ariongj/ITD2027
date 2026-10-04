@@ -1,0 +1,19 @@
+/* Consent panel (markup injected by consent.js) — restyled to match site.css tokens. */
+.itd-consent { position: fixed; z-index: 100; right: 16px; bottom: max(16px, env(safe-area-inset-bottom)); width: min(440px, calc(100% - 32px)); max-height: calc(100dvh - 32px); overflow: auto; padding: 20px; border: 1px solid var(--line-strong, #ccc); border-radius: 16px; background: var(--bg-elev, #fff); color: var(--text, #141417); box-shadow: 0 24px 60px -20px rgba(0, 0, 0, .35); font: 14px/1.5 var(--font-sans, system-ui, sans-serif); }
+.itd-consent[hidden] { display: none; }
+.itd-consent h2 { font: 600 17px/1.3 var(--font-sans, system-ui, sans-serif); margin: 0 0 8px; letter-spacing: -.01em; }
+.itd-consent p { margin: 0 0 10px; color: var(--text-2, #55575f); font: 14px/1.5 var(--font-sans, system-ui, sans-serif); }
+.itd-consent-options { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-bottom: 12px; }
+.itd-consent-options label { display: flex; align-items: center; gap: 8px; min-height: 40px; color: var(--text, #141417); font-size: 14px; cursor: pointer; }
+.itd-consent-options input { width: 18px; height: 18px; margin: 0; accent-color: #e00000; }
+.itd-consent-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+.itd-consent-actions button { min-width: 0; min-height: 42px; padding: 8px; border: 1px solid var(--line-strong, #ccc); border-radius: 10px; background: var(--bg, #f7f6f3); color: var(--text, #141417); font: 600 12px/1.3 var(--font-sans, system-ui, sans-serif); cursor: pointer; }
+.itd-consent-actions button:hover { border-color: var(--text, #141417); }
+.itd-consent-actions button[data-consent-action="accept"] { background: var(--text, #141417); color: var(--bg, #fff); border-color: transparent; }
+.itd-consent-actions button:disabled { opacity: .5; cursor: default; }
+.itd-consent a { display: inline-block; color: inherit; text-underline-offset: 3px; }
+.itd-consent-signal { font-size: 12px; color: var(--text-3, #84868f); }
+.itd-consent-settings { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.itd-consent button:focus-visible, .itd-consent input:focus-visible, .itd-consent a:focus-visible, .itd-consent-settings:focus-visible { outline: 2px solid #e00000; outline-offset: 3px; }
+body.itd-consent-visible #itd-kraken-chat { visibility: hidden !important; pointer-events: none !important; }
+@media (max-width: 720px) { .itd-consent { right: 10px; bottom: max(10px, env(safe-area-inset-bottom)); width: calc(100% - 20px); padding: 16px; border-radius: 14px; } .itd-consent-settings { min-height: 44px; } }

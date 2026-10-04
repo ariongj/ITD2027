@@ -13,6 +13,14 @@ The existing website remains at the repository root because the newer design's g
 
 Open http://127.0.0.1:8790/ for the newer design. Use Python 3 and Node.js. The static preview uses no application database. It does not execute the older site's PHP endpoints.
 
+A second, calmer alternative is in alternative-calm/: the complete site as ready-to-upload files (36 pages and a 404 page in Albanian, English and German, including the ITD Labs pages for Kraken OS, Kraken Communications and AURA), with its generator in alternative-calm/build/. It does not depend on the files above and needs only Python 3:
+
+    python alternative-calm/build/build.py
+    python alternative-calm/build/check.py
+    python alternative-calm/build/serve.py 8765
+
+alternative-calm/README.md describes it. Its stats/ folder is not in the repository because the original copy holds the analytics secret; the root stats/ folder is the same code with the secret removed.
+
 ## Scope and status
 
 This import provides the existing site and newer design as the base for 2027 work. It does not implement a further redesign, change existing dates or commercial claims, deploy hosting, or alter itdks.tech. The newer proposal remains marked noindex. Read alternative-v2/README.md for its design context and prior local verification; referenced private histories, PDF materials and QA screenshots are retained only in the original workspace.
@@ -51,11 +59,12 @@ These cover the older source site. The alternative-v2/qa-proposal*.mjs scripts c
 
 ## GitHub Pages hosting
 
-The publishing workflow in .github/workflows/pages.yml builds the newer design and uploads only alternative-v2/site/. Successful pushes to main publish automatically at:
+The publishing workflow in .github/workflows/pages.yml builds the newer design and the calm alternative and uploads only their static pages. Successful pushes to main publish automatically at:
 
-https://ariongj.github.io/ITD2027/
+https://ariongj.github.io/ITD2027/ (newer design)
+https://ariongj.github.io/ITD2027/calm/ (calm alternative)
 
-The workflow validates all 39 HTML pages and their local links and CSS assets before publishing. The source files, legacy PHP endpoints and operational configuration are not part of the Pages website.
+The workflow validates all 39 HTML pages and their local links and CSS assets before publishing. For the calm alternative, alternative-calm/build/pages.py makes a sub-folder copy with relative links, noindex and no analytics scripts, then checks its 37 pages and every local link and anchor the same way. The source files, legacy PHP endpoints and operational configuration are not part of the Pages website.
 
 The newer design retains its preview noindex setting. The itdks.tech domain and its existing hosting are unchanged. Forms retain the existing Formspree connection; actual inbox delivery requires a separately authorized submission test.
 
