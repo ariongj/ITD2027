@@ -77,6 +77,16 @@ def is_text(key, value):
 def all_texts():
     langs = {code: locate(code) for code, _ in LANGS}
     keys = [k for k, node in langs["en"][2].items() if is_text(k, node.value)]
+    # Texts that exist in one language only (e.g. the German-market note) go right after
+    # the key before them in that language, so they sit with their page.
+    for code, _ in LANGS[1:]:
+        prev = None
+        for k, node in langs[code][2].items():
+            if not is_text(k, node.value):
+                continue
+            if k not in keys:
+                keys.insert(keys.index(prev) + 1 if prev in keys else len(keys), k)
+            prev = k
     rows = []
     for k in keys:
         rows.append({"key": k, **{code: (langs[code][2][k].value if k in langs[code][2] else "") for code, _ in LANGS}})

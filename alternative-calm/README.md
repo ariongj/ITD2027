@@ -113,6 +113,14 @@ product pages highlight it) and in the footer.
   Ctrl/Cmd-click and pages without JavaScript keep the plain Calendly link.
   Tested with a stand-in Calendly page; a real booking was not made, so check
   `book_meeting` once in GA4 DebugView after going live.
+- **For German visitors**, the German Web & software page has a short
+  "Zusammenarbeit aus Prishtina" note (SEO report: explain how the work runs
+  from Kosovo). It only repeats what the site already says: team in
+  Prishtina, German/English/Albanian, a 30-minute online first call, the
+  planning and delivery steps, support on request. No on-site promise.
+- **AURA emblem** is now a 6.5 KB vector (`assets/labs/aura-emblem.svg`)
+  rebuilt from the AURA web app's own drawing code: same three ribbons,
+  formula, colours and glow, no tracing. It replaces the raster from the PDF.
 - **Old `/?optech_footer=…` links** (listed in Search Console) now redirect
   with a 301 to the same page without the parameter. `/teams/` stays a 404:
   the live address returns 404 and has no equivalent page.
@@ -142,7 +150,7 @@ stats/, chat.php, consent.*, analytics*    unchanged from the current site
 
 ### In Excel (easiest)
 
-All 937 pieces of text are in `build/texts.xlsx`: one row each, with English,
+All 940 pieces of text are in `build/texts.xlsx`: one row each, with English,
 Albanian and German side by side, grouped by page (Web & software, ITD Labs,
 Kraken OS and Kraken Communications have their own groups).
 

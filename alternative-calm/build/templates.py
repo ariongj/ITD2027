@@ -562,7 +562,11 @@ def page_web(L, ALL):
                f'<p>{E["text"]}</p>{bullets}<p class="fine-print">{E["note"]}</p>'
                f'<div class="cta-row">{btn(ui["viewProjects"], u["projects"], "btn btn-ghost", True)}</div></div></div></section>')
 
-    return hero + who + what + how + example + cta_band(L, W["cta"]["h2"], W["cta"]["text"])
+    G = W.get("germany")  # German pages only
+    germany = (f'<section class="section section--tight"><div class="container"><div class="card card--accent example-card reveal">'
+               f'<p class="eyebrow">{G["eyebrow"]}</p><h2 class="h3">{G["h2"]}</h2><p>{G["text"]}</p></div></div></section>') if G else ""
+
+    return hero + who + what + how + example + germany + cta_band(L, W["cta"]["h2"], W["cta"]["text"])
 
 
 def page_ai(L, ALL):
@@ -678,7 +682,8 @@ def shot(key, alt, sizes, eager=False):
 
 
 def aura_panel(alt):
-    return (f'<div class="aura-panel"><img src="/assets/labs/aura-emblem-440.webp" alt="{attr(alt)}" width="440" height="443" '
+    # Vector emblem rebuilt from the AURA app's own drawing code (three ribbons, same formula and colours).
+    return (f'<div class="aura-panel"><img src="/assets/labs/aura-emblem.svg" alt="{attr(alt)}" width="200" height="200" '
             'loading="lazy" decoding="async"><span class="aura-word" aria-hidden="true">AURA</span></div>')
 
 

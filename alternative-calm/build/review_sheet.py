@@ -102,6 +102,19 @@ def main():
                      sq_text if sq_new else "", "new" if sq_new else "reused",
                      de_text if de_new else "", "new" if de_new else "reused", ""])
 
+    # German-only texts (no English or Albanian counterpart), e.g. the note for the German market.
+    for path, de_text in walk(DE):
+        try:
+            get(EN, path)
+            continue
+        except (KeyError, IndexError, TypeError):
+            pass
+        if prev and norm(de_text) in de_old:
+            continue
+        n_de += 1
+        rows.append([f"R{len(rows) + 1:03d}", PAGE_NAMES.get(path[0], path[0]), ".".join(path[1:]), "(German only)",
+                     "", "", de_text, "new", ""])
+
     out = os.path.join(HERE, "translation-review.csv")
     with io.open(out, "w", encoding="utf-8-sig", newline="") as fh:
         w = csv.writer(fh)

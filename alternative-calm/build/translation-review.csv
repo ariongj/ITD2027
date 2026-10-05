@@ -450,3 +450,6 @@ R448,Contact,package.option,Outsourced IT department,Departament i jashtëm IT,n
 R449,Contact,package.hidden,{plan} - {price} EUR / month,{plan} - {price} EUR / muaj,new,{plan} - {price} EUR / Monat,new,
 R450,Privacy,contactText,Email us at {email} or message us on WhatsApp at {phone}.,Na shkruani në {email} ose në WhatsApp te {phone}.,new,Schreiben Sie uns an {email} oder auf WhatsApp unter {phone}.,new,
 R451,Terms,contactText,Email us at {email} or message us on WhatsApp at {phone}.,Na shkruani në {email} ose në WhatsApp te {phone}.,new,Schreiben Sie uns an {email} oder auf WhatsApp unter {phone}.,new,
+R452,Web & software,germany.eyebrow,(German only),,,Für Unternehmen in Deutschland,new,
+R453,Web & software,germany.h2,(German only),,,Zusammenarbeit aus Prishtina.,new,
+R454,Web & software,germany.text,(German only),,,"Unser Team arbeitet in Prishtina, Kosovo, und spricht mit Ihnen Deutsch, Englisch oder Albanisch. Das erste Gespräch dauert 30 Minuten und findet online statt. Danach legen wir gemeinsam fest, was zuerst kommt, was warten kann und was es kostet. Umgesetzt wird in kontrollierten Schritten, mit Tests, Dokumentation und klarer Übergabe; danach übernehmen wir auf Wunsch Updates, Monitoring und Support.",new,

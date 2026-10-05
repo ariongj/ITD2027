@@ -322,6 +322,13 @@ L = {
             "bullets": ["Workflow-Automatisierung", "Automatische Benachrichtigungen und Eskalation", "Einheitliches Reporting", "Weniger manuelle Schritte"],
             "note": "Illustratives Beispiel von unserer Projektseite, ohne Nennung des Kunden und ohne Ergebniszahlen. Fragen Sie uns nach dem Projekt, das Ihrer Branche am nächsten kommt.",
         },
+        # German market (SEO report, "Për Gjermaninë"): how the work runs from Kosovo. Only sentences this
+        # site already states (location, languages, first call, home.how, web.how); no on-site promise.
+        "germany": {
+            "eyebrow": "Für Unternehmen in Deutschland",
+            "h2": "Zusammenarbeit aus Prishtina.",
+            "text": "Unser Team arbeitet in Prishtina, Kosovo, und spricht mit Ihnen Deutsch, Englisch oder Albanisch. Das erste Gespräch dauert 30 Minuten und findet online statt. Danach legen wir gemeinsam fest, was zuerst kommt, was warten kann und was es kostet. Umgesetzt wird in kontrollierten Schritten, mit Tests, Dokumentation und klarer Übergabe; danach übernehmen wir auf Wunsch Updates, Monitoring und Support.",
+        },
         "cta": {"h2": "Sagen Sie uns, was Sie umsetzen möchten.", "text": "Buchen Sie ein 30-minütiges Online-Gespräch oder schreiben Sie uns. Wir melden uns mit den ersten Schritten: was Priorität hat und wie wir starten."},
     },
 

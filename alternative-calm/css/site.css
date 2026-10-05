@@ -663,7 +663,7 @@ main .accent-kraken .eyebrow, .accent-kraken main .eyebrow { color: var(--accent
     radial-gradient(35% 45% at 82% 88%, rgba(244, 143, 196, .16), transparent 70%),
     radial-gradient(35% 45% at 16% 12%, rgba(125, 211, 252, .12), transparent 70%), #0b0b10;
 }
-.aura-panel img { width: auto; height: clamp(96px, 15vw, 160px); }
+.aura-panel img { width: auto; height: clamp(84px, 11vw, 124px); }
 .aura-word { padding-left: .6em; font-size: .78rem; font-weight: 500; letter-spacing: .6em; color: rgba(255, 255, 255, .82); }
 
 .product-hero .page-hero-inner { max-width: 780px; }
