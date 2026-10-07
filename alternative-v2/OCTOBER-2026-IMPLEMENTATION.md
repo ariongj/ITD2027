@@ -49,6 +49,8 @@ Five reviewers read this revision (JavaScript, content claims, SEO/accessibility
 - English brand lines on Albanian and German pages carry `lang="en"`; the ITD Labs menu marks the current product page with `aria-current`; the Kraken Communications screenshot description is translated.
 - Not changed: the meta descriptions of contact, terms and privacy still repeat the page title (privacy says "in this version"). The fix was prepared but not applied in this session; the live site's descriptions are a ready replacement.
 
+Accessibility audit, 7 October 2026 (axe-core 4.10, WCAG 2.1 A/AA + best practice, all 51 pages at 1280 and 390 px): the agent numbers on the AI Agents cards (3.8:1) and the Kraken OS image caption (4.2:1) now pass contrast; the project-detail case title is an `h2` (same look, see `revision.css`) and the projects grid has a visually hidden `h2`, so headings no longer skip a level; the contact details block is a `div` instead of an `aside` inside `main`. Result: 0 violations.
+
 Verified after the fixes: `check-pages.py` 51 pages, 0 errors; `qa-seo.py` preview and production, 0 errors; lead classification for 17 labels, the booking reopen case and the no-`<dialog>` fallback in a browser with Calendly stubbed.
 
 ## Deferred, missing or not live-verified
