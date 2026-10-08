@@ -19,6 +19,7 @@ L = {
         "labs": "/itd-labs-en",
         "krakenos": "/krakenos-en",
         "communications": "/kraken-communications-en",
+        "aura": "/aura-en",
         "creative": "/creative-en",
         "about": "/about-en",
         "contact": "/contact-en",
@@ -82,7 +83,8 @@ L = {
         "terms": "Terms",
         "privacySettings": "Privacy settings",
         "follow": "Follow us",
-        "partnersLabel": "Technologies and platforms we work with",
+        "partnersLabel": "Partners we work with",
+        "officialSite": "Official website",
         "rights": "IT Department. All rights reserved.",
         "chat": "Chat with ITD",
         "perMonth": "/month",
@@ -492,7 +494,7 @@ L = {
              "chips": ["Inbox", "Contacts", "Offers"], "page": "communications", "more": "Explore Kraken Communications"},
             {"id": "aura", "num": "03", "kicker": "Private voice assistant", "name": "AURA", "tagline": "Say it. Consider it handled.",
              "text": "A private, voice-first personal assistant that learns how you work and turns requests into real tasks and meetings.",
-             "chips": ["Voice-first", "Tasks", "Meetings"], "preview": "Preview",
+             "chips": ["Voice-first", "Tasks", "Meetings"], "page": "aura", "more": "Explore AURA",
              "alt": "The AURA emblem: waves of pink, violet and blue light on a dark background"},
         ],
         "cta": {"h2": "See the product with your own process.", "text": "A demo built around your channel and the way your team works."},
@@ -588,6 +590,29 @@ L = {
     },
 
     # -------------------------------------------------------------- CREATIVE
+    "aura": {
+        "title": "AURA: private voice assistant | IT Department",
+        "desc": "AURA by ITD Labs: a private voice assistant that turns requests into tasks and meetings.",
+        "crumb": "AURA",
+        "hero": {
+            "eyebrow": "Private voice assistant",
+            "h1": "AURA",
+            "tagline": "Say it. Consider it handled.",
+            "lead": "A private voice assistant that turns requests into tasks and meetings.",
+            "alt": "The AURA emblem: waves of pink, violet and blue light on a dark background",
+        },
+        "features": {
+            "eyebrow": "What it does",
+            "h2": "From request to action.",
+            "items": [
+                {"icon": "chat", "title": "Voice-first", "text": "You say the request out loud, the way you would tell someone on your team."},
+                {"icon": "check", "title": "Tasks", "text": "Requests become concrete tasks."},
+                {"icon": "calendar", "title": "Meetings", "text": "Meeting requests become meetings."},
+            ],
+        },
+        "note": "Product preview. The link to the app will be added when it is ready.",
+        "cta": {"h2": "Questions about AURA?", "text": "Write to us or book a short call."},
+    },
     "creative": {
         "title": "Branding & Digital Marketing in Prishtina | IT Department",
         "desc": "Creative studio in Prishtina, Kosovo: branding, graphic design, social media, video and digital marketing. Connect your visual identity, website and campaigns.",

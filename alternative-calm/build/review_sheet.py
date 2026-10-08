@@ -28,7 +28,7 @@ SKIP_KEYS = {"icon", "href", "id", "num", "slug", "file", "price", "urls", "lang
 # Page titles/descriptions of these pages are the current site's (indexed) originals: not for review.
 ORIGINAL_PAGES = ("home", "services", "ai", "projects", "creative", "about", "contact", "privacy", "terms", "notfound")
 PAGE_NAMES = {"ui": "All pages (menu, footer, forms)", "home": "Home", "services": "Services", "web": "Web & software", "ai": "AI Agents",
-              "projects": "Projects", "labs": "ITD Labs", "krakenos": "Kraken OS", "communications": "Kraken Communications",
+              "projects": "Projects", "labs": "ITD Labs", "krakenos": "Kraken OS", "communications": "Kraken Communications", "aura": "AURA",
               "creative": "Creative", "about": "About", "contact": "Contact",
               "privacy": "Privacy", "terms": "Terms", "notfound": "404 page"}
 

@@ -15,6 +15,7 @@ L = {
         "labs": "/itd-labs",
         "krakenos": "/krakenos",
         "communications": "/kraken-communications",
+        "aura": "/aura",
         "creative": "/creative",
         "about": "/about",
         "contact": "/contact",
@@ -78,7 +79,8 @@ L = {
         "terms": "Kushtet",
         "privacySettings": "Cilësimet e privatësisë",
         "follow": "Na ndiqni",
-        "partnersLabel": "Teknologjitë dhe platformat me të cilat punojmë",
+        "partnersLabel": "Partnerët me të cilët punojmë",
+        "officialSite": "Faqja zyrtare",
         "rights": "IT Department. Të gjitha të drejtat e rezervuara.",
         "chat": "Bisedo me ITD",
         "perMonth": "/muaj",
@@ -490,7 +492,7 @@ L = {
              "chips": ["Inbox", "Kontakte", "Oferta"], "page": "communications", "more": "Shiko Kraken Communications"},
             {"id": "aura", "num": "03", "kicker": "Asistent privat me zë", "name": "AURA", "tagline": "Say it. Consider it handled.",
              "text": "Mëson si punon dhe i kthen kërkesat e tua në detyra dhe takime konkrete.",
-             "chips": ["Voice-first", "Detyra", "Takime"], "preview": "Pamje paraprake",
+             "chips": ["Voice-first", "Detyra", "Takime"], "page": "aura", "more": "Shiko AURA",
              "alt": "Emblema e AURA-s: valë drite në rozë, vjollcë dhe kaltër mbi sfond të errët"},
         ],
         "cta": {"h2": "Shihe produktin në procesin tënd.", "text": "Një demonstrim me kanalin dhe procesin tënd të punës."},
@@ -586,6 +588,29 @@ L = {
     },
 
     # -------------------------------------------------------------- CREATIVE
+    "aura": {
+        "title": "AURA: asistent privat me zë | IT Department",
+        "desc": "AURA nga ITD Labs: asistent privat me zë që i kthen kërkesat në detyra dhe takime.",
+        "crumb": "AURA",
+        "hero": {
+            "eyebrow": "Asistent privat me zë",
+            "h1": "AURA",
+            "tagline": "Say it. Consider it handled.",
+            "lead": "Një asistent privat me zë që i kthen kërkesat në detyra dhe takime.",
+            "alt": "Emblema e AURA-s: valë drite në rozë, vjollcë dhe kaltër mbi sfond të errët",
+        },
+        "features": {
+            "eyebrow": "Funksionet",
+            "h2": "Nga kërkesa te veprimi.",
+            "items": [
+                {"icon": "chat", "title": "Me zë", "text": "E thua kërkesën me zë, ashtu siç do t’ia thoje dikujt nga ekipi."},
+                {"icon": "check", "title": "Detyra", "text": "Kërkesat kthehen në detyra konkrete."},
+                {"icon": "calendar", "title": "Takime", "text": "Kërkesat për takime kthehen në takime."},
+            ],
+        },
+        "note": "Pamje paraprake e produktit. Lidhja me aplikacionin do të shtohet kur të jetë gati.",
+        "cta": {"h2": "Ke pyetje për AURA?", "text": "Na shkruaj ose cakto një bisedë të shkurtër."},
+    },
     "creative": {
         "title": "Branding & Marketing Digjital në Prishtinë | IT Department",
         "desc": "Studio kreative në Prishtinë, Kosovë: branding, dizajn grafik, social media, video dhe marketing digjital. Lidhim identitetin vizual me faqen web dhe fushatat.",

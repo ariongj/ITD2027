@@ -5,9 +5,9 @@ for(const lang of ['sq','en','de'])for(const width of [1440,390,320]){
  await p.setViewportSize({width,height:844});await p.goto(base+'itd-labs'+(lang==='sq'?'':'-'+lang)+'.html');await p.evaluate(()=>document.fonts.ready);
  check(lang+width+' single font',await p.locator('h1').evaluate(e=>getComputedStyle(e).fontFamily.includes('Plus Jakarta Sans')));
  check(lang+width+' product order',JSON.stringify(await p.locator('[data-product]').evaluateAll(es=>es.map(e=>e.dataset.product)))===JSON.stringify(['krakenos','kraken-communications','aura']));
- check(lang+width+' AURA not interactive',await p.locator('[data-product=aura] a,[data-product=aura] button').count()===0);
+ check(lang+width+' AURA product link',(await p.locator('[data-product=aura] a').getAttribute('href'))==='aura'+(lang==='sq'?'':'-'+lang)+'.html');
  if(width<1121)await p.locator('.menu-toggle').click();
- await p.locator('.labs-toggle').click();check(lang+width+' Labs opens',await p.locator('#labs-menu').isVisible());check(lang+width+' three links',await p.locator('#labs-menu a').count()===3);
+ await p.locator('.labs-toggle').click();check(lang+width+' Labs opens',await p.locator('#labs-menu').isVisible());check(lang+width+' four links',await p.locator('#labs-menu a').count()===4);
  check(lang+width+' menu contained',await p.locator('#labs-menu').evaluate(e=>e.getBoundingClientRect().right<=innerWidth));
  await p.keyboard.press('Escape');check(lang+width+' Labs Escape restores',await p.locator('.labs-toggle').evaluate(e=>e===document.activeElement)&&await p.locator('#labs-menu').isHidden());
  if(width<1121){check(lang+width+' parent stays open',await p.locator('.menu-toggle').getAttribute('aria-expanded')==='true');await p.keyboard.press('Escape');check(lang+width+' parent closes',await p.locator('.menu-toggle').getAttribute('aria-expanded')==='false');}

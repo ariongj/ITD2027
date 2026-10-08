@@ -16,8 +16,8 @@ PHONE_TEL = "tel:+38349573570"
 EMAIL = "info@itdks.tech"
 FORM = "https://formspree.io/f/xpqypezj"
 MAP = "https://www.google.com/maps/search/?api=1&query=Prishtina%2C+Kosovo"
-VERSION = "20261005"
-TODAY = "2026-10-05"
+VERSION = "20261008"
+TODAY = "2026-10-08"
 YEAR = "2026"
 CHAT_VERSION = "kraken-20260930"
 
@@ -26,15 +26,18 @@ SOCIAL = [
     ("LinkedIn", "https://www.linkedin.com/company/itdks/"),
     ("Facebook", "https://www.facebook.com/share/1QrocF1oGy/?mibextid=wwXIfr"),
 ]
+# Partner logos in the order of change report 02. The last three are black and white files (class "mono"),
+# the others are light-grey SVGs toned by CSS.
 PARTNERS = [
-    ("adobe", "Adobe"), ("cisco", "Cisco"), ("comtrade", "Comtrade"), ("econnect", "eConnect"),
-    ("hostinger", "Hostinger"), ("imatrix", "iMatrix"), ("mikrotik", "MikroTik"),
-    ("paysera", "Paysera"), ("raiffeisen", "Raiffeisen Bank"),
+    ("cisco.svg", "Cisco", False), ("mikrotik.svg", "MikroTik", False), ("hostinger.svg", "Hostinger", False),
+    ("paysera.svg", "Paysera", False), ("raiffeisen.svg", "Raiffeisen Bank", False), ("adobe.svg", "Adobe", False),
+    ("optika-miftari.png", "Optika Miftari", True), ("kobags.png", "KoBags Group", True),
+    ("humanplus.svg", "Human+ Qendra Diagnostike", True),
 ]
-PAGE_ORDER = ["home", "services", "web", "ai", "projects", "labs", "krakenos", "communications", "creative", "about", "contact", "privacy", "terms"]
+PAGE_ORDER = ["home", "services", "web", "ai", "projects", "labs", "krakenos", "communications", "aura", "creative", "about", "contact", "privacy", "terms"]
 LANGS = ["sq", "en", "de"]
 # Sub-pages: breadcrumbs and the menu highlight of their section.
-PARENT = {"krakenos": "labs", "communications": "labs", "web": "services"}
+PARENT = {"krakenos": "labs", "communications": "labs", "aura": "labs", "web": "services"}
 # ?product= values the contact form understands, with the name shown to the visitor.
 DEMO_PRODUCTS = {"itd-labs": "ITD Labs", "krakenos": "Kraken OS", "kraken-communications": "Kraken Communications"}
 PRODUCT_SLUG = {"labs": "itd-labs", "krakenos": "krakenos", "communications": "kraken-communications"}
@@ -271,8 +274,8 @@ def footer(L, ALL, key):
     service_links = "".join(f'<li><a href="{href}">{label}</a></li>' for label, href in ui["footerServiceLinks"])
     social = "".join(f'<a class="chip chip--link" href="{href}" target="_blank" rel="noopener noreferrer">{name}</a>' for name, href in SOCIAL)
     partners = "".join(
-        f'<li><img src="/assets/partners/{slug}.svg" alt="{name}" loading="lazy" decoding="async" width="120" height="40"></li>'
-        for slug, name in PARTNERS)
+        f'<li><img src="/assets/partners/{file}" alt="{name}"{' class="mono"' if mono else ""} loading="lazy" decoding="async" width="120" height="40"></li>'
+        for file, name, mono in PARTNERS)
     return (
         '<footer class="site-footer"><div class="container">'
         '<div class="footer-grid">'
@@ -284,7 +287,7 @@ def footer(L, ALL, key):
         f'<div class="footer-col"><p class="footer-title">{ui["footerPages"]}</p><ul>{page_links}</ul></div>'
         f'<div class="footer-col"><p class="footer-title">{ui["footerServices"]}</p><ul>{service_links}</ul>'
         f'<p class="footer-title footer-title--sub">ITD Labs</p><ul><li><a href="{u["krakenos"]}">Kraken OS</a></li>'
-        f'<li><a href="{u["communications"]}">Kraken Communications</a></li></ul></div>'
+        f'<li><a href="{u["communications"]}">Kraken Communications</a></li><li><a href="{u["aura"]}">AURA</a></li></ul></div>'
         f'<div class="footer-col"><p class="footer-title">{ui["footerContact"]}</p><ul class="footer-contact">'
         f'<li>{icon("mail")}<a href="mailto:{EMAIL}">{EMAIL}</a></li>'
         f'<li>{icon("phone-call")}<a href="{PHONE_TEL}">{PHONE}</a></li>'
@@ -696,14 +699,21 @@ def cta_demo(L, h2, text, product):
             f'{btn_wa(ui["whatsapp"], wa_text, "btn btn-ghost")}</div></div></div></section>')
 
 
+OFFICIAL = {"krakenos": "krakenos.cloud", "communications": "assistant.krakenos.cloud"}
+
+
 def product_hero(L, key, img):
     ui, P = L["ui"], L[key]
     H = P["hero"]
     ctas = (f'<div class="cta-row">{btn(ui["requestDemo"], demo_url(L, PRODUCT_SLUG[key]), "btn btn-primary btn-lg")}'
             f'{btn_cal(ui["bookCall"], "btn btn-secondary btn-lg")}</div>')
+    site = OFFICIAL[key]
+    official = (f'<p class="official-row"><a class="official-link" href="https://{site}/" target="_blank" rel="noopener noreferrer">'
+                f'<span class="sr-only">{ui["officialSite"]}: </span>{site}{icon("external")}</a></p>')
+    logo = f'<img class="product-logo" src="/assets/labs/kraken-logo.png" alt="{SHOTS[key]["label"]}" width="505" height="136" decoding="async">'
     return (f'<section class="page-hero product-hero"><div class="container"><div class="page-hero-inner reveal">{crumbs(L, key)}'
-            f'<p class="eyebrow">{H["eyebrow"]}</p><h1 class="display display--sm">{H["h1"]}</h1>'
-            f'<p class="product-tagline product-tagline--hero">{H["tagline"]}</p><p class="lead">{H["lead"]}</p>{ctas}</div>'
+            f'{logo}<p class="eyebrow">{H["eyebrow"]}</p><h1 class="display display--sm">{H["h1"]}</h1>'
+            f'<p class="product-tagline product-tagline--hero">{H["tagline"]}</p><p class="lead">{H["lead"]}</p>{ctas}{official}</div>'
             f'<div class="product-hero-shot reveal">{img}</div></div></section>')
 
 
@@ -716,15 +726,15 @@ def page_labs(L, ALL):
         copy = (f'<p class="product-kicker"><span class="product-num">{p["num"]}</span>{p["kicker"]}</p>'
                 f'<h3 class="product-name">{p["name"]}</h3><p class="product-tagline">{p["tagline"]}</p>'
                 f'<p class="product-text">{p["text"]}</p>{chips(p["chips"])}')
-        if p.get("page"):
+        if p["page"] == "aura":
+            # AURA has a presentation page; no demo button and no app link yet.
+            actions = f'<div class="cta-row">{btn(p["more"], u["aura"], "btn btn-primary", True)}</div>'
+            media = aura_panel(p["alt"])
+        else:
             actions = (f'<div class="cta-row">{btn(p["more"], u[p["page"]], "btn btn-primary", True)}'
                        f'{btn(ui["requestDemo"], demo_url(L, PRODUCT_SLUG[p["page"]]), "btn btn-ghost")}</div>')
             media = shot(p["page"], L[p["page"]]["hero"]["alt"], HALF)
-        else:
-            # AURA is shown as a preview only: no link and no demo button yet.
-            actions = f'<p class="product-preview">{icon("eye")}<span>{p["preview"]}</span></p>'
-            media = aura_panel(p["alt"])
-        accent = "accent-kraken" if p.get("page") else "accent-aura"
+        accent = "accent-aura" if p["page"] == "aura" else "accent-kraken"
         rows.append(f'<article class="product {accent} reveal" id="{p["id"]}"><div class="product-copy">{copy}{actions}</div>'
                     f'<div class="product-media">{media}</div></article>')
     products = (f'<section class="section section--tight" id="products"><div class="container">{section_head(B["list"]["eyebrow"], B["list"]["h2"])}'
@@ -789,6 +799,22 @@ def page_communications(L, ALL):
                 '</div></section>')
 
     return hero + features + included + cta_demo(L, K["cta"]["h2"], K["cta"]["text"], "kraken-communications")
+
+
+def page_aura(L, ALL):
+    ui, u, A = L["ui"], L["urls"], L["aura"]
+    H = A["hero"]
+    ctas = f'<div class="cta-row">{btn_cal(ui["bookCall"], "btn btn-primary btn-lg")}{btn("ITD Labs", u["labs"], "btn btn-secondary btn-lg")}</div>'
+    hero = (f'<section class="page-hero product-hero"><div class="container"><div class="page-hero-inner reveal">{crumbs(L, "aura")}'
+            f'<p class="eyebrow">{H["eyebrow"]}</p><h1 class="display display--sm">{H["h1"]}</h1>'
+            f'<p class="product-tagline product-tagline--hero" lang="en">{H["tagline"]}</p><p class="lead">{H["lead"]}</p>{ctas}</div>'
+            f'<div class="product-hero-shot reveal">{aura_panel(H["alt"])}</div></div></section>')
+    F = A["features"]
+    tiles = "".join(f'<article class="tile reveal"><span class="tile-icon">{icon(i["icon"])}</span><span class="tile-num">{n:02d}</span>'
+                    f'<h3>{i["title"]}</h3><p>{i["text"]}</p></article>' for n, i in enumerate(F["items"], 1))
+    features = (f'<section class="section section--tight"><div class="container">{section_head(F["eyebrow"], F["h2"])}'
+                f'<div class="grid grid-3 stagger">{tiles}</div><p class="fine-print">{A["note"]}</p></div></section>')
+    return hero + features + cta_band(L, A["cta"]["h2"], A["cta"]["text"])
 
 
 def page_creative(L, ALL):
@@ -926,7 +952,7 @@ def page_legal(L, ALL, key):
 
 RENDERERS = {
     "home": page_home, "services": page_services, "web": page_web, "ai": page_ai, "projects": page_projects,
-    "labs": page_labs, "krakenos": page_krakenos, "communications": page_communications,
+    "labs": page_labs, "krakenos": page_krakenos, "communications": page_communications, "aura": page_aura,
     "creative": page_creative, "about": page_about, "contact": page_contact,
     "privacy": lambda L, ALL: page_legal(L, ALL, "privacy"),
     "terms": lambda L, ALL: page_legal(L, ALL, "terms"),
@@ -935,7 +961,8 @@ RENDERERS = {
 
 def render(L, ALL, key):
     P = L[key]
-    body_class = f"page-{key}" + (" accent-kraken" if PARENT.get(key) == "labs" else "")
+    accent = " accent-aura" if key == "aura" else " accent-kraken" if PARENT.get(key) == "labs" else ""
+    body_class = f"page-{key}" + accent
     return wrap(L, ALL, key, P["title"], P["desc"], body_class, RENDERERS[key](L, ALL))
 
 

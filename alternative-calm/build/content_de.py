@@ -15,6 +15,7 @@ L = {
         "labs": "/itd-labs-de",
         "krakenos": "/krakenos-de",
         "communications": "/kraken-communications-de",
+        "aura": "/aura-de",
         "creative": "/creative-de",
         "about": "/about-de",
         "contact": "/contact-de",
@@ -78,7 +79,8 @@ L = {
         "terms": "Nutzungsbedingungen",
         "privacySettings": "Datenschutzeinstellungen",
         "follow": "Folgen Sie uns",
-        "partnersLabel": "Technologien und Plattformen, mit denen wir arbeiten",
+        "partnersLabel": "Partner, mit denen wir arbeiten",
+        "officialSite": "Offizielle Website",
         "rights": "IT Department. Alle Rechte vorbehalten.",
         "chat": "Mit ITD chatten",
         "perMonth": "/Monat",
@@ -495,7 +497,7 @@ L = {
              "chips": ["Posteingang", "Kontakte", "Angebote"], "page": "communications", "more": "Kraken Communications ansehen"},
             {"id": "aura", "num": "03", "kicker": "Privater Sprachassistent", "name": "AURA", "tagline": "Say it. Consider it handled.",
              "text": "Ein privater, sprachgesteuerter Assistent, der lernt, wie Sie arbeiten, und Anfragen in echte Aufgaben und Termine verwandelt.",
-             "chips": ["Voice-first", "Aufgaben", "Termine"], "preview": "Vorschau",
+             "chips": ["Voice-first", "Aufgaben", "Termine"], "page": "aura", "more": "AURA ansehen",
              "alt": "Das AURA-Emblem: Lichtwellen in Rosa, Violett und Blau auf dunklem Hintergrund"},
         ],
         "cta": {"h2": "Erleben Sie das Produkt mit Ihren eigenen Abläufen.", "text": "Eine Demo, zugeschnitten auf Ihren Kanal und die Arbeitsweise Ihres Teams."},
@@ -591,6 +593,29 @@ L = {
     },
 
     # -------------------------------------------------------------- CREATIVE
+    "aura": {
+        "title": "AURA: privater Sprachassistent | IT Department",
+        "desc": "AURA von ITD Labs: ein privater Sprachassistent, der Anfragen in Aufgaben und Termine verwandelt.",
+        "crumb": "AURA",
+        "hero": {
+            "eyebrow": "Privater Sprachassistent",
+            "h1": "AURA",
+            "tagline": "Say it. Consider it handled.",
+            "lead": "Ein privater Sprachassistent, der Anfragen in Aufgaben und Termine verwandelt.",
+            "alt": "Das AURA-Emblem: Lichtwellen in Rosa, Violett und Blau auf dunklem Hintergrund",
+        },
+        "features": {
+            "eyebrow": "Funktionen",
+            "h2": "Von der Anfrage zur Umsetzung.",
+            "items": [
+                {"icon": "chat", "title": "Sprache zuerst", "text": "Sie sprechen die Anfrage aus, so wie Sie es jemandem aus dem Team sagen würden."},
+                {"icon": "check", "title": "Aufgaben", "text": "Anfragen werden zu konkreten Aufgaben."},
+                {"icon": "calendar", "title": "Termine", "text": "Terminanfragen werden zu Terminen."},
+            ],
+        },
+        "note": "Produktvorschau. Der Link zur App folgt, sobald sie bereit ist.",
+        "cta": {"h2": "Fragen zu AURA?", "text": "Schreiben Sie uns oder buchen Sie ein kurzes Gespräch."},
+    },
     "creative": {
         "title": "Branding & Online-Marketing in Prishtina | IT Department",
         "desc": "Kreativstudio in Prishtina, Kosovo: Branding, Grafikdesign, Social Media, Video und digitales Marketing. Wir verbinden Markenauftritt, Website und Kampagnen.",

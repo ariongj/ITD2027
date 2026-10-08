@@ -53,6 +53,22 @@ Accessibility audit, 7 October 2026 (axe-core 4.10, WCAG 2.1 A/AA + best practic
 
 Verified after the fixes: `check-pages.py` 51 pages, 0 errors; `qa-seo.py` preview and production, 0 errors; lead classification for 17 labels, the booking reopen case and the no-`<dialog>` fallback in a browser with Calendly stubbed.
 
+## Change report 02, 8 October 2026
+
+`ITD2027_Raporti_i_Ndryshimeve_02` (15 pages) applied:
+
+- **Home banner:** the "Built for what's next." box is now a slideshow of three slides (Kraken OS, Kraken Communications, AURA), changing every 10 seconds with a thin progress bar, arrows, dots, swipe and a pause button. It pauses while the mouse is over it, while keyboard focus is inside it and during a touch. With reduced motion it never turns by itself. Without JavaScript it shows the first slide. Slides are edited in `SLIDES` in `revision.py`: order, title, text, link, and a desktop and optional mobile image. The code is `site/assets/slider.js`, loaded on the home pages only. The 10 s timer is the CSS progress animation, so pausing the bar pauses the slideshow.
+- **Partners:** no categories. Nine cards with black and white logos, a name and a short description (report p. 6): Cisco, MikroTik, Hostinger, Paysera, Raiffeisen Bank, Adobe, Optika Miftari, KoBags Group, Human+ Qendra Diagnostike. Home shows the first six and "Shiko të gjithë partnerët". eConnect, iMatrix and Comtrade are removed, including their logo files. The descriptions are still to be approved (report p. 15).
+- **"Le të flasim":** the same black box (#0B0D10, red label, white text, red Contact button, white-outline WhatsApp) wherever it is used. The label is #ff4d4d, because #E00000 on black is 3.85:1, too low for small text.
+- **ITD Labs green #008000:** labels, buttons, card lines and the menu indicator. Small text on light backgrounds uses #006600. Product art, the Kraken logo and the AURA emblem keep their own colours.
+- **Kraken:** the official, transparent Kraken logo (the file used on krakenos.cloud and assistant.krakenos.cloud) in both product heroes, plus a separate link to each official site.
+- **AURA:** its own page (`aura`, `aura-en`, `aura-de`), reached from "Shiko produktin" on the Labs card, the ITD Labs menu, the footer and the home slide. It has the vector emblem, the short description and only the confirmed functions (voice, tasks, meetings). The app link is added when the app is ready.
+- **AI Agents:** one robot head with six expressions (open smile, analytical look, soft eyes, determined focus, curious eyes, precise), using the existing palette.
+- **About:** the four steps are a graphic panel (Discovery, Planning, Delivery, Improvement); "Për njerëzit pas çdo procesi" is a black box. Text unchanged.
+- **Projects:** unchanged. The examples stay labelled as illustrative until real projects are supplied.
+
+Checks: `check-pages.py` 54 pages, 0 errors; `qa-seo.py` preview and production 54 pages, 51 sitemap URLs, 0 errors; axe (WCAG 2.1 AA + best practice) at 1280 and 390 px and overflow at 320 and 390 px on all 54 pages; slideshow behaviour (autoplay order, pause, hover, keyboard focus, swipe, reduced motion, no JavaScript) in Chrome.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.

@@ -31,7 +31,7 @@ XLSX = os.path.join(HERE, "texts.xlsx")
 LANGS = [("en", "English"), ("sq", "Albanian"), ("de", "German")]
 SKIP_KEYS = {"icon", "href", "id", "slug", "file", "urls", "lang", "locale", "suffix", "anchors", "featured", "langName", "num", "page"}
 PAGE_NAMES = {"ui": "All pages", "home": "Home", "services": "Services", "web": "Web & software", "ai": "AI Agents", "projects": "Projects",
-              "labs": "ITD Labs", "krakenos": "Kraken OS", "communications": "Kraken Communications",
+              "labs": "ITD Labs", "krakenos": "Kraken OS", "communications": "Kraken Communications", "aura": "AURA",
               "creative": "Creative", "about": "About", "contact": "Contact", "privacy": "Privacy",
               "terms": "Terms", "notfound": "404 page"}
 NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"

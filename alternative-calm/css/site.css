@@ -860,3 +860,22 @@ html:not(.js) .theme-toggle { display: none; }
   body { background: #fff; color: #000; }
   .js .reveal { opacity: 1; transform: none; }
 }
+
+/* Change report 02: Kraken logo and official sites, partner logos, ITD Labs green. */
+.product-logo { display: block; width: auto; height: 40px; margin: 0 0 18px; }
+.official-row { margin: 18px 0 0; }
+.official-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 600; color: var(--accent, var(--brand-text)); text-decoration: underline; text-underline-offset: 3px; }
+.official-link .icon { width: 16px; height: 16px; }
+.partners-list img.mono { filter: none; opacity: .75; }
+.partners-list img[alt="Optika Miftari"] { height: 34px; }
+.partners-list img[alt^="Human+"] { height: 32px; }
+:root[data-theme="dark"] .partners-list img.mono { filter: invert(1); opacity: .6; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .partners-list img.mono { filter: invert(1); opacity: .6; } }
+/* ITD Labs: the client's green (#008000) marks the Labs overview; a darker tone keeps small text readable. */
+.page-labs main > .page-hero .eyebrow, .page-labs #products .section-head .eyebrow { color: #006600; }
+:root[data-theme="dark"] .page-labs main > .page-hero .eyebrow, :root[data-theme="dark"] .page-labs #products .section-head .eyebrow { color: #5fcf5f; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .page-labs main > .page-hero .eyebrow, :root:not([data-theme="light"]) .page-labs #products .section-head .eyebrow { color: #5fcf5f; } }
+/* AURA page: its own violet, like the Kraken pages use Kraken blue. */
+main .accent-aura .eyebrow, .accent-aura main .eyebrow { color: var(--accent); }
+.accent-aura main .tile-icon { background: var(--accent-soft); color: var(--accent); }
+.accent-aura main .tile-num { color: var(--accent); }

@@ -26,7 +26,7 @@ A side-by-side with the current site is in `build/screens/compare-home-en.png`.
 | Keyboard | — | Visible focus ring on every link, button and field; the phone menu keeps focus inside it |
 | Forms | Formspree | Same endpoint and field names, plus a spam honeypot, messages in the page's language, error fields announced to screen readers, and a working fallback if JavaScript fails |
 | Chat | Kraken assistant, button bottom left | Same assistant; button bottom right, clear of the text, icon only on phones |
-| Products | Not on the site | ITD Labs page, a page each for Kraken OS and Kraken Communications, AURA as a preview; "Request a demo" opens the contact form with the product filled in |
+| Products | Not on the site | ITD Labs page and a page each for Kraken OS, Kraken Communications and AURA; "Request a demo" opens the contact form with the Kraken product filled in |
 
 ## Kept from the current site on purpose
 
@@ -34,7 +34,7 @@ A side-by-side with the current site is in `build/screens/compare-home-en.png`.
   what Google has indexed does not change. The home headline still names
   Prishtina, Kosovo.
 - **URLs:** all 27 page addresses are unchanged, including /en and /de. The
-  ITD Labs section adds 9 new ones (listed below); nothing was renamed.
+  ITD Labs section adds 12 new ones (listed below); nothing was renamed.
 - **Legal pages:** the privacy and terms text is word for word the current
   site's, in all three languages, including the "Updated on" dates.
 - **Deep links:** the section anchors used by the current site still exist
@@ -45,6 +45,29 @@ A side-by-side with the current site is in `build/screens/compare-home-en.png`.
 - **Measurement:** `consent.js`, `analytics-config.js` and `analytics.min.js`
   are the original files, and the contact-form conversion still fires through
   `ITDAnalytics.reportLeadSuccess`.
+
+## Change report 02 (8 October 2026)
+
+The parts of "Raporti i Ndryshimeve 02" that are content rather than design, so
+both versions say the same thing and this one keeps its own look:
+
+- **Partners** (footer strip): Cisco, MikroTik, Hostinger, Paysera, Raiffeisen
+  Bank, Adobe, Optika Miftari, KoBags Group, Human+ Qendra Diagnostike, in that
+  order. eConnect, iMatrix and Comtrade are removed, including their logo files.
+  The three new logos are black and white files (class `mono`, inverted in dark
+  mode). Label: "Partnerët me të cilët punojmë".
+- **AURA** has its own page (`/aura`, `/aura-en`, `/aura-de`) with the emblem, the
+  short description and only the confirmed functions (voice, tasks, meetings).
+  It has no demo button and no app link until the app is ready. The ITD Labs
+  page and the footer link to it.
+- **Kraken OS and Kraken Communications** show the official Kraken logo (the
+  transparent file from krakenos.cloud) and link to krakenos.cloud and
+  assistant.krakenos.cloud.
+- **ITD Labs green** (#008000, the client's colour) on the Labs page labels, in
+  a darker tone (#006600) for small text.
+
+The slideshow, the black closing box, the agent faces and the About layout
+belong to the ITD2027 design and are not copied here.
 
 ## ITD Labs
 
@@ -59,6 +82,7 @@ carry a hint of their product's colour (Kraken blue, AURA violet).
 | ITD Labs (all products) | /itd-labs | /itd-labs-en | /itd-labs-de |
 | Kraken OS | /krakenos | /krakenos-en | /krakenos-de |
 | Kraken Communications | /kraken-communications | /kraken-communications-en | /kraken-communications-de |
+| AURA | /aura | /aura-en | /aura-de |
 
 The page names match the ones the ITD2027 proposal uses at the time of writing
 (`itd-labs`, `krakenos`, `kraken-communications`), so either version can go
@@ -150,7 +174,7 @@ stats/, chat.php, consent.*, analytics*    unchanged from the current site
 
 ### In Excel (easiest)
 
-All 940 pieces of text are in `build/texts.xlsx`: one row each, with English,
+All 960 pieces of text are in `build/texts.xlsx`: one row each, with English,
 Albanian and German side by side, grouped by page (Web & software, ITD Labs,
 Kraken OS and Kraken Communications have their own groups).
 
@@ -246,7 +270,7 @@ is still in use; it is not part of this folder.
    anything goes wrong, uploading those files again restores the old site.
 2. **Rebuild and check:** `py -X utf8 build/build.py` then
    `py -X utf8 build/check.py` must say "No problems found."
-3. **See what will upload:** `.\deploy-hostinger.cmd -DryRun` (91 files at
+3. **See what will upload:** `.\deploy-hostinger.cmd -DryRun` (95 files at
    the time of writing; `build/`, `README.md`, `.claude/` and `.env*` are
    left out).
 4. **Upload:** `.\deploy-hostinger.cmd` as described in `DEPLOY.md`.
@@ -291,8 +315,9 @@ is still in use; it is not part of this folder.
 - Form confirmation messages now use the current site's wording. No reply-time
   promise was added; add one only if the team can keep it.
 - ITD Labs: confirm the product catalogue (the SEO report says it still needs
-  confirming), that AURA should appear as a preview without a link, and the
-  module list on the Kraken OS page (taken from the presentation, which says
+  confirming), the AURA page (only the functions confirmed so far; the app
+  link is added when the app is ready), the partner list from change report 02,
+  and the module list on the Kraken OS page (taken from the presentation, which says
   availability depends on each implementation; the page says so too).
 - The new ITD Labs texts went through the same automated language review
   (German: 18 changes, Albanian: 11 applied, 1 kept). Each decision is in

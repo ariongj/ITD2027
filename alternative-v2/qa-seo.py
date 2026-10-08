@@ -27,8 +27,8 @@ for production in [False,True]:
  os.environ['ITD_INDEXABLE']='1'
  os.environ['ITD_PRODUCTION']='1' if production else '0';os.environ['ITD_SITE_URL']='https://itdks.tech' if production else 'https://ariongj.github.io/ITD2027';os.environ['ITD_ANALYTICS']='1' if production else '0'
  runpy.run_path(str(BASE/'build.py'),run_name='__main__')
- root=BASE/('qa/production' if production else 'site');pages={p.name:Page(p) for p in root.glob('*.html')};assert len(pages)==51
- urls=[e.find('{*}loc').text for e in ET.parse(root/'sitemap.xml').getroot()];assert len(urls)==48 and len(set(urls))==48
+ root=BASE/('qa/production' if production else 'site');pages={p.name:Page(p) for p in root.glob('*.html')};assert len(pages)==54
+ urls=[e.find('{*}loc').text for e in ET.parse(root/'sitemap.xml').getroot()];assert len(urls)==51 and len(set(urls))==51
  titles=[];canonical=set()
  for name,p in pages.items():
   assert p.h1==1 and p.desc and len(p.canonical)==1,name
@@ -45,8 +45,8 @@ for production in [False,True]:
    if production and target in ['./','en','de']:target={'./':'index.html','en':'index-en.html','de':'index-de.html'}[target]
    elif production and '.' not in Path(target).name:target+='.html'
    assert (root/target).is_file(),(name,ref)
- assert len(canonical)==51
- assert len(set(titles))==51 # Every page has a distinct, translated title.
+ assert len(canonical)==54
+ assert len(set(titles))==54 # Every page has a distinct, translated title.
  for name,source in [('logo-original.png','logo-lockup-tight-480.png'),('logo-creative.png','logo-lockup-creative-480.png'),('logo-ai.png','logo-lockup-ai-480.png')]:assert (root/'assets/brand'/name).read_bytes()==(BASE.parent/source).read_bytes()
  results.append({'mode':'production' if production else 'preview','pages':len(pages),'sitemap':len(urls),'unique_canonicals':len(canonical),'errors':[]})
 # Current sitemap inventory: stable URLs are retained in the production site.
