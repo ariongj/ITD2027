@@ -69,6 +69,12 @@ Verified after the fixes: `check-pages.py` 51 pages, 0 errors; `qa-seo.py` previ
 
 Checks: `check-pages.py` 54 pages, 0 errors; `qa-seo.py` preview and production 54 pages, 51 sitemap URLs, 0 errors; axe (WCAG 2.1 AA + best practice) at 1280 and 390 px and overflow at 320 and 390 px on all 54 pages; slideshow behaviour (autoplay order, pause, hover, keyboard focus, swipe, reduced motion, no JavaScript) in Chrome.
 
+## Link previews, structured data and lighter pages, 9 October 2026
+
+- **Link previews:** every page except the 404 has Open Graph and X (Twitter) tags: title, description, canonical URL, locale and a 1200×630 share image per language (`assets/brand/og-sq.jpg`, `-en`, `-de`, made in the site's style, about 50 KB each). Shared links on WhatsApp, Facebook, LinkedIn or X show a proper card. The page title and description are the same as in search results.
+- **Structured data (schema.org JSON-LD):** Organization (name, logo, email, phone, Prishtina, social profiles), WebSite, WebPage and, below the home page, a BreadcrumbList (for example Home › ITD Labs › AURA). Built by `share_tags()` in `proposal.py`; `apple-touch-icon` uses the 512 px shield.
+- **Lighter images:** the product screenshots and the About texture are WebP instead of PNG (1.7 MB → 0.19 MB). The ITD Labs cards use the slide images: the Labs page loads 37 KB of screenshots instead of 521 KB, Kraken OS 133 KB instead of 959 KB, Kraken Communications 42 KB instead of 298 KB, and About 10 KB instead of 441 KB. The unused PNGs were removed.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.

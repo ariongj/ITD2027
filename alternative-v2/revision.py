@@ -78,6 +78,8 @@ def services(l,t):
 
 def product_note(l): return tr(l,'Pamje nga prezantimi i produktit. Modulet dhe kanalet e disponueshme varen nga konfigurimi, lejet dhe integrimet e miratuara.','Images from the product presentation. Available modules and channels depend on configuration, permissions and approved integrations.','Ansichten aus der Produktpräsentation. Verfügbare Module und Kanäle hängen von Konfiguration, Berechtigungen und freigegebenen Integrationen ab.')
 
+SLIDE_IMAGE={'kraken-card':'slide-kraken-os.webp','communications-card':'slide-communications.webp'}
+
 def aura_phone(l):
  # The AURA product view: its vector emblem on the app's dark screen (colours from the AURA app).
  return f'<figure class="aura-phone"><img src="assets/labs/aura-emblem.svg" width="200" height="200" alt=""><figcaption>AURA</figcaption><p{en_attr(l)}>Say it. Consider it handled.</p></figure>'
@@ -88,7 +90,7 @@ def labs(l,t):
  items=[('krakenos','Kraken OS','kraken-card',tr(l,'Platformë modulare','Modular platform','Modulare Plattform'),tr(l,'Klientët, puna dhe vendimet lidhen në një platformë të përbashkët.','Customers, work and decisions come together in one platform.','Kunden, Arbeit und Entscheidungen in einer gemeinsamen Plattform.'),['CRM',tr(l,'Projekte','Projects','Projekte'),'Accounting','Workspace']),('kraken-communications','Kraken Communications','communications-card',tr(l,'Komunikim me klientët','Customer communication','Kundenkommunikation'),tr(l,'Kanalet, kontaktet, bisedat e ekipit dhe ofertat në një platformë.','Channels, contacts, team conversations and offers in one platform.','Kanäle, Kontakte, Teamgespräche und Angebote in einer Plattform.'),['Inbox',tr(l,'Kontakte','Contacts','Kontakte'),tr(l,'Oferta','Offers','Angebote')]),('aura','AURA','aura-emblem',tr(l,'Asistent privat me zë','Private voice assistant','Privater Sprachassistent'),tr(l,'Një asistent i menduar për mënyrën si punon: nga kërkesat te detyrat dhe takimet.','An assistant designed around how you work: from requests to tasks and meetings.','Ein Assistent für Ihre Arbeitsweise: von Anfragen zu Aufgaben und Terminen.'),['Voice-first',tr(l,'Detyra','Tasks','Aufgaben'),tr(l,'Takime','Meetings','Termine')])]
  for i,(p,name,img,kind,body,tags) in enumerate(items):
   # AURA: vector emblem rebuilt from the AURA app's own drawing code (replaces the raster from the PDF).
-  image='src="assets/labs/aura-emblem.svg" alt="AURA" width="200" height="200"' if img=='aura-emblem' else f'src="assets/labs/{img}.png" alt="{name} — {copy(l)["screenshot"]}" width="1107" height="577"'
+  image='src="assets/labs/aura-emblem.svg" alt="AURA" width="200" height="200"' if img=='aura-emblem' else f'src="assets/labs/{SLIDE_IMAGE[img]}" alt="{name} — {copy(l)["screenshot"]}" width="760" height="396"'
   visual=f'<div class="lab-art lab-art-{i}"><span>0{i+1} / ITD LABS</span><img {image}><strong{en_attr(l)}>{["KRAKEN:OS","COMMUNICATIONS","SAY IT. CONSIDER IT HANDLED."][i]}</strong></div>'
   # Report 02: every card has "Shiko produktin", in ITD Labs green; the art keeps each product's colours.
   link=button(tr(l,'Shiko produktin','Explore product','Produkt ansehen'),route(p,l),style='outline labs')
@@ -102,7 +104,7 @@ def communications(l,t):
  hero=intro(title,lead,t,'ITD LABS / KRAKEN COMMUNICATIONS')
  # Report 02: the Kraken family logo (transparent, original blue) and the product's official site.
  hero=hero.replace('<section class="page-intro wrap">','<section class="page-intro wrap">'+KRAKEN_LOGO.format('Kraken Communications'),1).removesuffix('</section>')+f'<p class="official-row">{official("assistant.krakenos.cloud",l)}</p></section>'
- shot=f'<section class="wrap communications-screen"><a href="assets/labs/communications-dashboard.png" data-lightbox="Kraken Communications"><img src="assets/labs/communications-dashboard.png" width="2033" height="730" alt="{tr(l,"Kraken Communications — pamja e përgjithshme","Kraken Communications — overview","Kraken Communications — Übersicht")}"><span>{copy(l)["screenshot"]}{A}</span></a></section>'
+ shot=f'<section class="wrap communications-screen"><a href="assets/labs/communications-dashboard.webp" data-lightbox="Kraken Communications"><img src="assets/labs/communications-dashboard.webp" width="2033" height="730" alt="{tr(l,"Kraken Communications — pamja e përgjithshme","Kraken Communications — overview","Kraken Communications — Übersicht")}"><span>{copy(l)["screenshot"]}{A}</span></a></section>'
  items=tr(l,[('Inbox i përbashkët','Website chat, Instagram dhe Messenger në një rrjedhë, me kanalet e lidhura për demonstrimin tuaj.'),('Kalimi te ekipi','AI dhe ekipi punojnë me të njëjtën histori. Përcaktohen pronësia, miratimet dhe momenti i ndërhyrjes.'),('Kontakte dhe oferta','Kontakti, ndjekja dhe oferta qëndrojnë pranë bisedës, pa humbur kontekstin.')],[('Shared inbox','Website chat, Instagram and Messenger in one flow, with channels connected for your demonstration.'),('Handoff to the team','AI and your team share the same history. Ownership, approvals and intervention points are defined.'),('Contacts and offers','Contacts, follow-up and offers stay close to the conversation, without losing context.')],[('Gemeinsamer Posteingang','Website-Chat, Instagram und Messenger in einem Ablauf, mit den für Ihre Demo verbundenen Kanälen.'),('Übergabe an das Team','KI und Team nutzen denselben Verlauf. Zuständigkeit, Freigaben und Übergabepunkte werden festgelegt.'),('Kontakte und Angebote','Kontakte, Nachverfolgung und Angebote bleiben direkt beim Gespräch – der Kontext bleibt erhalten.')])
  return hero+shot+'<section class="wrap section"><div class="grid three">'+''.join(f'<article class="card padded"><span class="mini-number">0{i+1}</span><h2>{a}</h2><p>{b}</p></article>' for i,(a,b) in enumerate(items))+'</div><p class="section-note product-note">'+product_note(l)+'</p><div class="actions">'+button(copy(l)['demo'],route('contact',l)+'?service=Kraken%20Communications&intent=demo')+button('ITD Labs',route('itd-labs',l),style='outline')+'</div></section>'
 
@@ -115,7 +117,7 @@ def krakenos(l,t):
  html=html.replace('<div><p class="eyebrow">IT DEPARTMENT / KRAKENOS</p>','<div>'+KRAKEN_LOGO.format('Kraken OS')+'<p class="eyebrow">ITD LABS / KRAKEN OS</p>',1)
  hero_end=html.index('<a class="product-hero-image"')
  html=html[:hero_end].removesuffix('</div>')+f'<p class="official-row">{official("krakenos.cloud",l)}</p></div>'+html[hero_end:]
- return html.replace('<section class="kraken-hero wrap">','<section class="kraken-hero wrap">').replace('assets/krakenos/dashboard.png','assets/labs/kraken-dashboard.png').replace('width="894" height="513"','width="1359" height="488"')+f'<p class="wrap section-note product-note">{product_note(l)}</p>'
+ return html.replace('<section class="kraken-hero wrap">','<section class="kraken-hero wrap">').replace('assets/krakenos/dashboard.png','assets/labs/kraken-dashboard.webp').replace('width="894" height="513"','width="1359" height="488"')+f'<p class="wrap section-note product-note">{product_note(l)}</p>'
 
 def aura(l,t):
  # Report 02: AURA's own presentation page. Only the confirmed functions (voice, tasks, meetings);
