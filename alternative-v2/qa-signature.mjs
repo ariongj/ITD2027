@@ -56,7 +56,7 @@ for(const name of htmlFiles){
 }
 await page.goto(base+'/index.html');await page.evaluate(()=>document.fonts.ready);
 assert.equal(await page.evaluate(()=>document.fonts.check('600 16px Manrope')),true);
-const fontResponse=await page.request.get(base+'/assets/fonts/manrope.ttf');assert.equal(fontResponse.status(),200);assert.match(fontResponse.headers()['content-type'],/font\/ttf/);
+const fontResponse=await page.request.get(base+'/assets/fonts/plus-jakarta.woff2');assert.equal(fontResponse.status(),200);assert.match(fontResponse.headers()['content-type'],/font\/woff2/);
 const report={logoVerified:true,logoPages:htmlFiles.length,time:new Date().toISOString(),servicePanels:checks.length,checks,extra:['Arrow navigation','Home and End navigation','modal focus trap','language switch preserves draft','clipboard rejection fallback'],sourceFilesUnchanged:Object.keys(sourceManifest).length-changed.length,originalChanged:changed};
 await writeFile(resolve(root,'qa/signature-report.json'),JSON.stringify(report,null,2));
 console.log(JSON.stringify({servicePanelLayouts:checks.length,extra:report.extra,sourceFilesUnchanged:report.sourceFilesUnchanged,originalChanged:changed}));

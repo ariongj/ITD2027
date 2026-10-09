@@ -75,6 +75,18 @@ Checks: `check-pages.py` 54 pages, 0 errors; `qa-seo.py` preview and production 
 - **Structured data (schema.org JSON-LD):** Organization (name, logo, email, phone, Prishtina, social profiles), WebSite, WebPage and, below the home page, a BreadcrumbList (for example Home › ITD Labs › AURA). Built by `share_tags()` in `proposal.py`; `apple-touch-icon` uses the 512 px shield.
 - **Lighter images:** the product screenshots and the About texture are WebP instead of PNG (1.7 MB → 0.19 MB). The ITD Labs cards use the slide images: the Labs page loads 37 KB of screenshots instead of 521 KB, Kraken OS 133 KB instead of 959 KB, Kraken Communications 42 KB instead of 298 KB, and About 10 KB instead of 441 KB. The unused PNGs were removed.
 
+## Design audit, 9 October 2026
+
+Every page type was reviewed at 1440 and 390 px against change report 02. Fixed:
+
+- **Process everywhere:** Services, Websites & software and AI automation showed the four steps as plain text; they now use the same graphic cards (phase, number, title, line) as About, four across on desktop, two on tablets, one on phones (`steps()` in `proposal.py`).
+- **Project tiles:** the illustrative examples had abstract icon-and-dots placeholders. They are now small screen mock-ups in the same language as the featured case: connected sites, approvals in a table, a distributed team, and reporting with a conversation (`project_art()`, shapes only, no text, hidden from screen readers). They stay labelled illustrative until real projects are supplied.
+- **Font:** Plus Jakarta Sans is served as a subset WOFF2 (`assets/fonts/plus-jakarta.woff2`, 38 KB instead of the 176 KB TTF; Latin, Latin-1, Latin Extended-A, the punctuation, arrows and € the site uses; weight axis 200–800 kept). The unused Manrope and Sora files are removed. The ⌄ in the ITD Labs menu was never in the font and keeps its system fallback.
+- **Web app manifest** (`site.webmanifest`, written by the build) with the site name, colours and the 512 px shield; `production.htaccess` declares the WOFF2 and manifest types and caches fonts and images for 30 days (HTML, CSS and JS keep 5 minutes).
+- `preview.mjs` serves `.woff2`, `.jpg` and `.webmanifest`; `qa-signature.mjs` checks the WOFF2 instead of Manrope.
+
+Not changed on purpose: the hero carries no "140+ projects / 40+ clients" numbers (report 01's hero concept has none). Still needed from the client: real projects, approved partner descriptions, the AURA app link.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.
