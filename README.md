@@ -6,6 +6,11 @@ Source repository for the IT Department website and the starting point for its 2
 
 The newer design is in alternative-v2/site/: 54 static HTML pages in Albanian, English and German, with the original branding and shared assets. The October 2026 revision (ITD Labs, the two priority service pages, measurement and booking), its review and change report 02 (home slideshow, partners without categories, AURA page, black closing box, ITD Labs green) are described in alternative-v2/OCTOBER-2026-IMPLEMENTATION.md. Its editable generator is alternative-v2/build.py plus alternative-v2/proposal.py; shared CSS and JavaScript live in alternative-v2/site/assets/.
 
+ITD2027/M is the same 54 pages in a second look, in the style of the SELCA site: Fraunces and Manrope, warm cream and wine red, a dark top bar, a full-width hero slideshow with the headline over the picture, a floating bar of four facts and numbered service rows. It is built from the same content with `ITD_THEME=m` into alternative-v2/site-m/ (not committed; the Pages workflow builds it). Its own files are alternative-v2/theme_m.py and alternative-v2/theme-m/ (stylesheet, fonts, logo for the light header, hero pictures).
+
+    ITD_THEME=m python alternative-v2/build.py
+    python scripts/check-pages.py alternative-v2/site-m
+
 The existing website remains at the repository root because the newer design's generator reads its content, images and public site.config.json. Keep this layout when rebuilding.
 
     python alternative-v2/build.py
@@ -62,6 +67,7 @@ These cover the older source site. The alternative-v2/qa-proposal*.mjs scripts c
 The publishing workflow in .github/workflows/pages.yml builds the newer design and the calm alternative and uploads only their static pages. Successful pushes to main publish automatically at:
 
 https://ariongj.github.io/ITD2027/ (newer design)
+https://ariongj.github.io/ITD2027/M/ (the newer design in the SELCA style)
 https://ariongj.github.io/ITD2027/calm/ (calm alternative)
 
 The workflow validates all 54 HTML pages and their local links and CSS assets before publishing. For the calm alternative, alternative-calm/build/pages.py makes a sub-folder copy with relative links, noindex and no analytics scripts, then checks its 43 pages and every local link and anchor the same way. The source files, legacy PHP endpoints and operational configuration are not part of the Pages website.

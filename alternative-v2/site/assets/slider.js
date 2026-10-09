@@ -25,6 +25,8 @@
   dots.forEach((d,i)=>{if(i===index)d.setAttribute('aria-current','true');else d.removeAttribute('aria-current');});
   const fill=dots[index].querySelector('.slider-fill');
   fill.classList.remove('is-running');void fill.offsetWidth;fill.classList.add('is-running');
+  // Optional "01 / 03" counter (ITD2027/M).
+  const counter=root.querySelector('[data-counter]');if(counter)counter.textContent=String(index+1).padStart(2,'0');
  }
  dots.forEach((d,i)=>{
   d.addEventListener('click',()=>show(i));

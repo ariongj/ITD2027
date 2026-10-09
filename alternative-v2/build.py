@@ -9,6 +9,13 @@ OUT=BASE/"site"
 if os.environ.get("ITD_PRODUCTION")=="1":
  OUT=BASE/"qa"/"production"
  shutil.copytree(BASE/"site"/"assets",OUT/"assets",dirs_exist_ok=True)
+# ITD2027/M: a second look (in the style of the SELCA site) built from the same content into its own folder.
+THEME=os.environ.get("ITD_THEME","")
+if THEME=="m":
+ OUT=BASE/"site-m"
+ shutil.rmtree(OUT,ignore_errors=True)
+ shutil.copytree(BASE/"site"/"assets",OUT/"assets")
+ shutil.copytree(BASE/"theme-m",OUT/"assets"/"m",ignore=shutil.ignore_patterns("README.md"))
 class Node:
  def __init__(self,tag="",attrs=()):
   self.tag=tag; self.attrs=dict(attrs); self.children=[]

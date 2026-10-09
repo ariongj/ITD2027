@@ -24,14 +24,20 @@ jobs:
         run: python3 alternative-v2/build.py
       - name: Check the publishing directory
         run: python3 scripts/check-pages.py
+      - name: Build and check ITD2027/M (same content, SELCA-style look)
+        run: |
+          ITD_THEME=m python3 alternative-v2/build.py
+          python3 scripts/check-pages.py alternative-v2/site-m
       - name: Build and check the calm alternative
         run: |
           python3 alternative-calm/build/build.py
           python3 alternative-calm/build/check.py
-      - name: Assemble the site (proposal at the root, calm alternative under /calm/)
+      - name: Assemble the site (proposal at the root, /M/ and the calm alternative under /calm/)
         run: |
           mkdir -p _site
           cp -R alternative-v2/site/. _site/
+          mkdir -p _site/M
+          cp -R alternative-v2/site-m/. _site/M/
           python3 alternative-calm/build/pages.py _site/calm
       - name: Upload the static website
         uses: actions/upload-pages-artifact@v4

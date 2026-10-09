@@ -1,11 +1,14 @@
-"""Validate the exact static directory published to GitHub Pages."""
+"""Validate the exact static directory published to GitHub Pages.
+
+    python scripts/check-pages.py [folder]   (default alternative-v2/site; ITD2027/M is alternative-v2/site-m)"""
 from pathlib import Path
 from html.parser import HTMLParser
 from urllib.parse import unquote, urlsplit
 import json
 import re
+import sys
 
-ROOT = Path(__file__).resolve().parents[1] / "alternative-v2" / "site"
+ROOT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).resolve().parents[1] / "alternative-v2" / "site"
 
 class Page(HTMLParser):
     def __init__(self, text):
