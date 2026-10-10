@@ -3,15 +3,15 @@ import {writeFile} from 'node:fs/promises';import assert from 'node:assert/stric
 const b=await chromium.launch({headless:true,channel:'chrome'});const c=await b.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce'});const p=await c.newPage();const results=[],errors=[];p.on('pageerror',e=>errors.push(String(e)));p.setDefaultTimeout(8000);const base='http://127.0.0.1:8791/';const check=(n,v)=>{assert(v,n);results.push(n);};
 for(const lang of ['sq','en','de'])for(const width of [1440,390,320]){
  await p.setViewportSize({width,height:844});await p.goto(base+'itd-labs'+(lang==='sq'?'':'-'+lang)+'.html');await p.evaluate(()=>document.fonts.ready);
- check(lang+width+' single font',await p.locator('h1').evaluate(e=>getComputedStyle(e).fontFamily.includes('Plus Jakarta Sans')));
+ check(lang+width+' single font',await p.locator('h1').evaluate(e=>getComputedStyle(e).fontFamily.includes('Manrope')));
  check(lang+width+' product order',JSON.stringify(await p.locator('[data-product]').evaluateAll(es=>es.map(e=>e.dataset.product)))===JSON.stringify(['krakenos','kraken-communications','aura']));
  check(lang+width+' AURA product link',(await p.locator('[data-product=aura] a').getAttribute('href'))==='aura'+(lang==='sq'?'':'-'+lang)+'.html');
  if(width<1121)await p.locator('.menu-toggle').click();
- await p.locator('.labs-toggle').click();check(lang+width+' Labs opens',await p.locator('#labs-menu').isVisible());check(lang+width+' four links',await p.locator('#labs-menu a').count()===4);
- check(lang+width+' menu contained',await p.locator('#labs-menu').evaluate(e=>e.getBoundingClientRect().right<=innerWidth));
- await p.keyboard.press('Escape');check(lang+width+' Labs Escape restores',await p.locator('.labs-toggle').evaluate(e=>e===document.activeElement)&&await p.locator('#labs-menu').isHidden());
- if(width<1121){check(lang+width+' parent stays open',await p.locator('.menu-toggle').getAttribute('aria-expanded')==='true');await p.keyboard.press('Escape');check(lang+width+' parent closes',await p.locator('.menu-toggle').getAttribute('aria-expanded')==='false');}
- await p.locator(width<1121?'.menu-toggle':'.labs-toggle').click();if(width<1121)await p.locator('.labs-toggle').click();await p.locator('#labs-menu a').nth(2).click();check(lang+width+' Communications navigation',await p.locator('body').getAttribute('data-page')==='kraken-communications');
+ // Report 03: ITD Labs is a direct link (no dropdown); the products are opened from the Labs page.
+ check(lang+width+' no product dropdown',await p.locator('.labs-toggle,#labs-menu').count()===0);
+ await p.locator('.nav-links a.labs-link').click();check(lang+width+' ITD Labs opens the Labs page',await p.locator('body').getAttribute('data-page')==='itd-labs');
+ await p.locator('[data-product=kraken-communications] a').click();check(lang+width+' Communications navigation',await p.locator('body').getAttribute('data-page')==='kraken-communications');
+ check(lang+width+' Labs link marks the section',await p.locator('.nav-links a.labs-link').getAttribute('data-section')==='true');
 }
 let success=false,requests=0;await p.route('https://formspree.io/**',r=>{requests++;return r.fulfill({status:success?200:503,contentType:'application/json',headers:{'access-control-allow-origin':'*'},body:JSON.stringify({ok:success})});});
 for(const lang of ['sq','en','de']){

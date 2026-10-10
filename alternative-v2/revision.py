@@ -19,8 +19,10 @@ def header(page,l,t):
  nav=''
  for p in NAV_ORDER:
   if p=='itd-labs':
-   active=page in LABS_PAGES
-   nav+=f'<div class="labs-nav"><button class="labs-toggle" aria-expanded="false" aria-controls="labs-menu" {"data-current=true" if active else ""}>ITD Labs <span aria-hidden="true">⌄</span></button><div id="labs-menu" hidden><a href="{route(p,l)}"{current(page,"itd-labs")}>{tr(l,"Të gjitha produktet","All products","Alle Produkte")}{A}</a><a href="{route("krakenos",l)}"{current(page,"krakenos")}>Kraken OS</a><a href="{route("kraken-communications",l)}"{current(page,"kraken-communications")}>Kraken Communications</a><a href="{route("aura",l)}"{current(page,"aura")}>AURA</a></div></div>'
+   # Report 03: "ITD Labs" opens the Labs page directly (no dropdown); the products are shown there.
+   # On a product page the link stays underlined to show the section.
+   state=' aria-current="page"' if page=='itd-labs' else (' data-section="true"' if page in LABS_PAGES else '')
+   nav+=f'<a href="{route(p,l)}" class="labs-link"{state}>ITD Labs</a>'
   else:
    label=dict(zip(PAGES,labels(l)))[p]
    nav+=f'<a href="{route(p,l)}" '+('aria-current="page"' if p==page else '')+f'>{label}</a>'
@@ -38,10 +40,14 @@ def priority_services(l,t):
  ('ai-automation',tr(l,'Automatizim me AI','AI automation','KI-Automatisierung'),tr(l,'Nga kërkesa te ndjekja, me rregulla dhe kontroll njerëzor.','From enquiry to follow-up, with clear rules and human oversight.','Von der Anfrage bis zur Nachverfolgung – mit klaren Regeln und menschlicher Kontrolle.'))]
  return '<section class="wrap section priority-services">'+heading(tr(l,'DY PIKA NISJEJE','TWO WAYS TO START','ZWEI AUSGANGSPUNKTE'),tr(l,'Çfarë e çon biznesin përpara?','What moves your business forward?','Was bringt Ihr Unternehmen weiter?'))+'<div class="grid two">'+''.join(f'<a class="priority-card card padded" href="{route(p,l)}"><span class="mini-number">0{i+1}</span><h2>{title}</h2><p>{desc}</p><span class="text-link">{copy(l)["details"]}{A}</span></a>' for i,(p,title,desc) in enumerate(items))+'</div></section>'
 
-# Home banner (Report 02): 2–3 published slides, changing every 10 seconds (assets/slider.js).
+# Home banner (Report 02, order from Report 03): slides changing every 10 seconds (assets/slider.js).
 # To change a slide, edit it here: order, title, line, text, link (a page of this site) and image.
 # 'mobile' is an optional separate image for phones; 'alt' empty means the image is decorative.
+# A 'banner' slide shows a finished picture whole (contain, dark background) with no text over it:
+# its words are in the picture, so they are given as the alt text instead.
 SLIDES=[
+ {'theme':'banner','title':'IT Department','banner':'assets/brand/itd-banner','size':(1536,1024),
+  'alt':('IT Department — Your Technology Partner','IT Department — Your Technology Partner','IT Department — Your Technology Partner')},
  {'theme':'kraken','page':'krakenos','title':'Kraken OS','tagline':'Many arms. One brain.',
   'text':('Një platformë për punën e përditshme.','One platform for everyday work.','Eine Plattform für die tägliche Arbeit.'),
   'image':'assets/labs/slide-kraken-os.webp','mobile':'','size':(760,396),'alt':('Kraken OS — pamje e panelit','Kraken OS — dashboard view','Kraken OS — Dashboard-Ansicht')},
@@ -56,14 +62,20 @@ def slider(l):
  n=len(SLIDES); slides=''; dots=''
  for i,s in enumerate(SLIDES):
   w,h=s['size']; alt=tr(l,*s['alt'])
+  dots+=f'<button type="button" class="slider-dot" aria-controls="hero-slides" aria-label="{tr(l,"Slajdi","Slide","Folie")} {i+1}: {s["title"]}"{" aria-current=true" if i==0 else ""}><span class="slider-bar"><span class="slider-fill"></span></span></button>'
+  if s.get('banner'):
+   b=s['banner']
+   slides+=(f'<div class="slide slide-banner{" is-active" if i==0 else ""}" role="group" aria-roledescription="{tr(l,"slajd","slide","Folie")}" aria-label="{i+1} / {n}: {s["title"]}" data-slide>'
+    f'<p class="slide-tag" aria-hidden="true">0{i+1} / 0{n} · {s["title"].upper()}</p>'
+    f'<img class="slide-banner-img" src="{b}-1536.webp" srcset="{b}-768.webp 768w, {b}-1536.webp 1536w" sizes="(max-width:1120px) 100vw, 640px" width="{w}" height="{h}" alt="{alt}" decoding="async"{"" if i==0 else " loading=lazy"}></div>')
+   continue
   source=f'<source media="(max-width:540px)" srcset="{s["mobile"]}">' if s['mobile'] else ''
   media=f'<picture class="slide-media">{source}<img src="{s["image"]}" width="{w}" height="{h}" alt="{alt}" decoding="async"{"" if i==0 else " loading=lazy"}></picture>'
   tagline=f'<p class="slide-tagline"{en_attr(l)}>{s["tagline"]}</p>' if s['tagline'] else ''
   slides+=f'<div class="slide slide-{s["theme"]}{" is-active" if i==0 else ""}" role="group" aria-roledescription="{tr(l,"slajd","slide","Folie")}" aria-label="{i+1} / {n}: {s["title"]}" data-slide><div class="slide-copy"><p class="slide-kicker">0{i+1} / 0{n} · ITD LABS</p><h2>{s["title"]}</h2>{tagline}<p class="slide-text">{tr(l,*s["text"])}</p><a class="slide-link" href="{route(s["page"],l)}">{tr(l,"Shiko produktin","Explore product","Produkt ansehen")}{A}</a></div>{media}</div>'
-  dots+=f'<button type="button" class="slider-dot" aria-controls="hero-slides" aria-label="{tr(l,"Slajdi","Slide","Folie")} {i+1}: {s["title"]}"{" aria-current=true" if i==0 else ""}><span class="slider-bar"><span class="slider-fill"></span></span></button>'
  pause=tr(l,('Ndalo ndërrimin automatik','Nis ndërrimin automatik'),('Pause automatic rotation','Start automatic rotation'),('Automatischen Wechsel anhalten','Automatischen Wechsel starten'))
  arrows=f'<button type="button" class="slider-pause" aria-label="{pause[0]}" data-pause="{pause[0]}" data-play="{pause[1]}"><span aria-hidden="true"></span></button><button type="button" class="slider-prev" aria-controls="hero-slides" aria-label="{tr(l,"Slajdi i mëparshëm","Previous slide","Vorherige Folie")}"><span aria-hidden="true">‹</span></button><button type="button" class="slider-next" aria-controls="hero-slides" aria-label="{tr(l,"Slajdi i radhës","Next slide","Nächste Folie")}"><span aria-hidden="true">›</span></button>'
- return f'<section class="hero-slider" aria-roledescription="{tr(l,"prezantim me slajde","carousel","Karussell")}" aria-label="ITD Labs" data-slider><div class="slides" id="hero-slides" aria-live="off">{slides}</div><div class="slider-controls" hidden><div class="slider-dots">{dots}</div><div class="slider-arrows">{arrows}</div></div></section>'
+ return f'<section class="hero-slider" aria-roledescription="{tr(l,"prezantim me slajde","carousel","Karussell")}" aria-label="IT Department · ITD Labs" data-slider><div class="slides" id="hero-slides" aria-live="off">{slides}</div><div class="slider-controls" hidden><div class="slider-dots">{dots}</div><div class="slider-arrows">{arrows}</div></div></section>'
 
 def home(l,t):
  c=copy(l)
@@ -85,18 +97,21 @@ def aura_phone(l):
  return f'<figure class="aura-phone"><img src="assets/labs/aura-emblem.svg" width="200" height="200" alt=""><figcaption>AURA</figcaption><p{en_attr(l)}>Say it. Consider it handled.</p></figure>'
 
 def labs(l,t):
- desc=tr(l,'Produkte dhe eksperimente të zhvilluara brenda IT Department. Secili me një qëllim të qartë dhe identitetin e vet.','Products and experiments developed within IT Department. Each with a clear purpose and its own identity.','Produkte und Experimente aus IT Department. Jedes mit einem klaren Zweck und einer eigenen Identität.')
  cards=''
  items=[('krakenos','Kraken OS','kraken-card',tr(l,'Platformë modulare','Modular platform','Modulare Plattform'),tr(l,'Klientët, puna dhe vendimet lidhen në një platformë të përbashkët.','Customers, work and decisions come together in one platform.','Kunden, Arbeit und Entscheidungen in einer gemeinsamen Plattform.'),['CRM',tr(l,'Projekte','Projects','Projekte'),'Accounting','Workspace']),('kraken-communications','Kraken Communications','communications-card',tr(l,'Komunikim me klientët','Customer communication','Kundenkommunikation'),tr(l,'Kanalet, kontaktet, bisedat e ekipit dhe ofertat në një platformë.','Channels, contacts, team conversations and offers in one platform.','Kanäle, Kontakte, Teamgespräche und Angebote in einer Plattform.'),['Inbox',tr(l,'Kontakte','Contacts','Kontakte'),tr(l,'Oferta','Offers','Angebote')]),('aura','AURA','aura-emblem',tr(l,'Asistent privat me zë','Private voice assistant','Privater Sprachassistent'),tr(l,'Një asistent i menduar për mënyrën si punon: nga kërkesat te detyrat dhe takimet.','An assistant designed around how you work: from requests to tasks and meetings.','Ein Assistent für Ihre Arbeitsweise: von Anfragen zu Aufgaben und Terminen.'),['Voice-first',tr(l,'Detyra','Tasks','Aufgaben'),tr(l,'Takime','Meetings','Termine')])]
  for i,(p,name,img,kind,body,tags) in enumerate(items):
   # AURA: vector emblem rebuilt from the AURA app's own drawing code (replaces the raster from the PDF).
   image='src="assets/labs/aura-emblem.svg" alt="AURA" width="200" height="200"' if img=='aura-emblem' else f'src="assets/labs/{SLIDE_IMAGE[img]}" alt="{name} — {copy(l)["screenshot"]}" width="760" height="396"'
-  visual=f'<div class="lab-art lab-art-{i}"><span>0{i+1} / ITD LABS</span><img {image}><strong{en_attr(l)}>{["KRAKEN:OS","COMMUNICATIONS","SAY IT. CONSIDER IT HANDLED."][i]}</strong></div>'
-  # Report 02: every card has "Shiko produktin", in ITD Labs green; the art keeps each product's colours.
-  link=button(tr(l,'Shiko produktin','Explore product','Produkt ansehen'),route(p,l),style='outline labs')
-  cards+=f'<article class="lab-card card" data-product="{p}">{visual}<div class="lab-card-copy"><p class="eyebrow">{kind}</p><h2>{name}</h2><p>{body}</p><div class="chips">'+''.join(f'<span>{x}</span>' for x in tags)+f'</div>{link}</div></article>'
+  # Report 03: the product view on top (its own colours, not tinted), then a green number and kind,
+  # the name, the description and a filled green "Shiko produktin" button.
+  visual=f'<div class="lab-art lab-art-{i}"><img {image}></div>'
+  kinds=tr(l,['PLATFORMË','KOMUNIKIM','ASISTENT'],['PLATFORM','COMMUNICATION','ASSISTANT'],['PLATTFORM','KOMMUNIKATION','ASSISTENT'])
+  link=button(tr(l,'Shiko produktin','Explore product','Produkt ansehen'),route(p,l),style='labs-solid')
+  cards+=f'<article class="lab-card card" data-product="{p}">{visual}<div class="lab-card-copy"><p class="eyebrow">0{i+1} / {kinds[i]}</p><h2>{name}</h2><p>{body}</p>{link}</div></article>'
  aura=f'<section class="wrap section"><div class="aura-showcase"><div><p class="eyebrow">AURA / ITD LABS</p><h2{en_attr(l)}>Say it.<br>Consider it<br>handled.</h2><p>{tr(l,"Një asistent privat me zë që i kthen kërkesat në detyra dhe takime.","A private voice assistant that turns requests into tasks and meetings.","Ein privater Sprachassistent, der Anfragen in Aufgaben und Termine verwandelt.")}</p>{button(tr(l,"Shiko produktin","Explore product","Produkt ansehen"),route("aura",l),style="light")}</div>{aura_phone(l)}</div></section>'
- return intro(tr(l,'Ide që bëhen produkte.','Ideas become products.','Aus Ideen werden Produkte.'),desc,t,'ITD LABS')+f'<section class="wrap labs-catalog"><div class="grid three">{cards}</div><p class="section-note">{product_note(l)}</p></section>'+aura+ending(l,t)
+ desc=tr(l,'Ndërtuar nga IT Department për punë më të qartë.','Built by IT Department for clearer work.','Entwickelt von IT Department für klarere Arbeit.')
+ kicker=tr(l,'ITD LABS / PRODUKTET TONA','ITD LABS / OUR PRODUCTS','ITD LABS / UNSERE PRODUKTE')
+ return intro(tr(l,'Ide që bëhen produkte.','Ideas become products.','Aus Ideen werden Produkte.'),desc,t,kicker)+f'<section class="wrap labs-catalog"><div class="grid three">{cards}</div><p class="section-note">{product_note(l)}</p></section>'+aura+ending(l,t)
 
 def communications(l,t):
  title=tr(l,'Komunikimi, i bashkuar në një vend.','Communication, together in one place.','Kommunikation an einem Ort.')

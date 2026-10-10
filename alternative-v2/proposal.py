@@ -100,7 +100,7 @@ def brandbook(key,l,t):
 def home(l,t):
  c=copy(l)
  hero=f'''<section class="hero wrap"><div class="hero-copy"><p class="eyebrow"><span class="red-dot"></span>WEB / SOFTWARE / AI / IT</p><h1>{c['home']}</h1><p class="lead">{c['homelead']}</p><div class="actions">{button(c['see'],route('services',l))}{button(c['book'],cfg['bookingUrl'],'target="_blank" rel="noopener noreferrer"','dark')}</div><div class="hero-proof"><div><strong>140<span>+</span></strong><span>{tr(l,'projekte','projects','Projekte')}</span></div><div><strong>40<span>+</span></strong><span>{tr(l,'klientë','clients','Kunden')}</span></div><p>{t['location']}<br>{t['eyebrow']}</p></div></div><div class="hero-art"><p class="eyebrow">IT DEPARTMENT</p><h2>{c['flow']}</h2><div class="hero-flow">{''.join(f'<div><span>0{i+1}</span><strong>{name}</strong></div>' for i,name in enumerate(c['flowsteps']))}</div><p class="art-foot">{tr(l,'Një ekip. Nga ideja te mbështetja.','One team. From idea to ongoing support.','Ein Team. Von der Idee bis zur Betreuung.')}</p></div></section>'''
- return hero+f'<section class="wrap pillars">{families(l,t)}</section><section class="wrap section">'+heading(t['work'],c['selected'],action=f'<a class="text-link" href="{route("projects",l)}">{t["allwork"]}{A}</a>')+'<div class="selected-grid">'+visual_case(l,t,True)+brandbook('nexus',l,t)+'</div></section>'+partner_rows(l,t,True)+pricing(l,t)+ending(l,t)
+ return hero+f'<section class="wrap pillars">{families(l,t)}</section><section class="wrap section">'+heading(t['work'],c['selected'],action=f'<a class="text-link" href="{route("projects",l)}">{t["allwork"]}{A}</a>')+'<div class="project-grid project-grid-home">'+''.join(project_card(p,l,'h3') for p in PROJECTS[:3])+'</div></section>'+partner_rows(l,t,True)+pricing(l,t)+ending(l,t)
 def services(l,t):
  c=copy(l); nodes=source('services',l).find('article','service-card'); blocks=''
  for i,(cat,idx) in enumerate([('web',[0,1,2]),('it',[3,4,5]),('ai',[]),('creative',[6,7])]):
@@ -108,24 +108,36 @@ def services(l,t):
   if cat in ['ai','creative']: items+=button(c['details'],route('ai-agents' if cat=='ai' else 'creative',l),style='outline')
   blocks+=f'<article class="service-family card" id="{cat}" data-filter-item="services" data-category="{cat}"><div class="service-family-title">{icon(i)}<span class="eyebrow">{["01 / 03","04 / 06","AI","07 / 08"][i]}</span><h2>{c["families"][i]}</h2><p>{c["familydesc"][i]}</p></div><div>{items}</div></article>'
  return intro(c['services'],t['servicelead'],t,labels(l)[1])+'<section class="wrap">'+filters('services',[('all',c['all'])]+list(zip(['web','it','ai','creative'],c['families'])),l)+'<div class="grid two service-families">'+blocks+'</div></section>'+pricing(l,t)+process(l,t)+ending(l,t)
-# Illustrative project tiles: small screen mock-ups (shapes only, no text) that match each example:
-# connected sites, approvals in a table, a distributed team, and reporting with a conversation.
-def project_art(i):
- rows=lambda n,tail='':''.join(f'<div class="mock-row"><i></i><b></b>{tail}</div>' for _ in range(n))
- body=[rows(3,'<span class="mock-dot"></span>'),
-  ''.join(f'<div class="mock-row"><b></b><b class="short"></b><em class="{k}"></em></div>' for k in ['ok','ok','wait']),
-  '<div class="art-cols">'+''.join('<div><i></i><b></b><b class="short"></b></div>' for _ in range(3))+'</div>',
-  '<div class="art-bars">'+''.join('<b></b>' for _ in range(5))+'</div><div class="art-bubble"><b></b><b class="short"></b></div>'][i%4]
- return f'<div class="mock-window"><div class="mock-bar"><i></i><i></i><i></i></div><div class="mock-body art-{i%4}">{body}</div></div>'
+# Report 03: the five published projects. One record per project: name, category, short description,
+# screenshot, the address it opens today and, once the client moves to its own domain, the final address.
+# Only "final" needs changing then; cards, text and pictures stay as they are.
+PROJECTS=[
+ {'key':'verkaufeimmobilie','name':'verkaufeimmobilie.de','url':'https://verkaufeimmobilie.de/','final':'',
+  'category':('PLATFORMË · PASURI TË PALUAJTSHME','PLATFORM · REAL ESTATE','PLATTFORM · IMMOBILIEN'),
+  'text':('Vlerësim prone dhe rrugë drejt ekspertit.','Property valuation and a direct route to an expert.','Immobilienbewertung und der direkte Weg zum Experten.')},
+ {'key':'rata-solar','name':'RATA Solar','url':'https://rata.itdks.tech/','final':'',
+  'category':('WEBSITE · ENERGJI SOLARE','WEBSITE · SOLAR ENERGY','WEBSITE · SOLARENERGIE'),
+  'text':('Produkte, kalkulator dhe kërkesë për ofertë.','Products, a calculator and quote requests.','Produkte, Rechner und Angebotsanfrage.')},
+ {'key':'kobags','name':'KoBags Group','url':'https://kobags.itdks.tech/','final':'',
+  'category':('WEBSITE · PRODHIM','WEBSITE · MANUFACTURING','WEBSITE · PRODUKTION'),
+  'text':('Qese të personalizuara dhe studio dizajni.','Custom bags and a design studio.','Individuelle Taschen und ein Designstudio.')},
+ {'key':'paketoje','name':'Paketoje','url':'https://ariongj.github.io/paketa/','final':'',
+  'category':('E-COMMERCE · AMBALAZH','E-COMMERCE · PACKAGING','E-COMMERCE · VERPACKUNG'),
+  'text':('Katalog dhe përvojë porosie për ambalazh me identitetin e biznesit.','A catalogue and ordering experience for packaging with your brand.','Katalog und Bestellerlebnis für Verpackungen im eigenen Markenauftritt.')},
+ {'key':'optika-miftari','name':'Optika Miftari','url':'https://optika.itdks.tech/','final':'',
+  'category':('WEBSITE · OPTIKË','WEBSITE · OPTICIAN','WEBSITE · OPTIK'),
+  'text':('Koleksione syzesh, Optical Lab dhe rrugë e qartë drejt rezervimit.','Eyewear collections, the optical lab and a clear path to booking.','Brillenkollektionen, Optiklabor und ein klarer Weg zur Terminbuchung.')}]
+def project_card(p,l,tag='h2',lazy=True):
+ href=p['final'] or p['url']; new_tab=tr(l,'hapet në një skedë të re','opens in a new tab','öffnet in einem neuen Tab')
+ return (f'<a class="project-card card" href="{esc(href)}" target="_blank" rel="noopener" data-project="{p["key"]}">'
+  f'<div class="project-shot"><img src="assets/projects/{p["key"]}-720.webp" srcset="assets/projects/{p["key"]}-720.webp 720w, assets/projects/{p["key"]}-1440.webp 1440w" sizes="(max-width:800px) 100vw, 50vw" width="720" height="450" alt=""{" loading=lazy" if lazy else ""} decoding="async"></div>'
+  f'<div class="project-copy"><span class="project-category">{tr(l,*p["category"])}</span><{tag}>{esc(p["name"])} <span aria-hidden="true">↗</span></{tag}><span class="project-text">{tr(l,*p["text"])}</span><span class="sr-only"> ({new_tab})</span></div></a>')
 def projects(l,t):
- c=copy(l); names=tr(l,['Web','Softuer','IT & siguri','AI','Kreativa'],['Web','Software','IT & security','AI','Creative'],['Web','Software','IT & Sicherheit','KI','Kreativ']); items=visual_case(l,t,True)
- for i,n in enumerate(source('projects',l).find('article','service-card')):
-  category=['it','software','it','ai'][i]; title=first(n,'h3'); body=''.join(f'<p>{esc(p)}</p>' for p in paragraphs(n))
-  items+=f'<article class="project-tile card" data-filter-item="projects" data-category="{category}"><div class="project-diagram diagram-{i}" aria-hidden="true">{project_art(i)}</div><div class="project-content"><p class="eyebrow">{t["examples"]}</p><h3>{esc(title)}</h3><details><summary>{c["details"]}<span aria-hidden="true">+</span></summary>{body}<ul>'+''.join(f'<li>{esc(li.text())}</li>' for li in n.find('li'))+f'</ul>{button(c["request"],route("contact",l)+"?service="+quote(title),style="outline")}</details></div></article>'
- items+=f'<article class="project-tile card" data-filter-item="projects" data-category="web"><div class="web-art" aria-hidden="true"><div></div><strong>WEB.</strong><span></span><span></span></div><div class="project-content"><p class="eyebrow">{t["examples"]}</p><h3>{tr(l,"Nga vizitori te kërkesa.","From visitor to enquiry.","Vom Besuch zur Anfrage.")}</h3><p>{tr(l,"Një shembull strukture: ofertë e qartë, prova vizuale dhe kontakt pa pengesa.","An example structure: a clear offer, visual evidence and an easy next step.","Eine Beispielstruktur: klares Angebot, sichtbare Arbeit und ein einfacher Kontakt.")}</p><a class="text-link" href="{route("services",l)}#web">{c["see"]}{A}</a></div></article>'
- items+=brandbook('nexus',l,t)+brandbook('hyperlink',l,t)
+ c=copy(l)
+ kicker=tr(l,'PROJEKTET / PUNË E PUBLIKUAR','PROJECTS / PUBLISHED WORK','PROJEKTE / VERÖFFENTLICHTE ARBEITEN')
  chips=['Web','Web App','Windows','Android','iOS','Dashboard','AI','E-commerce','Booking','CRM','POS','Inventory','API','Portal']
- return intro(c['projects'],t['projectsLead'],t,labels(l)[2])+'<section class="wrap">'+filters('projects',[('all',c['all'])]+list(zip(['web','software','it','ai','creative'],names)),l)+f'<p class="section-note">{t["examplesNote"]}</p><h2 class="sr-only">{labels(l)[2]}</h2><div class="projects-grid">{items}</div></section><section class="wrap section">'+heading(tr(l,'KAPACITETET','CAPABILITIES','MÖGLICHKEITEN'),tr(l,'Forma e duhur për punën tënde.','The right shape for your work.','Die passende Form für Ihre Arbeit.'))+'<div class="chips">'+''.join(f'<a href="{route("contact",l)}?service={quote(x)}">{x}{A}</a>' for x in chips)+'</div></section>'+ending(l,t)
+ return (intro(c['projects'],t['projectsLead'],t,kicker)+'<section class="wrap"><div class="project-grid">'+''.join(project_card(p,l,lazy=i>2) for i,p in enumerate(PROJECTS))+'</div></section>'
+  '<section class="wrap section">'+heading(tr(l,'KAPACITETET','CAPABILITIES','MÖGLICHKEITEN'),tr(l,'Forma e duhur për punën tënde.','The right shape for your work.','Die passende Form für Ihre Arbeit.'))+'<div class="chips">'+''.join(f'<a href="{route("contact",l)}?service={quote(x)}">{x}{A}</a>' for x in chips)+'</div></section>'+ending(l,t))
 def case_detail(l,t):
  c=copy(l)
  parts=tr(l,[('Nevoja','Kërkesat, dokumentet dhe aprovimet janë të shpërndara. Ekipi humb kohë duke kërkuar statusin.'),('Zgjidhja','Një rrjedhë me përgjegjës, dokumente dhe hapa aprovimi të lidhur në një vend.'),('Rezultati i synuar','Status i dukshëm dhe përgjegjësi më e qartë për çdo kërkesë.')],[('The need','Requests, documents and approvals are scattered. The team spends time searching for the status.'),('The solution','One workflow connects owners, documents and approval steps.'),('Intended result','Visible status and clearer responsibility for each request.')],[('Der Bedarf','Anfragen, Dokumente und Freigaben sind verstreut. Das Team muss den aktuellen Stand suchen.'),('Die Lösung','Ein Ablauf verbindet Verantwortliche, Dokumente und Freigabeschritte.'),('Angestrebtes Ergebnis','Sichtbarer Status und klare Verantwortung für jede Anfrage.')])
@@ -222,7 +234,7 @@ def public_path(page,l):
  if page=="index": return "" if l=="sq" else l
  return route(page,l).removesuffix(".html")
 
-M_FONTS='<link rel="preload" href="assets/m/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/m/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>'
+M_FONTS='<link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/m/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>'
 # Link previews (Open Graph / X) and structured data (schema.org) for every page except the 404.
 OG_LOCALE={'sq':'sq_AL','en':'en_US','de':'de_DE'}
 PARENTS={'krakenos':'itd-labs','kraken-communications':'itd-labs','aura':'itd-labs','web-software':'services','ai-automation':'services','project-detail':'projects'}
@@ -262,7 +274,7 @@ for l,t in T.items():
   alternates+=f'<link rel="alternate" hreflang="x-default" href="{PUBLIC_BASE}/{public_path(page,"sq")}"><link rel="canonical" href="{PUBLIC_BASE}/{public_path(page,l)}">'
   robots="index,follow" if INDEXABLE and page!="404" else "noindex,follow"
   share=share_tags(page,l,title,description) if page!='404' else ''
-  html=f'''<!doctype html><html lang="{l}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | IT Department</title><meta name="description" content="{esc(description)}"><meta name="robots" content="{robots}"><meta name="theme-color" content="#0b0d10"><link rel="icon" href="assets/brand/favicon.png"><link rel="apple-touch-icon" href="assets/brand/logo-shield.png"><link rel="manifest" href="site.webmanifest">{alternates}{share}{M_FONTS if THEME=="m" else '<link rel="preload" href="assets/fonts/plus-jakarta.woff2" as="font" type="font/woff2" crossorigin>'}<link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/revision.css">{'<link rel="stylesheet" href="assets/m/m.css">' if THEME=="m" else ''}<script type="application/json" id="site-copy">{data}</script><script src="assets/measurement-config.js" defer></script><script src="assets/measurement.js" defer></script><script src="assets/site.js" defer></script><script src="assets/booking.js" defer></script>{'<script src="assets/slider.js" defer></script>' if page=='index' else ''}</head><body data-page="{page}"{' data-theme="m"' if THEME=="m" else ''}>{header(page,l,t)}<main id="main">{body}</main>{footer(l,t,page)}<dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title"><div class="lightbox-toolbar"><strong id="lightbox-title"></strong><button class="lightbox-close" type="button">{t['close']}<span aria-hidden="true">×</span></button></div><img id="lightbox-image" alt=""></dialog></body></html>'''
+  html=f'''<!doctype html><html lang="{l}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | IT Department</title><meta name="description" content="{esc(description)}"><meta name="robots" content="{robots}"><meta name="theme-color" content="#0b0d10"><link rel="icon" href="assets/brand/favicon.png"><link rel="apple-touch-icon" href="assets/brand/logo-shield.png"><link rel="manifest" href="site.webmanifest">{alternates}{share}{M_FONTS if THEME=="m" else '<link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>'}<link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/revision.css">{'<link rel="stylesheet" href="assets/m/m.css">' if THEME=="m" else ''}<script type="application/json" id="site-copy">{data}</script><script src="assets/measurement-config.js" defer></script><script src="assets/measurement.js" defer></script><script src="assets/site.js" defer></script><script src="assets/booking.js" defer></script>{'<script src="assets/slider.js" defer></script>' if page=='index' else ''}</head><body data-page="{page}"{' data-theme="m"' if THEME=="m" else ''}>{header(page,l,t)}<main id="main">{body}</main>{footer(l,t,page)}<dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title"><div class="lightbox-toolbar"><strong id="lightbox-title"></strong><button class="lightbox-close" type="button">{t['close']}<span aria-hidden="true">×</span></button></div><img id="lightbox-image" alt=""></dialog></body></html>'''
   if PRODUCTION:
    for linked_page in [*builders,'privacy','404']:
     for linked_lang in T:

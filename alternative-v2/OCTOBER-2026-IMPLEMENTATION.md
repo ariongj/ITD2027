@@ -87,6 +87,16 @@ Every page type was reviewed at 1440 and 390 px against change report 02. Fixed:
 
 Not changed on purpose: the hero carries no "140+ projects / 40+ clients" numbers (report 01's hero concept has none). Still needed from the client: real projects, approved partner descriptions, the AURA app link.
 
+## Change report 03, 10 October 2026
+
+`ITD2027_Raporti_i_Ndryshimeve_03` (12 pages) applied:
+
+- **Real projects:** the illustrative project tiles and brandbooks are gone from Projects, and the illustrative case is gone from the home page. Both now show the five published sites: verkaufeimmobilie.de, RATA Solar, KoBags Group, Paketoje and Optika Miftari. Each card has a screenshot from the live site (from the report), a category, a short description and a link that opens the project in a new tab. Every project is one record in `PROJECTS` in `proposal.py`: name, category, description, screenshot, today's `url` and `final`. When a client moves to its own domain, only `final` changes. Public text does not mention subdomains or GitHub. The Projects description in search results now describes the published work. The illustrative case page (`project-detail`) remains, linked as an example from the service pages.
+- **Manrope everywhere:** self-hosted variable WOFF2 (Latin and Latin Extended, `assets/fonts/manrope-*.woff2`, OFL), with only the real weights 400/500/600/700 (650/750/800 were mapped). Headings are 700 with a more open rhythm (H1 56–60 px, H2 up to 42 px, mobile H1 36–42 px), text is 16–18 px, and content labels are at least 12 px. Hover no longer scales button text (only a 2 px lift). Plus Jakarta Sans is removed. The share images were redrawn in Manrope. ITD2027/M uses the same Manrope file.
+- **The IT Department banner opens the slideshow:** slide 1 is the team's 1536 × 1024 banner, shown whole (`object-fit: contain`) on a dark ground, with its words as the alt text and no second title over it. Then Kraken OS, Communications and AURA follow. It is still 10 seconds per slide, with manual controls, pause and reduced motion. A `banner` slide type in `SLIDES` takes a finished picture.
+- **ITD Labs:** "ITD Labs" in the menu is a plain link to the Labs page, on desktop and in the phone menu. There is no product dropdown, and the link stays underlined in green on the product pages. The Labs page has a pale green hero ("ITD LABS / PRODUKTET TONA", "Ndërtuar nga IT Department për punë më të qartë."). Each card has a green strip, the product view on top in its own colours, a green "01 / PLATFORMË" label, the name and description, and a filled green "Shiko produktin" button.
+- QA scripts updated for the direct link and Manrope.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.

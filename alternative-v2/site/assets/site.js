@@ -3,14 +3,8 @@ const $=(s,root=document)=>root.querySelector(s);
 const $$=(s,root=document)=>[...root.querySelectorAll(s)];
 const copy=JSON.parse($('#site-copy').textContent);
 const menu=$('.menu-toggle'),nav=$('#main-nav');
-const labsButton=$('.labs-toggle'),labsMenu=$('#labs-menu');
-function closeLabs(restore=false){labsButton.setAttribute('aria-expanded','false');labsMenu.hidden=true;if(restore)labsButton.focus();}
-labsButton.addEventListener('click',()=>{const open=labsButton.getAttribute('aria-expanded')!=='true';labsButton.setAttribute('aria-expanded',String(open));labsMenu.hidden=!open;});
-document.addEventListener('click',e=>{if(!e.target.closest('.labs-nav'))closeLabs();});
-document.addEventListener('focusin',e=>{if(!e.target.closest('.labs-nav'))closeLabs();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!labsMenu.hidden){e.stopImmediatePropagation();closeLabs(true);}});
-
-function closeMenu(restore=false){closeLabs();menu.setAttribute('aria-expanded','false');nav.classList.remove('is-open');if(restore)menu.focus();}
+// Report 03: "ITD Labs" is a plain link to the Labs page, so the header has no product dropdown any more.
+function closeMenu(restore=false){menu.setAttribute('aria-expanded','false');nav.classList.remove('is-open');if(restore)menu.focus();}
 menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav.classList.toggle('is-open',open);});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.getAttribute('aria-expanded')==='true')closeMenu(true);});
 document.addEventListener('click',e=>{if(!e.target.closest('.header'))closeMenu();});
