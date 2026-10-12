@@ -32,12 +32,18 @@ jobs:
         run: |
           python3 alternative-calm/build/build.py
           python3 alternative-calm/build/check.py
-      - name: Assemble the site (proposal at the root, /M/ and the calm alternative under /calm/)
+      - name: Build and check ITD2027 · opus (own design in the SELCA style)
+        run: |
+          python3 alternative-opus/build.py
+          python3 alternative-opus/check.py
+      - name: Assemble the site (proposal at the root, /M/, /opus/ and the calm alternative under /calm/)
         run: |
           mkdir -p _site
           cp -R alternative-v2/site/. _site/
           mkdir -p _site/M
           cp -R alternative-v2/site-m/. _site/M/
+          mkdir -p _site/opus
+          cp -R alternative-opus/site/. _site/opus/
           python3 alternative-calm/build/pages.py _site/calm
       - name: Upload the static website
         uses: actions/upload-pages-artifact@v4

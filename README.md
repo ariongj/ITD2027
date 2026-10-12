@@ -11,6 +11,11 @@ ITD2027/M is the same 54 pages in a second look, in the style of the SELCA site:
     ITD_THEME=m python alternative-v2/build.py
     python scripts/check-pages.py alternative-v2/site-m
 
+ITD2027 · opus is a third, independent design in the SELCA spirit: 18 pages (home, services, projects, ITD Labs, about, contact in SQ, EN and DE) with a tilted wall of real project screenshots in the hero, a dark projects rail, the three ITD Labs products, the four-step process, partners, the three plans and the FAQ. Its generator alternative-opus/build.py reads the approved texts, projects, partners, services, prices and FAQ from alternative-v2 and the original pages, and copies the shared pictures and fonts; its own copy is in alternative-opus/content.py and its stylesheet and script in alternative-opus/assets/. Build alternative-v2 first, because the checker also follows the links to the shared legal pages. The output alternative-opus/site/ is not committed.
+
+    python alternative-opus/build.py
+    python alternative-opus/check.py
+
 The existing website remains at the repository root because the newer design's generator reads its content, images and public site.config.json. Keep this layout when rebuilding.
 
     python alternative-v2/build.py
@@ -68,6 +73,7 @@ The publishing workflow in .github/workflows/pages.yml builds the newer design a
 
 https://ariongj.github.io/ITD2027/ (newer design)
 https://ariongj.github.io/ITD2027/M/ (the newer design in the SELCA style)
+https://ariongj.github.io/ITD2027/opus/ (ITD2027 · opus, an own design in the SELCA style)
 https://ariongj.github.io/ITD2027/calm/ (calm alternative)
 
 The workflow validates all 54 HTML pages and their local links and CSS assets before publishing. For the calm alternative, alternative-calm/build/pages.py makes a sub-folder copy with relative links, noindex and no analytics scripts, then checks its 43 pages and every local link and anchor the same way. The source files, legacy PHP endpoints and operational configuration are not part of the Pages website.
