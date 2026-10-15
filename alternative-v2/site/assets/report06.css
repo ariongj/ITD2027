@@ -182,22 +182,31 @@ body[data-page=itd-labs] .end-card .button.outline:hover{color:#06240f}
 .creative-tags{gap:12px;margin-top:32px}
 .creative-tags>span{display:inline-flex;flex:1 1 auto;align-items:center;justify-content:center;min-height:46px;padding:10px 22px;border:1px solid #ffffff3d;border-radius:12px;background:#ffffff0f;color:#f3eef7;font-size:16px;font-weight:600;line-height:1.2;white-space:nowrap}
 
-/* 08 / AI Agents: the approved character inside the orbit, with the AI mark beside it. A cycle of about
-   6 s plus a 1 s pause: it floats 4-6 px, blinks once (about 150 ms), makes a small gesture towards
-   approval, and the active phase lights up in turn. With reduced motion it is the still picture. */
-.r6-orbit{width:clamp(118px,11vw,150px);height:clamp(118px,11vw,150px)}
-.agent-character{position:relative;width:118%;margin-top:6%;animation:r6-float 7s ease-in-out infinite}
-.agent-character img{display:block;width:100%;height:auto;filter:drop-shadow(0 10px 16px #0007)}
-.lid{position:absolute;opacity:0;border-radius:50%;background:radial-gradient(ellipse,#07182a 0 62%,#0a1d30);transform:rotate(-10deg);animation:r6-blink 7s infinite}
-.lid:after{content:'';position:absolute;left:14%;right:14%;top:50%;height:2px;border-radius:2px;background:#9bf5ff;box-shadow:0 0 5px #4fe3ff}
-.lid-l{left:40.6%;top:26%;width:9.8%;height:15.6%}
-.lid-r{left:60.9%;top:21%;width:8.9%;height:15.2%}
+/* 08 / AI Agents: the approved character inside the orbit, with the AI mark beside it. The storyboard on
+   page 15 runs on one 7 s loop shared with the four phases (6 s of action, then 1 s of rest):
+   0-1.5 s Request: eyes open, looking at the request, which lights up.
+   1.5-3 s Agent: a short blink (about 150 ms), the hand prepares the next step.
+   3-4.5 s Approval: a small gesture with the hand, the body leaning towards approval.
+   4.5-6 s Action: the eyes brighten towards the action, then everything returns softly.
+   The whole character floats 4-6 px; the feet follow a little later. With reduced motion every animation
+   is off and the layers show the still picture. */
+.r6-orbit{width:clamp(124px,11vw,152px);height:clamp(124px,11vw,152px)}
+.agent-character{position:relative;width:88%;aspect-ratio:360/311;margin-top:6%;filter:drop-shadow(0 10px 14px #0007);transform-origin:50% 85%;animation:r6-float 7s ease-in-out infinite}
+.ac{position:absolute;inset:0;display:block;width:100%;height:100%}
+.ac-hand{transform-origin:76% 47%;animation:r6-hand 7s ease-in-out infinite}
+.ac-eye-l,.ac-eye-r{animation:r6-eye 7s ease-in-out infinite}
+.ac-eye-l{transform-origin:50.3% 37.7%}
+.ac-eye-r{transform-origin:67.2% 33.7%}
+.ac-foot-l,.ac-foot-r{animation:r6-foot 3.5s ease-in-out infinite}
+.ac-foot-r{animation-delay:.35s}
 .ai-flow>div{animation:r6-step 7s infinite}
 .ai-flow>div:nth-child(2){animation-delay:1.5s}
 .ai-flow>div:nth-child(3){animation-delay:3s}
 .ai-flow>div:nth-child(4){animation-delay:4.5s}
-@keyframes r6-float{0%,21.4%,42.8%,64.2%,85.7%,100%{transform:translateY(0) rotate(0)}10.7%,32%,75%{transform:translateY(-5px) rotate(0)}53.5%{transform:translateY(-3px) rotate(6deg)}}
-@keyframes r6-blink{0%,21%,23.6%,100%{opacity:0}21.6%,23%{opacity:1}}
+@keyframes r6-float{0%{transform:translateY(0) rotate(0)}10.7%{transform:translateY(-5px) rotate(-1deg)}21.4%{transform:translateY(-1px) rotate(0)}32.1%{transform:translateY(-5px) rotate(0)}42.9%{transform:translateY(-2px) rotate(2deg)}53.6%{transform:translateY(-5px) rotate(4deg)}64.3%{transform:translateY(-2px) rotate(2deg)}75%{transform:translateY(-5px) rotate(1deg)}85.7%,100%{transform:translateY(0) rotate(0)}}
+@keyframes r6-hand{0%,15%{transform:rotate(0) translate(0,0)}21.4%{transform:rotate(-6deg) translate(0,-1%)}30%,42.9%{transform:rotate(-16deg) translate(0,-2%)}49%{transform:rotate(14deg) translate(-1%,2%)}54%{transform:rotate(5deg) translate(-1%,1%)}59%{transform:rotate(14deg) translate(-1%,2%)}70%{transform:rotate(4deg) translate(0,0)}85.7%,100%{transform:rotate(0) translate(0,0)}}
+@keyframes r6-eye{0%{transform:translate(0,0) scaleY(1);filter:none}4%,19%{transform:translate(-1.5%,1%) scaleY(1)}22.9%{transform:translate(-.6%,1%) scaleY(1)}24%{transform:translate(-.6%,1%) scaleY(.1)}25.1%,40%{transform:translate(-.6%,1%) scaleY(1)}46%,61%{transform:translate(.7%,1%) scaleY(1);filter:none}68%,82%{transform:translate(1.4%,1%) scaleY(1);filter:brightness(1.3)}88%,100%{transform:translate(0,0) scaleY(1);filter:none}}
+@keyframes r6-foot{0%,100%{transform:translateY(0)}50%{transform:translateY(-3%)}}
 @keyframes r6-step{0%,20%{border-color:#7fe8d4;background:#1d5a54cc;box-shadow:0 0 0 1px #7fe8d44d,0 0 22px #4fd1b833}21.5%,100%{border-color:#78c8c52a;background:#18363a70;box-shadow:none}}
 
 /* 09 / Contact: the form in black, the title in red, white text and light fields. */
@@ -210,7 +219,34 @@ body[data-page=itd-labs] .end-card .button.outline:hover{color:#06240f}
 .r6-form-dark .enquiry-form textarea::placeholder{color:#55595f}
 .r6-form-dark .form-note{color:#b9bec7}
 .r6-form-dark .form-note a,.r6-form-dark .form-status,.r6-form-dark .form-recovery .text-link{color:#fff}
+.r6-form-dark .form-status[data-state=error]{color:#ffaaaa}
+.r6-form-dark .form-status[data-state=success]{color:#91e6c5}
 .r6-form-dark :focus-visible{outline-color:#fff}
+/* As in the report: the form runs the full width under the three ways to start, with the privacy line
+   and the send button on one row; the address, phone and map follow below it. */
+.r6-contact{grid-template-columns:minmax(0,1fr);gap:56px}
+@media(min-width:801px){
+.r6-form-dark .enquiry-form{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:32px;row-gap:20px;align-items:center}
+.r6-form-dark .enquiry-form>*{grid-column:1/-1}
+.r6-form-dark .enquiry-form>.form-note{grid-column:1}
+.r6-form-dark .enquiry-form>.form-submit{grid-column:2;justify-content:flex-end}
+.r6-form-dark .form-submit .button{min-width:240px}
+.r6-form-dark .form-status{text-align:right}
+}
+@media(min-width:1121px){
+.r6-contact>.contact-aside{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr);gap:0 40px;align-items:start;padding-top:0}
+.r6-contact>.contact-aside>.eyebrow,.r6-contact>.contact-aside>h2{grid-column:1}
+.r6-contact .contact-details{grid-column:2;grid-row:1/4;margin-top:0}
+.r6-contact .map-card{grid-column:3;grid-row:1/4;margin-top:0}
+}
+
+/* Smaller points from the report's pages 3-5: titles 56-64 px on desktop, the banner slide without a label
+   (as in the mock-up), and the red menu lines on the black header. */
+@media(min-width:1121px){
+[data-axis=center] :is(.page-intro,.r6-hero,.r6-dark-box,.labs-hero,.about-hero) h1{font-size:clamp(56px,4.3vw,62px)}
+}
+.r6-stage .slide-tag{display:none}
+body:not([data-page=itd-labs]):not([data-page=creative]):not([data-page=ai-agents]) .menu-toggle{color:#ff4d57}
 
 @media(max-width:1120px){
 .r6-stage{grid-template-columns:minmax(0,1fr)}

@@ -68,7 +68,7 @@ def labs_stage(l):
 def labs(l,t):
  if THEME=='m': return _r5_labs(l,t)
  title=tr(l,('Ide që bëhen','produkte.'),('Ideas become','products.'),('Aus Ideen werden','Produkte.'))
- lead=tr(l,'Produkte dhe eksperimente të zhvilluara brenda IT Department. Secili me një qëllim të qartë dhe identitetin e vet.','Products and experiments developed within IT Department. Each with a clear purpose and its own identity.','Produkte und Experimente, entwickelt bei IT Department. Jedes mit einem klaren Zweck und eigener Identität.')
+ lead=tr(l,'Produkte dhe eksperimente të zhvilluara brenda IT Department. Secili me një qëllim të qartë dhe identitetin e vet.','Products and experiments developed within IT Department. Each with a clear purpose and its own identity.','Produkte und Experimente, entwickelt bei IT Department. Jedes mit einem klaren Zweck und einer eigenen Identität.')
  chips=tr(l,['NDËRTUAR NGA ITD','PRODUKTE & EKSPERIMENTE'],['BUILT BY ITD','PRODUCTS & EXPERIMENTS'],['ENTWICKELT VON ITD','PRODUKTE & EXPERIMENTE'])
  hero=(f'<section class="labs-hero wrap"><p class="eyebrow">{tr(l,"ITD LABS / PRODUKTET TONA","ITD LABS / OUR PRODUCTS","ITD LABS / UNSERE PRODUKTE")}</p><h1>{title[0]} <span>{title[1]}</span></h1><p class="lead">{lead}</p>'
   f'<div class="actions">{button(tr(l,"Eksploro produktet","Explore the products","Produkte entdecken"),"#products",style="mint")}{button(t["talk"],route("contact",l),style="ghost")}</div>'
@@ -90,14 +90,17 @@ def header(page,l,t): return labs_logo(_r5_header(page,l,t),page)
 def footer(l,t,page='index'): return labs_logo(_r5_footer(l,t,page),page)
 
 # AI Agents: the approved character inside the existing Request → Agent → Approval → Action box.
+# It is the report's picture split into layers on one canvas (assets/ai/character/: feet, body, eyes, raised
+# hand), so report06.css can move each part along the storyboard on page 15; stacked still, they are the
+# original picture (also the view with reduced motion).
+CHARACTER_LAYERS=['foot-l','foot-r','body','eye-l','eye-r','hand']
 def ai(l,t):
  html=_r5_ai(l,t)
  if THEME=='m': return html
  old=f'<div class="agent-orbit">{icon(2)}<span>AI</span></div>'
  assert old in html
- character=('<div class="agent-character"><img src="assets/ai/agent-character-200.webp" srcset="assets/ai/agent-character-200.webp 200w, assets/ai/agent-character-400.webp 400w" sizes="170px" width="200" height="152" alt="" decoding="async">'
-  '<i class="lid lid-l"></i><i class="lid lid-r"></i></div>')
- return html.replace(old,f'<div class="agent-orbit r6-orbit">{character}<span>AI</span></div>',1)
+ layers=''.join(f'<img class="ac ac-{x}" src="assets/ai/character/{x}.webp" width="360" height="311" alt="" decoding="async">' for x in CHARACTER_LAYERS)
+ return html.replace(old,f'<div class="agent-orbit r6-orbit"><div class="agent-character">{layers}</div><span>AI</span></div>',1)
 
 # Contact: the enquiry form in black with a red title and a short line under it; fields and sending unchanged.
 def contact(l,t):
@@ -107,4 +110,10 @@ def contact(l,t):
  old=f'<div class="form-card"><h2>{title}</h2>'
  assert old in html
  lead=tr(l,'Pak kontekst na ndihmon të nisim nga pika e duhur.','A little context helps us start in the right place.','Etwas Kontext hilft uns, an der richtigen Stelle zu beginnen.')
- return html.replace(old,f'<div class="form-card r6-form-dark"><h2>{title}</h2><p class="form-lead">{lead}</p>',1)
+ html=html.replace(old,f'<div class="form-card r6-form-dark"><h2>{title}</h2><p class="form-lead">{lead}</p>',1)
+ # The form first (full width, as in the report), then the address, phone and map.
+ start=html.index('<section class="wrap section contact-grid" id="enquiry">'); end=html.index('</section>',start)
+ grid=html[start:end]; split=grid.index('<div class="form-card')
+ opening='<section class="wrap section contact-grid" id="enquiry">'
+ aside=grid[len(opening):split]; form=grid[split:]
+ return html[:start]+'<section class="wrap section contact-grid r6-contact" id="enquiry">'+form+aside+html[end:]
