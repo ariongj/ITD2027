@@ -7,6 +7,9 @@
  const slides=[...root.querySelectorAll('[data-slide]')],dots=[...root.querySelectorAll('.slider-dot')];
  if(slides.length<2)return;
  const list=root.querySelector('.slides'),pause=root.querySelector('.slider-pause');
+ // Report 06: on wide screens the previous and next slides show beside the active one (decorative;
+ // a click turns the slideshow, the arrows and dots stay the accessible controls).
+ const stage=root.closest('.r6-stage'),peekCols=stage?[...stage.querySelectorAll('[data-peeks]')]:[];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
  let index=0,stopped=reduced,hover=false,focus=false,touch=false;
  root.querySelector('.slider-controls').hidden=false;root.classList.add('is-ready');
@@ -27,7 +30,12 @@
   fill.classList.remove('is-running');void fill.offsetWidth;fill.classList.add('is-running');
   // Optional "01 / 03" counter (ITD2027/M).
   const counter=root.querySelector('[data-counter]');if(counter)counter.textContent=String(index+1).padStart(2,'0');
+  peekCols.forEach(col=>{
+   const k=(index+(col.dataset.peeks==='prev'?-1:1)+slides.length)%slides.length;
+   col.dataset.target=k;[...col.children].forEach((p,i)=>p.classList.toggle('is-shown',i===k));
+  });
  }
+ peekCols.forEach(col=>col.addEventListener('click',()=>show(Number(col.dataset.target))));
  dots.forEach((d,i)=>{
   d.addEventListener('click',()=>show(i));
   d.querySelector('.slider-fill').addEventListener('animationend',()=>{if(i===index)show(index+1);});

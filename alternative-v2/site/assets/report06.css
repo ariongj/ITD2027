@@ -1,0 +1,247 @@
+/* Change report 06 (13 October 2026) — the main version only; ITD2027/M does not load this file.
+   01 one axis for titles · 02 home hero · 03 background · 04 partners 3 × 3 · 05 Services hero and filters
+   06 ITD Labs in green · 07 Creative boxes · 08 AI character · 09 black contact form. */
+
+/* 01 / Titles: base pages and ITD Labs share one centred axis (<body data-axis="center">).
+   Manrope stays the system font; titles 56-64 px on desktop and 34-40 px on phones; descriptions
+   at a limited width with line-height 1.5-1.6; field labels and long text keep normal alignment. */
+[data-axis=center]{--paper:#f7f6f2}
+[data-axis=center] .page-intro{text-align:center}
+[data-axis=center] .page-intro h1,[data-axis=center] .page-intro .lead{margin-inline:auto}
+[data-axis=center] :is(.page-intro,.r6-hero,.r6-dark-box,.labs-hero,.about-hero) h1{font-size:clamp(36px,4.3vw,62px);line-height:1.08;letter-spacing:-.035em}
+[data-axis=center] :is(.page-intro,.r6-hero,.r6-dark-box,.labs-hero,.about-hero) .lead{max-width:660px;line-height:1.6}
+[data-axis=center] .section-heading{flex-direction:column;align-items:center;text-align:center;gap:12px}
+[data-axis=center] .section-heading>div{max-width:780px;margin-inline:auto}
+[data-axis=center] .section-heading p:not(.eyebrow){max-width:640px;margin-inline:auto;line-height:1.55}
+[data-axis=center] .section>.chips{justify-content:center}
+[data-axis=center] .partner-list .section-note{margin-inline:auto;text-align:center}
+/* Filters in the centre: the active one red, the others light. */
+[data-axis=center] .filters{justify-content:center;gap:12px}
+[data-axis=center] .filters button{min-width:132px;padding:10px 24px;border-radius:999px;border-color:transparent;background:#e7e8e3;color:#1d2024;font-size:14px}
+[data-axis=center] .filters button:hover{border-color:#e00000}
+[data-axis=center] .filters button[aria-pressed=true]{background:#e00000;border-color:#e00000;color:#fff}
+/* Card names in the centre of their card: services, products, projects, partners, contact paths, values. */
+[data-axis=center] .priority-card{display:flex;flex-direction:column;align-items:center;text-align:center}
+[data-axis=center] .priority-card p{max-width:460px}
+[data-axis=center] .priority-card .text-link{gap:12px;min-height:44px;padding:9px 22px;border-radius:999px;background:#e00000;color:#fff;font-size:14px}
+[data-axis=center] .priority-card .text-link>span{font-size:16px;color:#fff}
+[data-axis=center] .priority-card:hover .text-link{background:#b90e22}
+[data-axis=center] .family-card{text-align:center}
+[data-axis=center] .family-card .icon{display:block;margin-inline:auto}
+[data-axis=center] .family-card p{margin-inline:auto}
+[data-axis=center] .project-copy{align-items:center;text-align:center}
+[data-axis=center] .service-family-title{padding-right:0;text-align:center}
+[data-axis=center] .service-family-title>.icon{position:static;display:block;margin:0 auto 16px}
+[data-axis=center] .service-family-title p{margin-inline:auto;max-width:440px}
+[data-axis=center] .contact-path,[data-axis=center] .values .card{text-align:center}
+/* The closing black box follows the same axis. */
+[data-axis=center] .end-card{flex-direction:column;justify-content:center;text-align:center;gap:26px}
+[data-axis=center] .end-card>div:first-child,[data-axis=center] .end-card h2,[data-axis=center] .end-card p:not(.eyebrow){margin-inline:auto}
+[data-axis=center] .end-card .actions{justify-content:center;margin-top:0}
+/* About: the title, text and action in the centre, the quote box under them. */
+[data-axis=center] .about-hero{grid-template-columns:minmax(0,1fr);justify-items:center;gap:44px;text-align:center}
+[data-axis=center] .about-hero h1,[data-axis=center] .about-hero .lead{margin-inline:auto}
+[data-axis=center] .quote-card{width:100%;max-width:760px;text-align:left}
+
+/* 03 / Background: a warm white base, a very light grid and thin red lines only at the edge, behind the
+   home title and the page introductions. No words or icons in the background. */
+.r6-hero-band,[data-axis=center] .page-intro{position:relative;isolation:isolate}
+.r6-hero-band{overflow:hidden}
+.r6-hero-band:before,[data-axis=center] .page-intro:before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(#1113180a 1px,transparent 1px),linear-gradient(90deg,#1113180a 1px,transparent 1px);background-size:56px 56px;background-position:center top;-webkit-mask-image:radial-gradient(ellipse 75% 95% at 50% 0,#000 35%,transparent 100%);mask-image:radial-gradient(ellipse 75% 95% at 50% 0,#000 35%,transparent 100%)}
+.r6-hero-band:after,[data-axis=center] .page-intro:after{content:'';position:absolute;z-index:-1;top:0;right:0;left:auto;width:min(36vw,420px);height:260px;border:0;border-radius:0;box-shadow:none;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 260' fill='none' stroke='%23e00000'%3E%3Cpath d='M170 0 420 150' stroke-opacity='.42'/%3E%3Cpath d='M245 0 420 105' stroke-opacity='.3'/%3E%3Cpath d='M300 0 404 260' stroke-opacity='.36'/%3E%3Cpath d='M372 0 420 72' stroke-opacity='.24'/%3E%3C/svg%3E") no-repeat right top/contain}
+/* A light band separates one topic on the home page; black boxes carry the main actions. */
+body[data-page=index] .partner-section{margin-top:80px;padding-top:80px;padding-bottom:84px;background:#efeee8;box-shadow:0 0 0 100vmax #efeee8;clip-path:inset(0 -100vmax)}
+
+/* 02 / Home: the title on top in the centre, the slideshow below it (IT Department banner first,
+   10 s per slide, arrows, indicators and pause). The neighbouring slides show at the sides on wide screens. */
+.r6-hero{display:block;min-height:0;padding-block:76px 18px;text-align:center}
+.r6-hero:before{display:none}
+.r6-hero .hero-copy{max-width:1120px;margin-inline:auto}
+.r6-hero .eyebrow{color:#c40000}
+.r6-hero h1{max-width:none;margin-inline:auto}
+.r6-hero .lead{margin:20px auto 0}
+.r6-hero .actions{justify-content:center}
+.r6-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,660px) minmax(0,1fr);gap:clamp(18px,2.8vw,40px);align-items:center;margin-top:52px;text-align:left}
+.r6-stage>.hero-slider{grid-column:2;grid-row:1;max-width:none;overflow:visible;border-radius:0;background:none;color:var(--ink)}
+.r6-stage .slides{border-radius:20px;overflow:hidden;background:#0b1d33;color:#fff;box-shadow:0 28px 64px #0b0d1029}
+.r6-stage .slide{min-height:420px;padding-bottom:34px}
+.r6-stage .slide.slide-banner{padding:0}
+.r6-stage .slider-controls{position:static;justify-content:center;gap:16px;margin-top:16px}
+.r6-stage .slider-bar{background:#d5d5d0}
+.r6-stage .slider-fill{background:#e00000}
+.r6-stage .slider-arrows button{border-color:#d3d3ce;background:#fff;color:var(--ink)}
+.r6-stage .slider-arrows button:hover{border-color:var(--ink);background:#fff}
+.r6-stage .hero-slider :focus-visible{outline-color:#e00000}
+.peek-col{display:grid;grid-row:1;cursor:pointer}
+.peek-prev{grid-column:1}
+.peek-next{grid-column:3}
+.peek{grid-area:1/1;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility 0s linear .5s}
+.peek.is-shown{opacity:1;visibility:visible;transition:opacity .5s ease}
+.peek-card{display:flex;flex-direction:column;overflow:hidden;border-radius:18px;background:#0e2240;color:#fff;box-shadow:0 18px 40px #0b0d101f;transform:scale(.96);transition:transform .25s ease}
+.peek-col:hover .peek-card{transform:scale(1)}
+.peek-media{display:block;aspect-ratio:16/10;padding:14px 14px 0;overflow:hidden}
+.peek-media img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left;border-radius:8px 8px 0 0}
+.peek-name{padding:14px 16px 18px;font-size:18px;font-weight:700;letter-spacing:-.02em;text-align:center}
+.peek-banner{background:#0b0d10}
+.peek-banner .peek-media{padding:0}
+.peek-banner .peek-media img{border-radius:0;object-position:center}
+.peek-communications{background:#0d3049}
+.peek-aura{background:#14111c}
+.peek-aura .peek-media img{object-fit:contain;object-position:center;padding:10% 0}
+
+/* 04 / Partners: nine logos in 3 × 3 (two columns on tablets, one on phones), logo above name and line. */
+.partner-card{grid-template-columns:minmax(0,1fr);justify-items:center;align-content:start;gap:12px;min-height:0;padding:26px 24px 24px;text-align:center}
+.partner-mark{width:100%;height:72px;padding:0;border-right:0;border-bottom:0}
+.partner-mark img{max-width:190px;height:56px}
+.partner-copy{padding-left:0}
+.partner-copy p:not(.partner-index){max-width:300px;margin-inline:auto}
+
+/* 05 / Services: the title in a black box with thin red lines at both edges. */
+.r6-dark-hero{padding-top:28px}
+.r6-dark-box{position:relative;overflow:hidden;isolation:isolate;border-radius:24px;background:#0b0d10;color:#fff;text-align:center;padding:clamp(48px,6vw,84px) clamp(24px,8vw,120px)}
+.r6-dark-box:before,.r6-dark-box:after{content:'';position:absolute;z-index:-1;top:0;bottom:0;width:min(26%,320px);pointer-events:none;background:repeating-linear-gradient(176deg,transparent 0 40px,#e000005c 40px 41px);-webkit-mask-image:linear-gradient(90deg,#000,transparent);mask-image:linear-gradient(90deg,#000,transparent)}
+.r6-dark-box:before{left:0}
+.r6-dark-box:after{right:0;transform:scaleX(-1)}
+.r6-dark-box .eyebrow{color:#ff6b6b}
+.r6-dark-box h1{max-width:none;margin:0 auto;color:#fff}
+.r6-dark-box .lead{margin:22px auto 0;color:#c9ccd2}
+
+/* 06 / ITD Labs: the green gradient covers the page (header and footer included), the products stay in
+   focus, the original logo in #008000 and a small drawn flask. AURA keeps its own tones. */
+body[data-page=itd-labs]{--ink:#eef7f1;--muted:#b7cdbf;--line:#ffffff1f;--card:#ffffff0d;--accent:#7fe0a0;color:var(--ink);background:radial-gradient(ellipse 70% 42% at 50% 0,#1f6040 0,transparent 72%),radial-gradient(ellipse 50% 40% at 100% 55%,#164a2e 0,transparent 70%),radial-gradient(ellipse 50% 40% at 0 80%,#123f27 0,transparent 70%),linear-gradient(180deg,#0f2d1d 0,#0b2316 45%,#081a10 100%)}
+body[data-page=itd-labs] :focus-visible{outline-color:#a8efc0}
+body[data-page=itd-labs] .header{background:#06170ef2;border-bottom-color:#2f9e5a}
+body[data-page=itd-labs] .header nav{background:#06170e}
+body[data-page=itd-labs] .nav-cta{background:#a8efc0;border-color:#a8efc0;color:#06240f}
+body[data-page=itd-labs] .nav-cta:hover{background:#d4fbe0;border-color:#d4fbe0;color:#06240f}
+body[data-page=itd-labs] .nav-links a.labs-link[aria-current=page]:after{background:#7fe0a0}
+body[data-page=itd-labs] .footer{background:#051209;border-top:1px solid #9fe8b622}
+.button.mint{background:linear-gradient(90deg,#8fe6ad,#c2f5d2);border-color:transparent;color:#06240f}
+.button.mint:hover{background:#d9fbe4;border-color:#d9fbe4;color:#06240f}
+.button.ghost{background:transparent;border-color:#ffffff66;color:#fff}
+.button.ghost:hover{background:#ffffff14;border-color:#fff;color:#fff}
+.labs-hero{padding-block:76px 30px;text-align:center}
+.labs-hero .eyebrow,.labs-catalog .eyebrow,body[data-page=itd-labs] .end-card .eyebrow{color:#9fe8b6}
+.labs-hero .eyebrow{letter-spacing:.2em}
+.labs-hero h1{max-width:none;margin:0 auto;color:#fff}
+.labs-hero h1 span{background:linear-gradient(90deg,#fff 0,#c9f7d7 55%,#8fe6ad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.labs-hero .lead{margin:20px auto 0;color:#cfe3d6}
+.labs-hero .actions{justify-content:center}
+.labs-stage{position:relative;max-width:1060px;height:clamp(250px,40vw,500px);margin:56px auto 0}
+.labs-stage figure{margin:0}
+.stage-win{position:absolute;overflow:hidden;border-radius:14px;background:#0b1d14;border:1px solid #ffffff2b;box-shadow:0 30px 60px #0008}
+.stage-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#0d2318;color:#d7efe0;font-size:12px;font-weight:700;letter-spacing:.06em;white-space:nowrap}
+.stage-bar i{width:8px;height:8px;flex:none;border-radius:50%;background:#3e6b50}
+.stage-bar b{margin-left:10px;overflow:hidden;text-overflow:ellipsis}
+.stage-win img{display:block;width:100%;height:auto}
+.stage-kraken{left:25%;top:6%;width:56%;transform:rotate(-2.5deg)}
+.stage-comms{z-index:2;left:8%;top:40%;width:36%;transform:rotate(-6deg)}
+.stage-aura{position:absolute;z-index:2;right:9%;top:34%;width:21%;aspect-ratio:4/5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:20px;background:radial-gradient(ellipse at 50% 40%,#2e2340,#14111c 70%);border:1px solid #ffffff21;box-shadow:0 30px 60px #0008;transform:rotate(6deg);color:#fff;text-align:center}
+.stage-aura img{width:62%;height:auto}
+.stage-aura strong{font-size:14px;letter-spacing:.35em}
+.stage-aura small{font-size:11px;line-height:1.3;color:#cdc4da}
+.labs-badge{position:absolute;z-index:3;right:15%;top:0;display:grid;place-items:center;width:clamp(56px,7vw,96px);aspect-ratio:1;border-radius:24%;background:linear-gradient(145deg,#215f3c,#123d26);border:1px solid #9fe8b64d;box-shadow:0 14px 30px #0006;transform:rotate(-8deg)}
+.labs-flask{width:66%;height:auto;overflow:visible}
+.labs-flask .flask-body{animation:r6-bob 7s ease-in-out infinite}
+.labs-flask .bubble{opacity:.85;animation:r6-bubble 7s ease-in infinite}
+.labs-flask .b2{animation-delay:2.3s}
+.labs-flask .b3{animation-delay:4.6s}
+@keyframes r6-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5px)}}
+@keyframes r6-bubble{0%{opacity:0;transform:translate(0,0)}12%{opacity:.9}55%,100%{opacity:0;transform:translate(9px,-40px)}}
+.labs-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:34px 0 0;padding:0;list-style:none}
+.labs-chips li{padding:8px 18px;border:1px solid #ffffff3d;border-radius:999px;color:#d7efe0;font-size:12px;font-weight:700;letter-spacing:.12em}
+.labs-chips li+li{margin-top:0}
+.labs-catalog .lab-card{border:1px solid #9fe8b633;border-radius:20px;background:linear-gradient(180deg,#183f2a,#10301f);box-shadow:0 24px 50px #0004;text-align:center}
+.labs-catalog .lab-card:hover{border-color:#9fe8b680}
+.labs-catalog .lab-art{margin:12px 12px 0;border-radius:12px}
+.labs-catalog .lab-card-copy{align-items:center}
+.labs-catalog .lab-card:nth-child(n) .lab-card-copy>.eyebrow{color:#9fe8b6}
+.labs-catalog .lab-art-2>img{object-position:center}
+.labs-catalog .section-note{margin-inline:auto;text-align:center}
+.labs-catalog .lab-card-copy h3{margin-bottom:10px;color:#fff;font-size:24px;letter-spacing:-.03em}
+.labs-catalog .lab-card-copy>p:not(.eyebrow){margin-bottom:16px;color:#c9dccf}
+.lab-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:0 0 22px;padding:0;list-style:none}
+.lab-tags li{padding:4px 10px;border:1px solid #9fe8b64d;border-radius:6px;color:#d7efe0;font-size:12px}
+.lab-tags li+li{margin-top:0}
+.labs-catalog .lab-card-copy .button{align-self:center;margin-top:auto}
+body[data-page=itd-labs] .section-note{color:#a9c4b2}
+body[data-page=itd-labs] .aura-showcase{border:1px solid #ffffff17}
+body[data-page=itd-labs] .aura-showcase>div:first-child{text-align:center}
+body[data-page=itd-labs] .aura-showcase p{margin-inline:auto}
+body[data-page=itd-labs] .aura-showcase .button.light{background:transparent;border-color:#ffffff73;color:#fff}
+body[data-page=itd-labs] .aura-showcase .button.light:hover{background:#fff;border-color:#fff;color:#0c0d14}
+body[data-page=itd-labs] .end-card{background:radial-gradient(ellipse at 85% 110%,#226f43 0,transparent 60%),linear-gradient(135deg,#143f28,#0c2a1a);border:1px solid #9fe8b633}
+body[data-page=itd-labs] .end-card:before{border-color:#9fe8b640;box-shadow:0 0 0 46px #9fe8b60a,0 0 0 92px #9fe8b606}
+body[data-page=itd-labs] .end-card:after{content:'';position:absolute;right:30px;bottom:24px;width:40px;height:50px;opacity:.55;transform:rotate(12deg);pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 80'%3E%3Cpath d='M24.5 12V29L11 57.2C8.2 63.1 12.5 70 19 70H45C51.5 70 55.8 63.1 53 57.2L39.5 29V12' fill='none' stroke='%239fe8b6' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M15.6 47.5Q32 43.5 48.4 47.5L53 57.2C55.8 63.1 51.5 70 45 70H19C12.5 70 8.2 63.1 11 57.2Z' fill='%239fe8b6' fill-opacity='.55'/%3E%3Crect x='20' y='6' width='24' height='7' rx='3.5' fill='none' stroke='%239fe8b6' stroke-width='2.5'/%3E%3C/svg%3E") no-repeat center/contain}
+body[data-page=itd-labs] .end-card .button:not(.outline){background:linear-gradient(90deg,#8fe6ad,#c2f5d2);border-color:transparent;color:#06240f}
+body[data-page=itd-labs] .end-card .button:not(.outline):hover{background:#d9fbe4;border-color:#d9fbe4;color:#06240f}
+body[data-page=itd-labs] .end-card .button.outline:hover{color:#06240f}
+
+/* 07 / Creative: Branding, Social, Video & Motion and Campaigns as bigger boxes
+   (16 px text, 44-48 px high, more padding, 12 px apart); they wrap naturally on phones. */
+.creative-tags{gap:12px;margin-top:32px}
+.creative-tags>span{display:inline-flex;flex:1 1 auto;align-items:center;justify-content:center;min-height:46px;padding:10px 22px;border:1px solid #ffffff3d;border-radius:12px;background:#ffffff0f;color:#f3eef7;font-size:16px;font-weight:600;line-height:1.2;white-space:nowrap}
+
+/* 08 / AI Agents: the approved character inside the orbit, with the AI mark beside it. A cycle of about
+   6 s plus a 1 s pause: it floats 4-6 px, blinks once (about 150 ms), makes a small gesture towards
+   approval, and the active phase lights up in turn. With reduced motion it is the still picture. */
+.r6-orbit{width:clamp(118px,11vw,150px);height:clamp(118px,11vw,150px)}
+.agent-character{position:relative;width:118%;margin-top:6%;animation:r6-float 7s ease-in-out infinite}
+.agent-character img{display:block;width:100%;height:auto;filter:drop-shadow(0 10px 16px #0007)}
+.lid{position:absolute;opacity:0;border-radius:50%;background:radial-gradient(ellipse,#07182a 0 62%,#0a1d30);transform:rotate(-10deg);animation:r6-blink 7s infinite}
+.lid:after{content:'';position:absolute;left:14%;right:14%;top:50%;height:2px;border-radius:2px;background:#9bf5ff;box-shadow:0 0 5px #4fe3ff}
+.lid-l{left:40.6%;top:26%;width:9.8%;height:15.6%}
+.lid-r{left:60.9%;top:21%;width:8.9%;height:15.2%}
+.ai-flow>div{animation:r6-step 7s infinite}
+.ai-flow>div:nth-child(2){animation-delay:1.5s}
+.ai-flow>div:nth-child(3){animation-delay:3s}
+.ai-flow>div:nth-child(4){animation-delay:4.5s}
+@keyframes r6-float{0%,21.4%,42.8%,64.2%,85.7%,100%{transform:translateY(0) rotate(0)}10.7%,32%,75%{transform:translateY(-5px) rotate(0)}53.5%{transform:translateY(-3px) rotate(6deg)}}
+@keyframes r6-blink{0%,21%,23.6%,100%{opacity:0}21.6%,23%{opacity:1}}
+@keyframes r6-step{0%,20%{border-color:#7fe8d4;background:#1d5a54cc;box-shadow:0 0 0 1px #7fe8d44d,0 0 22px #4fd1b833}21.5%,100%{border-color:#78c8c52a;background:#18363a70;box-shadow:none}}
+
+/* 09 / Contact: the form in black, the title in red, white text and light fields. */
+.r6-form-dark{position:relative;overflow:hidden;isolation:isolate;background:#0b0d10;border-color:#0b0d10;color:#fff}
+.r6-form-dark:before{content:'';position:absolute;z-index:-1;top:0;right:0;width:250px;height:190px;pointer-events:none;opacity:.9;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 420 260' fill='none' stroke='%23ff4d57'%3E%3Cpath d='M170 0 420 150' stroke-opacity='.42'/%3E%3Cpath d='M245 0 420 105' stroke-opacity='.3'/%3E%3Cpath d='M300 0 404 260' stroke-opacity='.36'/%3E%3C/svg%3E") no-repeat right top/contain}
+.r6-form-dark>h2{margin-bottom:10px;color:#ff4d57;text-align:center}
+.r6-form-dark>.form-lead{margin-bottom:28px;color:#d5d8dd;text-align:center}
+.r6-form-dark .enquiry-form label{color:#fff}
+.r6-form-dark .enquiry-form :is(input,select,textarea){background:#e9ece7;border-color:#e9ece7;color:#111318}
+.r6-form-dark .enquiry-form textarea::placeholder{color:#55595f}
+.r6-form-dark .form-note{color:#b9bec7}
+.r6-form-dark .form-note a,.r6-form-dark .form-status,.r6-form-dark .form-recovery .text-link{color:#fff}
+.r6-form-dark :focus-visible{outline-color:#fff}
+
+@media(max-width:1120px){
+.r6-stage{grid-template-columns:minmax(0,1fr)}
+.r6-stage>.hero-slider{grid-column:1;width:100%;max-width:760px;margin-inline:auto}
+.peek-col{display:none}
+.stage-bar{padding:8px 10px;font-size:10px}
+}
+@media(max-width:800px){
+body[data-page=index] .partner-section{margin-top:56px;padding-top:56px;padding-bottom:60px}
+.labs-stage{margin-top:40px}
+.stage-kraken{left:18%;width:70%}
+.stage-comms{left:2%;top:44%;width:46%}
+.stage-aura{right:2%;width:27%;gap:4px;padding:8px}
+.stage-aura small{display:none}
+.labs-badge{right:6%;top:-4%}
+}
+@media(max-width:540px){
+.r6-hero{padding-top:44px}
+.r6-stage{margin-top:36px}
+.r6-stage .slide{min-height:0;padding-bottom:26px}
+.r6-stage .slider-controls{gap:10px}
+.r6-dark-hero{padding-top:16px}
+.r6-dark-box{border-radius:20px}
+.labs-hero{padding-top:44px}
+.labs-stage{height:230px}
+.stage-bar{gap:4px;padding:6px 8px;font-size:8px}
+.stage-bar i{width:5px;height:5px}
+.stage-bar b{margin-left:4px}
+.stage-aura strong{font-size:10px;letter-spacing:.25em}
+.labs-chips{margin-top:26px}
+.labs-chips li{font-size:11px;padding:7px 14px}
+.creative-tags>span{padding-inline:16px}
+.r6-form-dark:before{width:160px;height:120px}
+}

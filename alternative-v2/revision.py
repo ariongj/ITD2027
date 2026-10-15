@@ -96,19 +96,25 @@ def aura_phone(l):
  # The AURA product view: its vector emblem on the app's dark screen (colours from the AURA app).
  return f'<figure class="aura-phone"><img src="assets/labs/aura-emblem.svg" width="200" height="200" alt=""><figcaption>AURA</figcaption><p{en_attr(l)}>Say it. Consider it handled.</p></figure>'
 
+# The three ITD Labs products in catalogue order: page, name, picture, kind, description and tags.
+def lab_items(l):
+ return [('krakenos','Kraken OS','kraken-card',tr(l,'Platformë modulare','Modular platform','Modulare Plattform'),tr(l,'Klientët, puna dhe vendimet lidhen në një platformë të përbashkët.','Customers, work and decisions come together in one platform.','Kunden, Arbeit und Entscheidungen in einer gemeinsamen Plattform.'),['CRM',tr(l,'Projekte','Projects','Projekte'),'Accounting','Workspace']),('kraken-communications','Kraken Communications','communications-card',tr(l,'Komunikim me klientët','Customer communication','Kundenkommunikation'),tr(l,'Kanalet, kontaktet, bisedat e ekipit dhe ofertat në një platformë.','Channels, contacts, team conversations and offers in one platform.','Kanäle, Kontakte, Teamgespräche und Angebote in einer Plattform.'),['Inbox',tr(l,'Kontakte','Contacts','Kontakte'),tr(l,'Oferta','Offers','Angebote')]),('aura','AURA','aura-emblem',tr(l,'Asistent privat me zë','Private voice assistant','Privater Sprachassistent'),tr(l,'Një asistent i menduar për mënyrën si punon: nga kërkesat te detyrat dhe takimet.','An assistant designed around how you work: from requests to tasks and meetings.','Ein Assistent für Ihre Arbeitsweise: von Anfragen zu Aufgaben und Terminen.'),['Voice-first',tr(l,'Detyra','Tasks','Aufgaben'),tr(l,'Takime','Meetings','Termine')])]
+def lab_kinds(l): return tr(l,['PLATFORMË','KOMUNIKIM','ASISTENT'],['PLATFORM','COMMUNICATION','ASSISTANT'],['PLATTFORM','KOMMUNIKATION','ASSISTENT'])
+def lab_image(img,name,l):
+ # AURA: vector emblem rebuilt from the AURA app's own drawing code (replaces the raster from the PDF).
+ return 'src="assets/labs/aura-emblem.svg" alt="AURA" width="200" height="200"' if img=='aura-emblem' else f'src="assets/labs/{SLIDE_IMAGE[img]}" alt="{name} — {copy(l)["screenshot"]}" width="760" height="396"'
+def aura_showcase(l):
+ return f'<section class="wrap section"><div class="aura-showcase"><div><p class="eyebrow">AURA / ITD LABS</p><h2{en_attr(l)}>Say it.<br>Consider it<br>handled.</h2><p>{tr(l,"Një asistent privat me zë që i kthen kërkesat në detyra dhe takime.","A private voice assistant that turns requests into tasks and meetings.","Ein privater Sprachassistent, der Anfragen in Aufgaben und Termine verwandelt.")}</p>{button(tr(l,"Shiko produktin","Explore product","Produkt ansehen"),route("aura",l),style="light")}</div>{aura_phone(l)}</div></section>'
+
 def labs(l,t):
  cards=''
- items=[('krakenos','Kraken OS','kraken-card',tr(l,'Platformë modulare','Modular platform','Modulare Plattform'),tr(l,'Klientët, puna dhe vendimet lidhen në një platformë të përbashkët.','Customers, work and decisions come together in one platform.','Kunden, Arbeit und Entscheidungen in einer gemeinsamen Plattform.'),['CRM',tr(l,'Projekte','Projects','Projekte'),'Accounting','Workspace']),('kraken-communications','Kraken Communications','communications-card',tr(l,'Komunikim me klientët','Customer communication','Kundenkommunikation'),tr(l,'Kanalet, kontaktet, bisedat e ekipit dhe ofertat në një platformë.','Channels, contacts, team conversations and offers in one platform.','Kanäle, Kontakte, Teamgespräche und Angebote in einer Plattform.'),['Inbox',tr(l,'Kontakte','Contacts','Kontakte'),tr(l,'Oferta','Offers','Angebote')]),('aura','AURA','aura-emblem',tr(l,'Asistent privat me zë','Private voice assistant','Privater Sprachassistent'),tr(l,'Një asistent i menduar për mënyrën si punon: nga kërkesat te detyrat dhe takimet.','An assistant designed around how you work: from requests to tasks and meetings.','Ein Assistent für Ihre Arbeitsweise: von Anfragen zu Aufgaben und Terminen.'),['Voice-first',tr(l,'Detyra','Tasks','Aufgaben'),tr(l,'Takime','Meetings','Termine')])]
- for i,(p,name,img,kind,body,tags) in enumerate(items):
-  # AURA: vector emblem rebuilt from the AURA app's own drawing code (replaces the raster from the PDF).
-  image='src="assets/labs/aura-emblem.svg" alt="AURA" width="200" height="200"' if img=='aura-emblem' else f'src="assets/labs/{SLIDE_IMAGE[img]}" alt="{name} — {copy(l)["screenshot"]}" width="760" height="396"'
+ for i,(p,name,img,kind,body,tags) in enumerate(lab_items(l)):
   # Report 03: the product view on top (its own colours, not tinted), then a green number and kind,
   # the name, the description and a filled green "Shiko produktin" button.
-  visual=f'<div class="lab-art lab-art-{i}"><img {image}></div>'
-  kinds=tr(l,['PLATFORMË','KOMUNIKIM','ASISTENT'],['PLATFORM','COMMUNICATION','ASSISTANT'],['PLATTFORM','KOMMUNIKATION','ASSISTENT'])
+  visual=f'<div class="lab-art lab-art-{i}"><img {lab_image(img,name,l)}></div>'
   link=button(tr(l,'Shiko produktin','Explore product','Produkt ansehen'),route(p,l),style='labs-solid')
-  cards+=f'<article class="lab-card card" data-product="{p}">{visual}<div class="lab-card-copy"><p class="eyebrow">0{i+1} / {kinds[i]}</p><h2>{name}</h2><p>{body}</p>{link}</div></article>'
- aura=f'<section class="wrap section"><div class="aura-showcase"><div><p class="eyebrow">AURA / ITD LABS</p><h2{en_attr(l)}>Say it.<br>Consider it<br>handled.</h2><p>{tr(l,"Një asistent privat me zë që i kthen kërkesat në detyra dhe takime.","A private voice assistant that turns requests into tasks and meetings.","Ein privater Sprachassistent, der Anfragen in Aufgaben und Termine verwandelt.")}</p>{button(tr(l,"Shiko produktin","Explore product","Produkt ansehen"),route("aura",l),style="light")}</div>{aura_phone(l)}</div></section>'
+  cards+=f'<article class="lab-card card" data-product="{p}">{visual}<div class="lab-card-copy"><p class="eyebrow">0{i+1} / {lab_kinds(l)[i]}</p><h2>{name}</h2><p>{body}</p>{link}</div></article>'
+ aura=aura_showcase(l)
  desc=tr(l,'Ndërtuar nga IT Department për punë më të qartë.','Built by IT Department for clearer work.','Entwickelt von IT Department für klarere Arbeit.')
  kicker=tr(l,'ITD LABS / PRODUKTET TONA','ITD LABS / OUR PRODUCTS','ITD LABS / UNSERE PRODUKTE')
  return intro(tr(l,'Ide që bëhen produkte.','Ideas become products.','Aus Ideen werden Produkte.'),desc,t,kicker)+f'<section class="wrap labs-catalog"><div class="grid three">{cards}</div><p class="section-note">{product_note(l)}</p></section>'+aura+ending(l,t)
