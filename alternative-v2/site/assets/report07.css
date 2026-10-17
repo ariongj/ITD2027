@@ -3,6 +3,11 @@
    footer columns, outlined email and mono icons · six agent characters. (The arrows leave the buttons in
    report07.py; nothing here depends on them.) */
 
+/* Header: the shield beside "IT Department" in one row, as in the report's mock-ups. */
+.header .brand.r7-head-brand{display:inline-flex;align-items:center;gap:12px;width:auto;flex-shrink:0;color:#fff;font-size:17px;font-weight:700;letter-spacing:-.02em;white-space:nowrap}
+.header .brand.r7-head-brand img{width:auto;height:40px}
+@media(min-width:1121px) and (max-width:1280px){.header .brand.r7-head-brand{gap:9px;font-size:15px}.header .brand.r7-head-brand img{height:34px}}
+
 /* Home: four 16:9 banners on an orbit — a large card in the centre, smaller angled cards at the sides and
    the fourth at the back. Position, size and depth change together in 900 ms (orbit.js turns every 6 s). */
 .r7-orbit{position:relative;margin-top:44px;text-align:left}
@@ -146,6 +151,7 @@ body[data-page=ai-agents] .agent-card details{border-top:0;padding-top:0}
 .r7-footer .r7-social a{width:50px;height:50px}
 .r7-footer-nav{grid-template-columns:repeat(2,minmax(0,1fr))}
 .r7-footer .footer-bottom{justify-content:stretch;justify-items:center;text-align:center}
+body[data-page=ai-agents] #agents .section-heading{align-items:center;text-align:center}
 body[data-page=ai-agents] .agent-card{grid-template-columns:minmax(0,1fr);grid-template-rows:none;justify-items:center;text-align:center}
 body[data-page=ai-agents] .agent-card>.agent-heading,body[data-page=ai-agents] .agent-card>.agent-name,body[data-page=ai-agents] .agent-card>h3{grid-column:1;grid-row:auto}
 body[data-page=ai-agents] .agent-card>.agent-name{margin-top:8px}

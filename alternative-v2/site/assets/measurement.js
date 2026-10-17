@@ -4,7 +4,7 @@
  const page=document.body.dataset.page,canonical=document.querySelector('link[rel=canonical]').href;
  const allowedEvents=new Set(['book_meeting','generate_lead','request_demo','click_whatsapp','click_phone','click_email']);
  const services={ 'web-software':['Web & softuer','Web & software','Web & Software','Faqe interneti & softuer','Websites & software','Websites & Software'], 'ai-automation':['AI automation','Automatizim me AI','KI-Automatisierung','AI Agents','KI-Agenten','Ari','Dita','Nora','Leo','Mira','Fin'], 'it-support':['IT & siguri','IT & security','IT & Sicherheit','Starter €99','Business €299','Enterprise €779'], creative:['Kreativa','Creative','Kreativ','Branding','Social Media','Video & Motion','Fushatë','Campaign','Kampagne'] };
- const products={'KrakenOS':'kraken-os','Kraken OS':'kraken-os','Kraken Communications':'kraken-communications','AURA':'aura'};
+ const products={'KrakenOS':'kraken-os','Kraken OS':'kraken-os','Kraken Assistant':'kraken-communications','Kraken Communications':'kraken-communications','AURA':'aura'};
  // Catalogue CTAs, sector chips and form options use many labels (in SQ/EN/DE), so after the exact lists
  // above, a selection is classified by keywords, then by the page it was sent from.
  const keywords=[['ai-automation',/\b(AI|KI)\b|automat|agent|\b(Ari|Dita|Nora|Leo|Mira|Fin)\b/i],['web-software',/web|softuer|software|aplikacion|application|applikation|sistem|system/i],['it-support',/\bIT\b|support|mbështetje|outsourc|jashtëm|extern|cyber|kibernet|siguri|sicherheit|audit/i],['creative',/brand|kreativ|creative|marketing|social|video|motion|fushat|campaign|kampagn|identit|foto|photo/i]];

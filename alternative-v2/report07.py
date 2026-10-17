@@ -14,6 +14,19 @@ _r6_footer=footer
 _r6_lab_image=lab_image
 _r6_krakenos=krakenos
 
+# Header: as in every mock-up of the report (desktop and phone), the shield beside "IT Department" in one
+# row instead of the stacked logo; ITD Labs, Creative and AI Agents keep their own shield colours.
+_r6_header=header
+def header(page,l,t):
+ html=_r6_header(page,l,t)
+ if THEME=='m': return html
+ import re
+ variant={'creative':'creative','ai-agents':'ai','itd-labs':'labs'}.get(page,'original')
+ html,n=re.subn(r'(<a class="brand" href="[^"]*" aria-label="IT Department">)<img src="assets/brand/logo-[a-z]+\.png" width="480" height="232" alt="IT Department"></a>',
+  lambda m:m.group(1).replace('class="brand"','class="brand r7-head-brand"')+f'<img src="assets/brand/shield-{variant}.png" width="122" height="146" alt=""><span>IT Department</span></a>',html,count=1)
+ assert n==1
+ return html
+
 # Buttons, text links and the footer email carry no diagonal arrow any more (cards keep their corner mark,
 # project names keep the "opens a new tab" mark).
 if THEME!='m': A=''
