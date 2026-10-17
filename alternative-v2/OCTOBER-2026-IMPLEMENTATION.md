@@ -121,6 +121,47 @@ Source: `ITD2027_Raporti_i_Ndryshimeve_06.pdf` (17 pages, the only document for 
 - **Translations:** the English and German pages were scanned for Albanian, and the German pages for English (product names and fixed brand lines excepted). No untranslated text was found.
 - Verified: 54 pages pass check-pages.py and qa-seo.py, ITD2027/M passes its check, axe finds 0 violations on all pages, and there is no sideways overflow at 320 or 390 px. The slideshow test passes 72/72, and the previews, character layers and blink, contact order, Labs logo and bubbles pass 12/12.
 
+## Change report 07, 16 October 2026
+
+Source: `ITD2027_Raporti_i_Ndryshimeve_07_v2.pdf` (17 pages). The changes are in `report07.py` (executed after `report06.py`), `site/assets/report07.css` and `site/assets/orbit.js`. Only the main version loads them; ITD2027/M keeps its look. The images come from the report itself, because no separate package was supplied.
+
+- **Home slideshow:** the four service banners replace the IT Department, Kraken and AURA slides, in the banners' own order 01–04:
+  - Web & Software → `services.html#web`
+  - IT & Security → `services.html#it`
+  - AI Agents → `ai-agents.html`
+  - Creative → `creative.html`
+  
+  They are shown whole at 16:9 (`assets/home/service-*-800|1600.webp`). The text in each picture is the alt text.
+  - **Motion:** the cards sit on an orbit, as on pages 3–4. Every 6 s the right card comes forward to the centre and grows, the centre card moves to the left and shrinks, the left card goes to the back, and the back card comes in on the right. Position, size and depth change in one 900 ms transition, so a full cycle is 24 s.
+  - **Controls:** there is no visible pause button. The indicators choose a card and the 6 s rhythm continues from there, and a click on a side card turns the orbit.
+  - **Pausing:** the orbit holds while a mouse is over it, while keyboard focus is inside it, and during a touch. Keyboard users meet a pause button when they tab into it (required by WCAG 2.2.2). With reduced motion it never turns by itself.
+  - **Phones:** the centre banner fills the width and the cards cross-fade, with "01 / Web & Software" under the indicators.
+- **Buttons:** the diagonal arrow is removed from every button and text link on all pages and in all languages, including the Calendly fallback link. The corner marks on clickable cards and the "opens in a new tab" mark on project names stay.
+- **ITD Labs:** the supplied Kraken OS and Kraken Assistant banners replace the two pictures in the hero composition and on the catalogue cards. They are shown whole, and positions, sizes and angles are unchanged. AURA keeps its own view. The cards follow page 8: a larger name, the tags as plain text and a wide "Shiko produktin".
+- **Kraken Assistant:** the new name replaces Kraken Communications in the website interface: the slide, the catalogue, the product page, the footer, the form options, the page titles and descriptions, EN/DE, and the opus version. Page addresses (`kraken-communications.html`) stay the same, so existing links keep working.
+- **About:** the red "Punë më e qartë. Sisteme më të sigurta." box is removed with its space. The three values follow the introduction directly, numbered in red.
+- **Contact:** the form is unchanged. Under it, "Preferon të shkruash?" now has a short line and two red buttons: `mailto:info@itdks.tech` and `tel:+38349573570`, followed by the address and hours.
+- **Footer (every page):**
+  - **Brand column:** the shield with "IT Department", the line, and `info@itdks.tech` as a red outlined button.
+  - **Link columns:** Kompania, Njësitë and ITD Labs (with Kraken Assistant).
+  - **Bottom row:** copyright, Privatësia/Kushtet, and Instagram, LinkedIn and Facebook as white mono icons in circles, each with an accessible name.
+  - **Phones:** the name, the email button and the icons are centred, as on page 16.
+  - **Sub-brand colours:** ITD Labs uses the green shield, and Creative and AI Agents their own.
+- **AI Agents cards:** the six character variants from page 14 replace the icons. Each card shows its own character next to its name and role, in the agent's colour (#7EDDE6, #B7A8FB, #8BBDE6, #E1A1D2, #91DCB7, #E6C890).
+  - **Layers:** every variant is scaled to the same body size on one canvas and split into feet, body, eyes and hands, in `assets/ai/agents/<name>/` (about 90 KB for all six).
+  - **Motion:** each character floats 3 px and blinks, and makes the gesture of its role:
+    - Ari waves.
+    - Dita tilts her head.
+    - Nora opens both hands.
+    - Leo points ahead.
+    - Mira explains.
+    - Fin balances both hands.
+  - **Timing:** the cycles are shifted by one second per card, so the cards never move together.
+  - **Size:** 104 px on desktop and 84 px on phones.
+  - **Links:** the card ends with "Shiko detajet +", as in the report; the separate "Diskuto këtë agjent" link is gone, and the form below still offers the agent choice.
+  - The AI Agents hero keeps the approved animated character.
+- Verified: the orbit test passes 40/40. It covers order, links, whole banners, 6 s and 900 ms, indicators, side-card clicks, focus, the pause button, reduced motion, phone, no JavaScript, and the other report 07 points. The report 06 checks still pass 6/6. 54 pages pass check-pages.py and qa-seo.py, M and opus pass their checks, axe finds 0 violations, and there is no sideways overflow.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.

@@ -372,7 +372,7 @@ def page_contact(l, t, c):
     urls = [cfg["bookingUrl"], wa(l), "mailto:" + cfg["email"]]
     channels = "".join(f'<a class="channel" href="{esc(u)}"{EXT if u.startswith("http") else ""}><span class="fact-icon">{icon(ic)}</span><h2>{esc(a)}</h2><p>{esc(b)}</p>{A}</a>'
                        for (ic, a, b), u in zip(c["channels"], urls))
-    fams = [n for _, n, _ in c["families"]] + ["Kraken OS", "Kraken Communications", "AURA"]
+    fams = [n for _, n, _ in c["families"]] + ["Kraken OS", "Kraken Assistant", "AURA"]
     opts = "".join(f"<option>{esc(x)}</option>" for x in fams)
     form = (f'<form class="form" action="{esc(cfg["formEndpoint"])}" method="post" data-form data-sending="{esc(c["sending"])}" data-success="{esc(c["success"])}" data-failure="{esc(c["failure"])}">'
             f'<input type="hidden" name="source" value="IT Department / opus / {l}"><input type="text" name="_gotcha" class="sr" tabindex="-1" autocomplete="off" aria-hidden="true">'
@@ -392,7 +392,7 @@ def page_contact(l, t, c):
 PAGES = {"index": page_home, "services": page_services, "projects": page_projects, "labs": page_labs, "about": page_about, "contact": page_contact}
 DESC = {
     "index": lambda l, t, c: c["home_lead"], "services": lambda l, t, c: t["servicelead"], "projects": lambda l, t, c: t["projectsLead"],
-    "labs": lambda l, t, c: c["labs"][2] + " Kraken OS, Kraken Communications, AURA.", "about": lambda l, t, c: t["aboutLead"], "contact": lambda l, t, c: t["contactLead"]}
+    "labs": lambda l, t, c: c["labs"][2] + " Kraken OS, Kraken Assistant, AURA.", "about": lambda l, t, c: t["aboutLead"], "contact": lambda l, t, c: t["contactLead"]}
 OG = {"sq": "sq_AL", "en": "en_US", "de": "de_DE"}
 
 

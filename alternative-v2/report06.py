@@ -61,7 +61,7 @@ def labs_stage(l):
  bar=lambda label:f'<span class="stage-bar"><i></i><i></i><i></i><b>{label}</b></span>'
  return ('<div class="labs-stage" aria-hidden="true">'
   f'<figure class="stage-win stage-kraken">{bar("KRAKEN OS / WORKSPACE")}<img src="assets/labs/slide-kraken-os.webp" width="760" height="396" alt="" decoding="async"></figure>'
-  f'<figure class="stage-win stage-comms">{bar("COMMUNICATIONS")}<img src="assets/labs/slide-communications.webp" width="760" height="396" alt="" decoding="async"></figure>'
+  f'<figure class="stage-win stage-comms">{bar("KRAKEN ASSISTANT")}<img src="assets/labs/slide-communications.webp" width="760" height="396" alt="" decoding="async"></figure>'
   '<figure class="stage-aura"><img src="assets/labs/aura-emblem.svg" width="200" height="200" alt=""><strong>AURA</strong><small>Say it. Consider it handled.</small></figure>'
   f'<span class="labs-badge">{LABS_FLASK}</span></div>')
 

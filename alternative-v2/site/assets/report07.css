@@ -1,0 +1,154 @@
+/* Change report 07 (16 October 2026) — the main version only; ITD2027/M does not load this file.
+   Home orbit of the four service banners · ITD Labs banners · About without the quote · Contact buttons ·
+   footer columns, outlined email and mono icons · six agent characters. (The arrows leave the buttons in
+   report07.py; nothing here depends on them.) */
+
+/* Home: four 16:9 banners on an orbit — a large card in the centre, smaller angled cards at the sides and
+   the fourth at the back. Position, size and depth change together in 900 ms (orbit.js turns every 6 s). */
+.r7-orbit{position:relative;margin-top:44px;text-align:left}
+/* Geometry from page 3: the centre card about 47 % of the row, the side cards at 58 % of its size, a little
+   lower, turned away from the centre and slightly tilted; each card has a solid offset shadow. */
+.orbit-stage{position:relative;aspect-ratio:1000/300;perspective:1400px}
+.orbit-card{position:absolute;left:50%;top:50%;width:47%;aspect-ratio:16/9;border-radius:16px;background:#0b0d10;box-shadow:10px 10px 0 #0b0d101f;transition:transform .9s cubic-bezier(.45,0,.2,1),opacity .9s ease}
+.orbit-card img{display:block;width:100%;height:100%;object-fit:cover;border-radius:16px}
+.orbit-card.is-center{z-index:3;opacity:1;transform:translate(-50%,-50%)}
+.orbit-card.is-right{z-index:2;opacity:1;transform:translate(-50%,-50%) translate(66%,10%) scale(.58) rotateY(14deg) rotate(-3deg)}
+.orbit-card.is-left{z-index:2;opacity:1;transform:translate(-50%,-50%) translate(-66%,10%) scale(.58) rotateY(-14deg) rotate(3deg)}
+.orbit-card.is-back{z-index:1;opacity:0;transform:translate(-50%,-50%) translateY(6%) scale(.4);pointer-events:none}
+.r7-orbit .slider-dot,.r7-orbit .slider-dot[aria-current=true]{width:42px}
+.r7-orbit.is-ready .orbit-card:not(.is-center){cursor:pointer}
+.orbit-card:focus-visible{outline:3px solid #e00000;outline-offset:6px}
+.orbit-controls{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:20px}
+.orbit-controls[hidden]{display:none}
+.r7-orbit .slider-bar{background:#d5d5d0}
+.r7-orbit .slider-fill{background:#e00000}
+.r7-orbit .slider-dot[aria-current=true] .slider-fill.is-running{animation:slide-progress 6s linear}
+.r7-orbit.is-paused .slider-dot[aria-current=true] .slider-fill.is-running{animation-play-state:paused}
+.r7-orbit :focus-visible{outline-color:#e00000}
+.orbit-caption{display:none;margin:0;color:var(--ink);font-size:14px;font-weight:600}
+/* Keyboard users find a pause button when they tab into the orbit; it is not shown otherwise. */
+.orbit-pause{position:absolute;left:-9999px;top:0}
+.orbit-pause:focus{left:50%;top:-10px;z-index:5;transform:translate(-50%,-100%);min-height:44px;padding:10px 20px;border:0;border-radius:999px;background:#0b0d10;color:#fff;font:700 14px var(--body)}
+.orbit-pause[hidden]{display:none}
+
+/* ITD Labs: the Kraken OS and Kraken Assistant banners whole on the cards (AURA keeps its own view). */
+/* As on page 8: the banner whole in a slightly taller frame on its own light ground; the tags as plain text;
+   a larger name, text and a wide "Shiko produktin". The hero windows (page 7) use the same frame. */
+.labs-catalog .lab-art{aspect-ratio:2.07;background:#f3f7fd}
+.labs-catalog .lab-art>img{object-fit:contain;object-position:center}
+.labs-catalog .lab-art-2{background:#0c0d14}
+.labs-catalog .lab-art-2>img{padding:5% 0}
+.labs-catalog .lab-card-copy h3{font-size:28px}
+.labs-catalog .lab-card-copy>p:not(.eyebrow){font-size:16px;line-height:1.55;color:#d3e4d9}
+.labs-catalog .lab-tags{gap:4px 14px;margin-bottom:24px}
+.labs-catalog .lab-tags li{padding:0;border:0;border-radius:0;color:#c3d8ca;font-size:13px}
+.labs-catalog .lab-card-copy .button{min-width:min(100%,200px);min-height:46px;font-size:15px}
+.stage-win img{aspect-ratio:2.07;object-fit:contain;background:#f3f7fd}
+
+/* Contact: "Preferon të shkruash?" in the centre with email and phone as two red buttons. */
+.r6-contact>.contact-aside.r7-direct{display:block;padding-top:0;text-align:center}
+.r7-direct h2{margin-inline:auto}
+.r7-direct-lead{max-width:540px;margin:12px auto 0;color:var(--muted)}
+.r7-direct-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:28px}
+.r7-direct-actions .button{min-width:min(100%,340px);min-height:56px;font-size:18px}
+.r7-direct-meta{margin-top:24px;color:var(--muted);font-size:15px}
+
+/* Footer: brand column with the email as a red outlined button, three link columns, and a bottom row with
+   copyright, legal links and the networks as white icons on black. */
+.r7-footer-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,3fr);gap:40px;padding-bottom:40px}
+.r7-footer-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.r7-footer .r7-brand{display:inline-flex;align-items:center;gap:14px;width:auto;color:#fff;font-size:22px;font-weight:700;letter-spacing:-.02em}
+.r7-footer .r7-brand img{width:auto;height:44px}
+.r7-footer .r7-footer-brand>p{max-width:300px;margin-top:18px;color:#babcc0;font-size:15px}
+.footer .footer-cta{min-width:300px;min-height:54px;margin-top:26px;background:transparent;border:2px solid #e00000;color:#fff;font-size:17px}
+.r7-footer .r7-social-phone{display:none}
+.footer .footer-cta:hover{background:#e00000;border-color:#e00000;color:#fff}
+.r7-footer-label{margin:0 0 12px;color:#9a9ea6;font-size:12px;font-weight:700;letter-spacing:.12em}
+.r7-footer-col ul{margin:0;padding:0;list-style:none}
+.r7-footer-col li+li{margin-top:0}
+.r7-footer-col a{display:inline-flex;align-items:center;min-height:40px;color:#fff;font-size:15px}
+.r7-footer .footer-bottom{align-items:center;padding-top:22px;border-top:1px solid #ffffff20}
+.r7-legal{display:flex;gap:20px}
+.r7-social{display:flex;gap:12px}
+.r7-footer .r7-social a{display:grid;place-items:center;width:46px;height:46px;min-height:0;border:1px solid #ffffff4d;border-radius:50%;color:#fff}
+.r7-footer .r7-social a:hover{background:#ffffff14;border-color:#fff;color:#fff}
+.r7-social svg{width:23px;height:23px}
+/* About: the values follow the introduction directly, numbered in red as in the report. */
+body[data-page=about] .values .eyebrow{color:#c40000}
+body[data-page=itd-labs] .footer .footer-cta{border-color:#7fe0a0}
+body[data-page=itd-labs] .footer .footer-cta:hover{background:#7fe0a0;border-color:#7fe0a0;color:#06240f}
+
+/* AI Agents: each card shows its own character next to the name and role, in the agent's light colour.
+   Small motions (2-4 px), a blink and a hand gesture for the role, on cycles shifted per card so the cards
+   never move at the same time. With reduced motion the characters stand still. */
+#agent-ari{--agent:#7edde6;--d:0s}
+#agent-dita{--agent:#b7a8fb;--d:-1s}
+#agent-nora{--agent:#8bbde6;--d:-2s}
+#agent-leo{--agent:#e1a1d2;--d:-3s}
+#agent-mira{--agent:#91dcb7;--d:-4s}
+#agent-fin{--agent:#e6c890;--d:-5s}
+body[data-page=ai-agents] .agent-card{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto 1fr auto auto;column-gap:18px;align-items:center}
+body[data-page=ai-agents] .agent-card>.agent-heading{grid-column:1;grid-row:1/3;display:block;margin:0}
+body[data-page=ai-agents] .agent-card .agent-index{position:absolute;top:22px;right:24px}
+body[data-page=ai-agents] .agent-card>.agent-name{grid-column:2;grid-row:1;align-self:end;margin:0;font-size:30px}
+body[data-page=ai-agents] .agent-card>h3{grid-column:2;grid-row:2;align-self:start;margin-top:4px;color:var(--agent);font-size:16px}
+body[data-page=ai-agents] .agent-card>p:not(.agent-name),body[data-page=ai-agents] .agent-card>details,body[data-page=ai-agents] .agent-card>.text-link{grid-column:1/-1}
+body[data-page=ai-agents] .agent-card>p:not(.agent-name){align-self:start;margin-top:18px}
+body[data-page=ai-agents] .agent-card summary,body[data-page=ai-agents] .agent-card summary span,body[data-page=ai-agents] .agent-card .agent-index{color:var(--agent)}
+body[data-page=ai-agents] .agent-card details{border-top:0;padding-top:0}
+.agent-bot{position:relative;display:block;width:clamp(88px,7.4vw,104px);aspect-ratio:216/150;transform-origin:50% 90%;animation:r7-bob 6s ease-in-out var(--d,0s) infinite}
+.ab{position:absolute;inset:0;display:block;width:100%;height:100%}
+.ab-eye-l,.ab-eye-r{animation:r7-blink 6s ease-in-out var(--d,0s) infinite}
+.ab-foot-l,.ab-foot-r{animation:r7-foot 3s ease-in-out var(--d,0s) infinite}
+.ab-foot-r{animation-delay:calc(var(--d,0s) - .3s)}
+[data-agent-bot=ari] .ab-hand-r{animation:r7-wave 6s ease-in-out var(--d,0s) infinite}
+[data-agent-bot=dita]{animation-name:r7-think}
+[data-agent-bot=nora] .ab-hand-l{animation:r7-open-l 6s ease-in-out var(--d,0s) infinite}
+[data-agent-bot=nora] .ab-hand-r{animation:r7-open-r 6s ease-in-out var(--d,0s) infinite}
+[data-agent-bot=leo] .ab-hand-r{animation:r7-point 6s ease-in-out var(--d,0s) infinite}
+[data-agent-bot=mira] .ab-hand-r{animation:r7-explain 6s ease-in-out var(--d,0s) infinite}
+[data-agent-bot=fin] .ab-hand-l{animation:r7-balance-l 6s ease-in-out var(--d,0s) infinite}
+[data-agent-bot=fin] .ab-hand-r{animation:r7-balance-r 6s ease-in-out var(--d,0s) infinite}
+@keyframes r7-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes r7-think{0%,100%{transform:translateY(0) rotate(0)}35%,65%{transform:translateY(-2px) rotate(-5deg)}}
+@keyframes r7-blink{0%,40.5%,43%,100%{transform:scaleY(1)}41.7%{transform:scaleY(.1)}}
+@keyframes r7-foot{0%,100%{transform:translateY(0)}50%{transform:translateY(-2.5%)}}
+@keyframes r7-wave{0%,6%,34%,100%{transform:rotate(0)}12%,24%{transform:rotate(-16deg)}18%,30%{transform:rotate(2deg)}}
+@keyframes r7-open-l{0%,12%,58%,100%{transform:rotate(0)}26%,44%{transform:rotate(12deg)}}
+@keyframes r7-open-r{0%,12%,58%,100%{transform:rotate(0)}26%,44%{transform:rotate(-12deg)}}
+@keyframes r7-point{0%,8%,46%,100%{transform:translateX(0) rotate(0)}16%,22%{transform:translateX(5%) rotate(-5deg)}30%{transform:translateX(1%) rotate(0)}38%{transform:translateX(5%) rotate(-5deg)}}
+@keyframes r7-explain{0%,8%,52%,100%{transform:rotate(0)}16%{transform:rotate(-14deg)}26%{transform:rotate(4deg)}36%{transform:rotate(-10deg)}44%{transform:rotate(2deg)}}
+@keyframes r7-balance-l{0%,100%{transform:translateY(0)}25%{transform:translateY(-4%)}75%{transform:translateY(3%)}}
+@keyframes r7-balance-r{0%,100%{transform:translateY(0)}25%{transform:translateY(3%)}75%{transform:translateY(-4%)}}
+
+@media(max-width:1120px){
+.r7-footer-grid{grid-template-columns:minmax(0,1fr)}
+}
+/* Phones: the whole banner in the centre (no cut logo or text), the cards cross-fade, the name of the
+   current service under the indicators; agent cards stack with the character on top. */
+@media(max-width:800px){
+.orbit-stage{aspect-ratio:16/9}
+.orbit-card{width:100%;border-radius:14px}
+.orbit-card.is-right{opacity:0;transform:translate(-50%,-50%) translateX(6%) scale(.94);pointer-events:none}
+.orbit-card.is-left{opacity:0;transform:translate(-50%,-50%) translateX(-6%) scale(.94);pointer-events:none}
+.orbit-caption{display:block}
+}
+@media(max-width:540px){
+.r7-orbit{margin-top:32px}
+.r7-direct-actions{flex-direction:column;align-items:stretch}
+.r7-direct-actions .button{min-width:0;width:100%;font-size:16px}
+/* Footer on phones as on page 16: the name, the email button and the three icons, centred. */
+.r7-footer-brand{text-align:center}
+.r7-footer-brand>p{display:none}
+.footer .footer-cta{width:100%;min-width:0}
+.r7-footer .r7-social-phone{display:flex;justify-content:center;gap:18px;margin-top:26px}
+.r7-footer .r7-social-wide{display:none}
+.r7-footer .r7-social a{width:50px;height:50px}
+.r7-footer-nav{grid-template-columns:repeat(2,minmax(0,1fr))}
+.r7-footer .footer-bottom{justify-content:stretch;justify-items:center;text-align:center}
+body[data-page=ai-agents] .agent-card{grid-template-columns:minmax(0,1fr);grid-template-rows:none;justify-items:center;text-align:center}
+body[data-page=ai-agents] .agent-card>.agent-heading,body[data-page=ai-agents] .agent-card>.agent-name,body[data-page=ai-agents] .agent-card>h3{grid-column:1;grid-row:auto}
+body[data-page=ai-agents] .agent-card>.agent-name{margin-top:8px}
+body[data-page=ai-agents] .agent-card>details,body[data-page=ai-agents] .agent-card>.text-link{justify-self:stretch;text-align:left}
+.agent-bot{width:84px}
+}
