@@ -31,10 +31,10 @@ def header(page,l,t):
  return h.replace('<header class="header">',topbar(l,t)+'<header class="header">',1)
 
 def m_slides(l,t):
- c=copy(l); creative=tr(l,['Ide që duken.','Mesazhe që mbeten.'],['Ideas you see.','Messages that stay.'],['Ideen, die auffallen.','Botschaften, die bleiben.'])
+ c=copy(l); creative=tr(l,['Ide që duken.','Mesazhe që mbeten.'],['Ideas that stand out.','Messages that stay.'],['Ideen, die auffallen.','Botschaften, die bleiben.'])
  return [
   {'theme':'itd','image':'hero-itd.webp','eyebrow':'WEB / SOFTWARE / AI / IT','tag':'h1','lang':'','title':accent(c['home'],tr(l,'punën','work','Arbeit')),
-   'text':tr(l,'Faqe interneti, softuer dhe automatizim me AI. Nga ideja te një zgjidhje që ekipi yt mund ta përdorë.','Websites, software and AI automation. From an idea to a solution your team can use.','Websites, Software und KI-Automatisierung. Von der Idee zu einer Lösung, die Ihr Team im Alltag nutzen kann.'),
+   'text':tr(l,'Faqe interneti, softuer dhe automatizim me AI, të ndërtuara rreth nevojave të biznesit dhe mënyrës si punon ekipi yt.','Websites, software and AI automation built around your business needs and the way your team works.','Websites, Software und KI-Automatisierung, abgestimmt auf Ihr Unternehmen und die Arbeitsweise Ihres Teams.'),
    'buttons':[(c['see'],route('services',l),'',''),(c['book'],cfg['bookingUrl'],'outline-light','target="_blank" rel="noopener noreferrer"')]},
   {'theme':'kraken','image':'hero-kraken.webp','eyebrow':'ITD LABS · KRAKEN OS','tag':'h2','lang':en_attr(l),'title':'Many arms. <em>One brain.</em>',
    'text':tr(l,'Një platformë modulare për njerëzit, klientët, financat dhe punën e përditshme.','A modular platform for people, customers, finance and daily work.','Eine modulare Plattform für Menschen, Kunden, Finanzen und tägliche Arbeit.'),

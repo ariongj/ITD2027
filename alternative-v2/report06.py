@@ -29,7 +29,7 @@ def peeks(side):
 
 def home(l,t):
  c=copy(l)
- lead=tr(l,"Faqe interneti, softuer dhe automatizim me AI. Nga ideja te një zgjidhje që ekipi yt mund ta përdorë.","Websites, software and AI automation. From an idea to a solution your team can use.","Websites, Software und KI-Automatisierung. Von der Idee zu einer Lösung, die Ihr Team im Alltag nutzen kann.")
+ lead=tr(l,"Faqe interneti, softuer dhe automatizim me AI, të ndërtuara rreth nevojave të biznesit dhe mënyrës si punon ekipi yt.","Websites, software and AI automation built around your business needs and the way your team works.","Websites, Software und KI-Automatisierung, abgestimmt auf Ihr Unternehmen und die Arbeitsweise Ihres Teams.")
  hero=(f'<div class="r6-hero-band"><section class="hero r6-hero wrap"><div class="hero-copy"><p class="eyebrow">WEB / SOFTWARE / AI / IT</p><h1>{c["home"]}</h1><p class="lead">{lead}</p>'
   f'<div class="actions">{button(c["see"],route("services",l))}{button(c["book"],cfg["bookingUrl"],"target=\"_blank\" rel=\"noopener noreferrer\"","dark")}</div></div>'
   f'<div class="r6-stage">{peeks("prev")}{slider(l)}{peeks("next")}</div></section></div>')
@@ -67,8 +67,8 @@ def labs_stage(l):
 
 def labs(l,t):
  if THEME=='m': return _r5_labs(l,t)
- title=tr(l,('Ide që bëhen','produkte.'),('Ideas become','products.'),('Aus Ideen werden','Produkte.'))
- lead=tr(l,'Produkte dhe eksperimente të zhvilluara brenda IT Department. Secili me një qëllim të qartë dhe identitetin e vet.','Products and experiments developed within IT Department. Each with a clear purpose and its own identity.','Produkte und Experimente, entwickelt bei IT Department. Jedes mit einem klaren Zweck und einer eigenen Identität.')
+ title=tr(l,('Ide që bëhen','produkte.'),('Ideas that become','products.'),('Ideen, aus denen','Produkte werden.'))
+ lead=tr(l,'Produkte të zhvilluara brenda IT Department për të lidhur komunikimin, informacionin dhe punën e ekipit.','Products developed within IT Department to connect communication, information and team workflows.','Produkte von IT Department, die Kommunikation, Informationen und die Arbeit Ihres Teams verbinden.')
  chips=tr(l,['NDËRTUAR NGA ITD','PRODUKTE & EKSPERIMENTE'],['BUILT BY ITD','PRODUCTS & EXPERIMENTS'],['ENTWICKELT VON ITD','PRODUKTE & EXPERIMENTE'])
  hero=(f'<section class="labs-hero wrap"><p class="eyebrow">{tr(l,"ITD LABS / PRODUKTET TONA","ITD LABS / OUR PRODUCTS","ITD LABS / UNSERE PRODUKTE")}</p><h1>{title[0]} <span>{title[1]}</span></h1><p class="lead">{lead}</p>'
   f'<div class="actions">{button(tr(l,"Eksploro produktet","Explore the products","Produkte entdecken"),"#products",style="mint")}{button(t["talk"],route("contact",l),style="ghost")}</div>'
@@ -78,7 +78,7 @@ def labs(l,t):
   cards+=(f'<article class="lab-card card" data-product="{p}"><div class="lab-art lab-art-{i}"><img {lab_image(img,name,l)}></div><div class="lab-card-copy">'
    f'<p class="eyebrow">0{i+1} / {lab_kinds(l)[i]}</p><h3>{name}</h3><p>{body}</p><ul class="lab-tags">'+''.join(f'<li>{x}</li>' for x in tags)+'</ul>'
    f'{button(tr(l,"Shiko produktin","Explore product","Produkt ansehen"),route(p,l),style="mint")}</div></article>')
- catalog=('<section class="wrap section labs-catalog" id="products">'+heading(tr(l,'NJË EKIP / TRE PRODUKTE','ONE TEAM / THREE PRODUCTS','EIN TEAM / DREI PRODUKTE'),tr(l,'Produktet tona.','Our products.','Unsere Produkte.'),
+ catalog=('<section class="wrap section labs-catalog" id="products">'+heading(tr(l,'NJË EKIP / TRE PRODUKTE','ONE TEAM / THREE PRODUCTS','EIN TEAM / DREI PRODUKTE'),tr(l,'Produktet tona','Our products','Unsere Produkte'),
   tr(l,'Platforma, komunikimi dhe asistenti me zë. Gjej produktin që lidhet me mënyrën si punon.','A platform, communication and a voice assistant. Find the product that fits the way you work.','Plattform, Kommunikation und Sprachassistent. Finden Sie das Produkt, das zu Ihrer Arbeitsweise passt.'))
   +f'<div class="grid three">{cards}</div><p class="section-note">{product_note(l)}</p></section>')
  return hero+catalog+aura_showcase(l)+ending(l,t)

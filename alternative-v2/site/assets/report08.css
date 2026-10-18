@@ -1,0 +1,104 @@
+/* Change report 08 (18 October 2026) — the main version only; ITD2027/M does not load this file.
+   Outfit and the type scale (pages 13-14) · the orbit's 1 s move and countdown (pages 4-5) · the new pieces of
+   appendix A · the orientation map (pages 15-16) · the WhatsApp button on every page (page 17). */
+
+/* Outfit, served by the site (Google Fonts' official file, OFL; assets/fonts/outfit). */
+@font-face{font-family:'Outfit';src:url('fonts/outfit/outfit-wght.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+:root{--heading:'Outfit',Arial,sans-serif;--body:'Outfit',Arial,sans-serif}
+html,body,button,input,select,textarea{font-family:'Outfit',Arial,sans-serif}
+body{font-size:17px;line-height:1.6;font-weight:400}
+
+/* Type scale: H1 48-56 px on desktop (32-38 on phones), section H2 32-40 px (26-30), text 17-18 px (16-17),
+   menu and buttons 14-16 px at 500-600, notes 13-14 px; no 200 weight, no letters squeezed together. */
+main h1{font-size:clamp(40px,3.9vw,56px)!important;line-height:1.1!important;font-weight:700;letter-spacing:-.025em}
+h2{font-size:clamp(32px,2.8vw,40px);line-height:1.15;font-weight:700;letter-spacing:-.02em}
+h3{letter-spacing:-.01em}
+main .lead,main :is(.hero,.page-intro,.labs-hero,.r6-dark-box,.about-hero,.ai-hero,.creative-hero,.kraken-hero,.aura-hero) .lead{font-size:18px;line-height:1.6}
+.padded p,.project-text,.family-card p,.contact-path>p:not(.eyebrow),.lab-card-copy>p:not(.eyebrow),.priority-card p,.agent-card>p:not(.agent-name),.service-family-title p,.about-step h3+p,.partner-copy p:not(.partner-index),.r7-direct-lead,.end-card p:not(.eyebrow){font-size:17px;line-height:1.6}
+.eyebrow,.project-category,.mini-number,.partner-index,.about-step-label,.agent-index{font-size:13px}
+.nav-links a{font-size:14px;font-weight:600;letter-spacing:0}
+.languages a{font-size:14px;font-weight:600}
+.button,.nav-cta,.text-link{font-size:15px;font-weight:600}
+.nav-cta{font-size:14px}
+.section-note,.form-note,.footer-bottom,.footer-bottom a,.r7-direct-meta,.orbit-countdown{font-size:14px}
+.form-note{font-size:13px}
+.enquiry-form label{font-size:14px;font-weight:600}
+.r7-footer-col a{font-size:16px}
+.r7-footer-label{font-size:13px}
+@media(min-width:1121px){main h1{font-size:clamp(48px,3.9vw,56px)!important}}
+@media(min-width:1121px) and (max-width:1340px){.header-inner{gap:14px}.header nav{gap:10px}.nav-links{gap:12px}.nav-links a,.languages a,.nav-cta{font-size:14px}.languages a{width:30px}.nav-cta{padding-inline:12px}.header .brand.r7-head-brand{font-size:15px;gap:8px}.header .brand.r7-head-brand img{height:32px}}
+@media(max-width:540px){main h1{font-size:clamp(32px,9.6vw,38px)!important;line-height:1.12!important}h2{font-size:28px}body{font-size:16px}main .lead,main :is(.hero,.page-intro,.labs-hero,.r6-dark-box,.about-hero,.ai-hero,.creative-hero,.kraken-hero,.aura-hero) .lead{font-size:17px}
+.padded p,.project-text,.family-card p,.contact-path>p:not(.eyebrow),.lab-card-copy>p:not(.eyebrow),.priority-card p,.agent-card>p:not(.agent-name),.service-family-title p,.about-step h3+p,.partner-copy p:not(.partner-index),.r7-direct-lead,.end-card p:not(.eyebrow){font-size:16px}}
+
+/* Home orbit: the 1 s move (pages 4-5); progress and countdown are driven by orbit.js. */
+.orbit-card{transition-duration:1s,1s}
+.orbit-stage{touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.orbit-card,.orbit-card img{-webkit-user-drag:none}
+.r7-orbit.is-dragging .orbit-card{cursor:grabbing}
+.r7-orbit .slider-dot .slider-fill,.r7-orbit .slider-dot[aria-current=true] .slider-fill.is-running{animation:none!important;transform-origin:left center}
+.orbit-countdown{margin:2px 0 0;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.r7-orbit.is-static .orbit-countdown{display:none}
+.r7-orbit.is-static .slider-fill{transform:scaleX(0)!important}
+.r7-orbit.is-static .slider-dot[aria-current=true] .slider-fill{transform:scaleX(1)!important}
+
+/* Home: the introduction over the four areas, projects and partners (appendix A). */
+.r8-areas>.section-heading{margin-bottom:26px}
+.section-heading h2+p{color:var(--muted)}
+
+/* Projects: "Shiko faqen" at the end of each card. */
+.project-cta{display:inline-flex;align-items:center;align-self:center;min-height:44px;margin-top:8px;padding:9px 22px;border-radius:999px;background:#e00000;color:#fff;font-size:15px;font-weight:600}
+.project-card:hover .project-cta{background:#b90e22}
+
+/* ITD Labs: AURA's status; Kraken Assistant: the product's address as a button. */
+.r8-status{margin-top:14px;font-size:14px;color:#cbb7e7}
+body[data-page=kraken-communications] .r8-open{background:#fff;border-color:#fff;color:#0b2039}
+body[data-page=kraken-communications] .r8-open:hover{background:#d8e9fb;border-color:#d8e9fb;color:#0b2039}
+
+/* Contact: orientation map below the form and the direct contacts (page 15); the real map loads after a click. */
+.r8-map>h2{text-align:center;margin-bottom:34px}
+.r8-map-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:center}
+.r8-map-frame{position:relative;overflow:hidden;min-height:340px;border-radius:20px;border:1px solid #daddd5;background:#edf0e9}
+.r8-map-frame iframe{display:block;width:100%;height:100%;min-height:340px;border:0}
+.r8-map-sketch{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center;
+ background:repeating-linear-gradient(35deg,transparent 0 46px,#d4dacd 46px 49px),repeating-linear-gradient(-55deg,#edf0e9 0 58px,#dfe4d9 58px 62px)}
+.r8-pin{width:34px;height:34px;border-radius:50%;background:#e00000;box-shadow:0 0 0 10px #e000001a}
+.r8-pin:after{content:'';display:block;width:12px;height:12px;margin:11px;border-radius:50%;background:#fff}
+.r8-pin-label{padding:7px 16px;border-radius:999px;background:#fff;font-size:15px;font-weight:600;color:var(--ink)}
+.r8-map-load{background:#fff}
+.r8-map-sketch small{max-width:320px;padding:4px 10px;border-radius:6px;background:#ffffffd9;font-size:13px;color:#41454b}
+.r8-map-copy{text-align:center}
+.r8-map-copy h3{font-size:30px}
+.r8-map-copy>p{max-width:420px;margin:14px auto 0;color:var(--muted)}
+.r8-map-actions{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:28px}
+.r8-map-actions .button{width:min(100%,340px);min-height:52px}
+.r8-mail{background:#0b0d10;border:2px solid #e00000;color:#fff}
+.r8-mail:hover{background:#e00000;border-color:#e00000;color:#fff}
+
+/* WhatsApp: a small fixed button on every page (page 17), the outline in the section's colour; no arrow, no
+   constant animation. Under dialogs and the phone menu; it moves above a cookie panel; it steps aside when
+   the form's send button or the footer text reaches it. */
+.wa-float{position:fixed;z-index:15;right:24px;bottom:calc(24px + var(--wa-lift,0px));display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:#0b0d10;border:2px solid #e00000;color:#fff;box-shadow:0 10px 26px #0b0d1040;transition:opacity .2s ease,transform .2s ease,bottom .2s ease}
+.wa-float svg{width:28px;height:28px}
+.wa-float:hover{transform:translateY(-2px)}
+.wa-float:focus-visible{outline:3px solid #fff;outline-offset:3px;box-shadow:0 0 0 6px #e00000}
+.wa-tip{position:absolute;right:calc(100% + 12px);top:50%;transform:translateY(-50%);padding:7px 12px;border-radius:8px;background:#0b0d10;color:#fff;font-size:14px;font-weight:600;white-space:nowrap;opacity:0;visibility:hidden;transition:opacity .15s ease}
+.wa-float:hover .wa-tip,.wa-float:focus-visible .wa-tip{opacity:1;visibility:visible}
+.wa-float.is-away{opacity:0;pointer-events:none;transform:translateY(8px)}
+body:has(.header nav.is-open) .wa-float,body:has(dialog[open]) .wa-float{display:none}
+body[data-page=itd-labs] .wa-float,body[data-page=krakenos] .wa-float,body[data-page=kraken-communications] .wa-float,body[data-page=aura] .wa-float{background:#0d2a1b;border-color:#7fe0a0}
+body[data-page=creative] .wa-float{background:#22162b;border-color:#e59ad4}
+body[data-page=ai-agents] .wa-float{background:#0d1d2a;border-color:#7edde6}
+@media(prefers-reduced-motion:reduce){.wa-float{transition:none}}
+
+@media(max-width:1000px){.r8-map-grid{grid-template-columns:minmax(0,1fr);gap:30px}}
+@media(max-width:540px){
+.wa-float{right:16px;bottom:calc(16px + env(safe-area-inset-bottom) + var(--wa-lift,0px));width:52px;height:52px}
+.wa-tip{display:none}
+.r8-map-frame,.r8-map-frame iframe{min-height:280px}
+.r8-map-copy h3{font-size:26px}
+.project-cta{font-size:14px}
+/* Long German words ("Ausgesprochen.") stay inside the AURA box on the narrowest phones. */
+.aura-showcase{grid-template-columns:minmax(0,1fr)}
+.aura-showcase>div{min-width:0}
+.aura-showcase h2{font-size:clamp(30px,10vw,42px);overflow-wrap:break-word;hyphens:auto}
+}

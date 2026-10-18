@@ -162,6 +162,49 @@ Source: `ITD2027_Raporti_i_Ndryshimeve_07_v2.pdf` (17 pages). The changes are in
   - The AI Agents hero keeps the approved animated character.
 - Verified: the orbit test passes 40/40. It covers order, links, whole banners, 6 s and 900 ms, indicators, side-card clicks, focus, the pause button, reduced motion, phone, no JavaScript, and the other report 07 points. The report 06 checks still pass 6/6. 54 pages pass check-pages.py and qa-seo.py, M and opus pass their checks, axe finds 0 violations, and there is no sideways overflow.
 
+## Change report 08, 18 October 2026
+
+Source: `ITD2027_Raporti_i_Ndryshimeve_08.pdf` (55 pages, the only reference for this round). The changes are in `report08.py` (executed after `report07.py`), `site/assets/report08.css`, `site/assets/report08.js` and a rewritten `site/assets/orbit.js`. Text changes that live as literals in the older layers were made in place (`proposal.py`, `revision.py`, `report06.py`, `report07.py`). The corrected texts reach ITD2027/M as well; the font, orbit, map and WhatsApp button are on the main version only.
+
+- **Orbit (pages 4–5):**
+  - **Timing:** JavaScript times the orbit; the CSS animation no longer drives it. Each step lasts 5 s: the centre card is read for 4 s, then the cards change place, size and depth in 1 s. A new card arrives at 5, 10, 15 and 20 s.
+  - **Countdown:** the progress bar and a countdown under the card ("05 s" … "01 s") follow the same clock.
+  - **Manual control:** the indicators, a click on a side card, dragging with the mouse (Pointer Events, about 40 px) and a horizontal swipe on phones (`touch-action: pan-y` keeps vertical scrolling) all start a new 5 s cycle. A drag never opens a card; a click on the centre card opens its service.
+  - **Pausing:** hovering no longer stops the orbit. It waits while the visitor drags or has keyboard focus inside it, and a hidden tab does not pile up changes. Keyboard users still meet the pause button when they tab in. With reduced motion it never turns by itself and the countdown is hidden.
+- **Banners in three languages (pages 6–12):** the four service banners and the two Kraken banners are in SQ, EN and DE, 18 files in `assets/home/service-*-{sq,en,de}-{800,1600}.webp` and `assets/labs/kraken-*-banner-{sq,en,de}-{600,1200}.webp`. They are taken from the report's own images, because the package of originals was not supplied. The alt texts are in the page language. The "IT Department / Your Technology Partner" line, the logos, the product names and the domains stay as they are.
+- **Font (pages 13–14):**
+  - **Source:** Outfit from Google's official repository (`ofl/outfit/Outfit[wght].ttf`, downloaded with the owner's permission), served by the site as a 45 KB WOFF2 with its OFL licence (`assets/fonts/outfit/`). Only that file is preloaded, the old Manrope preload is gone, and it covers every character the pages use.
+  - **Where it applies:** Outfit is set on `html, body, button, input, select, textarea`, so titles, menu, buttons, forms and footer all use it.
+  - **Type scale:** H1 48–56 px on desktop and 32–38 px on phones; section H2 32–40 px; text 17 px (16 px on phones); menu and buttons 14–15 px at weight 600; notes 13–14 px.
+  - **Header fit:** at 1121–1340 px the header gaps are tightened so the 14 px menu fits.
+- **Contact (pages 15–16):**
+  - **Title:** the page title is "Flasim për projektin tënd.".
+  - **Map section:** "Na gjen në Prishtinë." now follows the form and the direct contacts. It shows a sketch with the pin and a "Shfaq hartën" button: the Google Maps embed (approved pin 42.655800066393724, 21.151119141173435; lazy; localised title) loads only after that click. Beside it are "Prishtinë, Kosovë", the note that the location is approximate, "Hap në Google Maps" (https://www.google.com/maps?q=42.655800066393724,21.151119141173435) and the email. On phones the order is ways to start, form, email/phone, map, footer.
+- **WhatsApp (page 17):** a 56 px button sits fixed 24 px from the bottom-right corner on every page; on phones it is 52 px, 16 px from the edge plus the safe area.
+  - **Look:** the outline follows the section (red; ITD Labs and its products green; Creative pink; AI Agents teal). It has no arrow and no constant animation, plus a localised accessible name and tooltip.
+  - **Link:** wa.me/38349573570 with the localised opening message.
+  - **Getting out of the way:** it sits inside the footer landmark. It is hidden while the phone menu or a dialog is open, it rises above a cookie panel, and it steps aside while the form's send row or the footer's bottom row is on screen.
+- **Texts (appendix A, all 17 page types in SQ/EN/DE):**
+  - **Home and services:** home introduction; headings for the four areas, projects and partners; services title (EN/DE), introduction, the four area descriptions and the eight described results.
+  - **Projects and the illustrative case:** projects title, introduction and a "Shiko faqen" button on each project; case label "Skenar demonstrues", its explanation and flows.
+  - **Partners:** title and introduction.
+  - **ITD Labs:** title (EN/DE), introduction, catalogue title, the three card texts, localised tags, and the AURA status line.
+  - **Product pages:** Kraken OS hero ("Shumë procese. Një sistem."), introduction and module texts. Kraken Assistant title, introduction, section title and an "Hap Kraken Assistant" button to assistant.krakenos.cloud. AURA hero ("Thuaje. Ktheje në veprim."), introduction, voice label, meetings and status.
+  - **Creative:** English title, introduction, and the four box names.
+  - **AI Agents:** introduction, flow, roles, the six descriptions, Ari's actions, the shared human-approval text, "Nis një projekt pilot" and the "Agjenti AI" form label.
+  - **About:** title, introduction and the four process steps.
+  - **Contact and service pages:** contact texts, the web and AI introductions, the German web title, and "Skenar demonstrues".
+  - **Forms, FAQ and legal pages:** form messages, success, failure and note (in the site-copy JSON too); the corrected FAQ answers; the privacy page as four technical paragraphs; the four terms paragraphs (language only); and the closing box text.
+  - **Global:** "View product" in English. In Albanian, one terminology (miratim, mbështetje, Të dhëna) throughout.
+- Verified:
+  - **Report 08 checks:** a new acceptance test (`test08.py`) passes 47/47 against the criteria on page 23. It covers the clock (center changes at 5/10/15/20 s, 1 s move, countdown and progress), drag, swipe, short drag, indicators, side clicks, hover, focus, the hidden tab and reduced motion. It also covers banners per language, Outfit loaded and used everywhere, no sideways scroll at 375, 390, 768 and 1440 px, and the map, mailto, tel and WhatsApp details and behaviour on all 51 pages.
+  - **Texts:** `verify_texts.py` confirms every appendix text on its page in the three languages, and the language scan finds 0 untranslated strings.
+  - **Regression:** 54 pages pass check-pages.py and qa-seo.py (preview and production); M and opus pass their checks; axe finds 0 violations and there is no sideways overflow.
+- **Still for the team before the final launch (page 22):**
+  - **Indexing and domain:** the production build already removes noindex and points canonical, hreflang, Open Graph, schema and the sitemap to the final domain (`ITD_PRODUCTION=1`, `ITD_SITE_URL`). The GitHub preview stays noindex.
+  - **Real-world tests:** a real Formspree delivery, email receipt and Calendly confirmation; the HTTPS, cache and error-page check on the final domain; real-device tests.
+  - **Replace the banners:** swap in the originals from the source files once they are supplied.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.

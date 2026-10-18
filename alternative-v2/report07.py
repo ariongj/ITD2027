@@ -57,7 +57,7 @@ def orbit(l):
 
 def home(l,t):
  c=copy(l)
- lead=tr(l,"Faqe interneti, softuer dhe automatizim me AI. Nga ideja te një zgjidhje që ekipi yt mund ta përdorë.","Websites, software and AI automation. From an idea to a solution your team can use.","Websites, Software und KI-Automatisierung. Von der Idee zu einer Lösung, die Ihr Team im Alltag nutzen kann.")
+ lead=tr(l,"Faqe interneti, softuer dhe automatizim me AI, të ndërtuara rreth nevojave të biznesit dhe mënyrës si punon ekipi yt.","Websites, software and AI automation built around your business needs and the way your team works.","Websites, Software und KI-Automatisierung, abgestimmt auf Ihr Unternehmen und die Arbeitsweise Ihres Teams.")
  hero=(f'<div class="r6-hero-band"><section class="hero r6-hero wrap"><div class="hero-copy"><p class="eyebrow">WEB / SOFTWARE / AI / IT</p><h1>{c["home"]}</h1><p class="lead">{lead}</p>'
   f'<div class="actions">{button(c["see"],route("services",l))}{button(c["book"],cfg["bookingUrl"],"target=\"_blank\" rel=\"noopener noreferrer\"","dark")}</div></div>{orbit(l)}</section></div>')
  old=_old_home(l,t); tail=old[old.index('</section>')+10:]
@@ -96,7 +96,7 @@ def contact(l,t):
  html=_r6_contact(l,t)
  if THEME=='m': return html
  s=html.index('<div class="contact-aside">'); e=html.index('</section>',s)
- lead=tr(l,'Na kontakto drejtpërdrejt për email ose telefon.','Contact us directly by email or phone.','Kontaktieren Sie uns direkt per E-Mail oder Telefon.')
+ lead=tr(l,'Na kontakto drejtpërdrejt me email ose telefon.','Contact us directly by email or phone.','Kontaktieren Sie uns direkt per E-Mail oder Telefon.')
  direct=(f'<div class="contact-aside r7-direct"><h2>{t["write"]}</h2><p class="r7-direct-lead">{lead}</p><div class="r7-direct-actions">'
   f'<a class="button" href="mailto:{cfg["email"]}">{cfg["email"]}</a><a class="button" href="tel:+{cfg["phoneDigits"]}">{cfg["phoneDisplay"]}</a></div>'
   f'<p class="r7-direct-meta">{t["location"]} / {t["hours"]}</p></div>')
