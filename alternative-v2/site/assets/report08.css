@@ -32,6 +32,8 @@ main .lead,main :is(.hero,.page-intro,.labs-hero,.r6-dark-box,.about-hero,.ai-he
 
 /* Home orbit: the 1 s move (pages 4-5); progress and countdown are driven by orbit.js. */
 .orbit-card{transition-duration:1s,1s}
+/* With JavaScript the orbit itself moves the cards (one continuous ellipse), so no CSS transition on them. */
+.r7-orbit.is-js .orbit-card{transition:none;will-change:transform,opacity}
 .orbit-stage{touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .orbit-card,.orbit-card img{-webkit-user-drag:none}
 .r7-orbit.is-dragging .orbit-card{cursor:grabbing}

@@ -173,12 +173,21 @@ FIN={
 FIN_HITS={(l,i):0 for l in FIN for i in range(len(FIN[l]))}
 # Albanian: one terminology (miratim, mbështetje) everywhere, as on page 21.
 SQ_TERMS=[(r'\bSuport prioritar\b','Mbështetje prioritare'),(r'\bSuport\b','Mbështetje'),(r'\bsuport\b','mbështetje'),(r'\bAprovim','Miratim'),(r'\baprovim','miratim')]
+# Every stylesheet and script link carries a short fingerprint of the file (?v=…), so a browser never combines
+# a new page with an old cached script (GitHub Pages caches files for 10 minutes).
+import hashlib
+_ASSET_V={}
+def asset_version(rel):
+ if rel not in _ASSET_V:
+  f=OUT/rel
+  _ASSET_V[rel]=hashlib.sha256(f.read_bytes()).hexdigest()[:10] if f.is_file() else ''
+ return _ASSET_V[rel]
 def finalize(html,page,l):
  for i,(old,new) in enumerate(FIN[l]):
   if old in html: FIN_HITS[(l,i)]+=1; html=html.replace(old,new)
  if l=='sq':
   for pat,new in SQ_TERMS: html=re.sub(pat,new,html)
- return html
+ return re.sub(r'((?:href|src)="[^"]*?)(assets/[^"?#]+\.(?:css|js))"',lambda m:m.group(1)+m.group(2)+(f'?v={asset_version(m.group(2))}' if asset_version(m.group(2)) else '')+'"',html)
 @atexit.register
 def _report_unused():
  unused=[f'{l}: {FIN[l][i][0][:70]}' for (l,i),n in FIN_HITS.items() if n==0]
