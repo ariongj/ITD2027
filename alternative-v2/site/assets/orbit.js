@@ -1,12 +1,14 @@
 'use strict';
+// Report 09: a new card every 2.5 s (1.5 s reading + the same 1 s turn), and no seconds on screen: the
+// indicators and the service name remain. Everything else below is the movement approved in report 08.
 // Report 08: the four service banners on a continuous orbit, timed by JavaScript.
 // The cards sit on one ellipse: the centre card in front, the neighbours at the sides, the fourth behind.
 // The orbit position is a continuous number, so place, size and depth change together in one movement and
 // the cards travel round (the card on the left passes behind to the right); the text is never turned round.
-// Each step lasts 5 s: the centre card is read for 4 s, then the orbit turns one place in 1 s, so a new card
-// arrives in the centre at 5, 10, 15 and 20 s. The progress bar and the countdown ("05 s" … "01 s") under the
-// card read the same clock. Indicators, a click on a side card and dragging (the cards follow the pointer; at
-// about 40 px the orbit turns, on phones by swiping, vertical scrolling stays free) start a new 5 s cycle; a drag
+// Each step lasts 2.5 s: the centre card is read for 1.5 s, then the orbit turns one place in 1 s, so a new card
+// arrives in the centre at 2.5, 5, 7.5 and 10 s. The progress bar in the active indicator reads the same clock.
+// Indicators, a click on a side card and dragging (the cards follow the pointer; at
+// about 40 px the orbit turns, on phones by swiping, vertical scrolling stays free) start a new cycle; a drag
 // never opens a card, a click on the centre card opens its service. Hovering does not stop the orbit; it waits
 // while the visitor drags or has keyboard focus inside it, and a hidden tab does not pile up changes. Keyboard
 // users meet a pause button when they tab in. With reduced motion it never turns by itself and does not glide.
@@ -15,8 +17,8 @@
  const cards=[...root.querySelectorAll('[data-slide]')],dots=[...root.querySelectorAll('.slider-dot')];
  const n=cards.length;if(n<2)return;
  const stage=root.querySelector('.orbit-stage'),pause=root.querySelector('.orbit-pause');
- const caption=root.querySelector('[data-caption]'),count=root.querySelector('[data-countdown]');
- const STEP=5000,MOVE=1000,READ=STEP-MOVE,DRAG=40;
+ const caption=root.querySelector('[data-caption]');
+ const STEP=2500,MOVE=1000,READ=STEP-MOVE,DRAG=40;
  const PLACES=['is-center','is-right','is-back','is-left'];
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,narrow=matchMedia('(max-width:800px)');
  const mod=k=>((k%n)+n)%n;
@@ -76,14 +78,13 @@
  function render(now){
   const e=Math.max(0,Math.min(isPaused()?held:now-start,STEP));
   dots.forEach((d,k)=>{d.querySelector('.slider-fill').style.transform=`scaleX(${k===index?e/STEP:0})`;});
-  if(count)count.textContent=String(Math.max(1,Math.ceil((STEP-e)/1000))).padStart(2,'0')+' s';
  }
  function tick(now){
   if(anim){const t=Math.min(1,(now-anim.t0)/anim.dur);pos=anim.from+(anim.to-anim.from)*ease(t);if(t>=1){pos=anim.to;anim=null;}}
   if(!isPaused()){
    const e=now-start;
-   if(e>=READ&&!moving){moving=true;target+=1;places();glide(target,MOVE);}   // the turn begins at 4 s
-   if(e>=STEP){moving=false;mark();start=e>=2*STEP?now:start+STEP;}          // the new card has arrived at 5 s
+   if(e>=READ&&!moving){moving=true;target+=1;places();glide(target,MOVE);}   // the turn begins at 1.5 s
+   if(e>=STEP){moving=false;mark();start=e>=2*STEP?now:start+STEP;}          // the new card has arrived at 2.5 s
   }
   draw();render(now);requestAnimationFrame(tick);
  }

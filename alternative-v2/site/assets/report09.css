@@ -1,0 +1,30 @@
+/* Change report 09 (19 October 2026) — the main version only.
+   Home: the service name under the indicators on every width (the countdown is gone).
+   ITD Labs: the AURA emblem in the AURA app's active state — the three ribbons turn on their own (4.8 s, 6 s the
+   other way, 4.8 s), the emblem breathes (4.4 s) and the halo pulses (2.8 s) — and the typed phrase. */
+.r7-orbit .orbit-caption{display:block;margin:4px 0 0;font-size:15px;font-weight:600;color:var(--ink)}
+
+.aura-live{gap:0}
+.aura-orb{position:relative;display:inline-grid;place-items:center;width:150px;height:150px;animation:aura-breathe 4.4s ease-in-out infinite}
+.aura-orb-svg{position:relative;display:block;width:100%;height:100%;overflow:visible}
+.orb-halo{position:absolute;inset:22%;border-radius:50%;filter:blur(12px);background:radial-gradient(circle,#c4b5fd33,#93c5fd14 48%,#0000 72%);animation:aura-halo 2.8s ease-in-out infinite}
+.orb-ribbon{transform-box:view-box;transform-origin:100px 100px;animation:aura-spin 4.8s linear infinite}
+.ribbon-two{animation-duration:6s;animation-direction:reverse}
+.aura-live:not(.is-running) :is(.aura-orb,.orb-halo,.orb-ribbon){animation-play-state:paused}
+@keyframes aura-spin{to{transform:rotate(360deg)}}
+@keyframes aura-breathe{0%,to{transform:scale(1)}45%{transform:scale(1.035)}72%{transform:scale(.99)}}
+@keyframes aura-halo{50%{opacity:.68;transform:scale(1.18)}}
+
+/* The phrase: HTML text in Outfit 400, 12 px (11 px on phones); its box always holds the full phrase. */
+.aura-live figcaption{margin-top:12px}
+.aura-phone .aura-line{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:12px;font-family:'Outfit',Arial,sans-serif;font-size:12px;font-weight:400;line-height:1.45;letter-spacing:.01em}
+.aura-say{color:#b8b4c0}
+.aura-type{position:relative;display:block;color:#f2eff8}
+.aura-type-full{visibility:hidden;white-space:nowrap}
+.aura-type-live{position:absolute;inset:0;display:flex;justify-content:center;align-items:center;white-space:nowrap;transition:opacity .3s ease}
+.aura-live.is-fading .aura-type-live{opacity:0}
+.aura-caret{display:inline-block;width:1px;height:1.1em;margin-left:2px;background:currentColor;animation:aura-caret 1s steps(1) infinite}
+.aura-live.is-full .aura-caret,.aura-live.is-static .aura-caret{display:none}
+@keyframes aura-caret{50%{opacity:0}}
+@media(max-width:540px){.aura-phone .aura-line{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.aura-orb,.orb-halo,.orb-ribbon,.aura-caret{animation:none!important}.aura-type-live{transition:none}}

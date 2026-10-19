@@ -1,5 +1,5 @@
 /* Change report 08 (18 October 2026) — the main version only; ITD2027/M does not load this file.
-   Outfit and the type scale (pages 13-14) · the orbit's 1 s move and countdown (pages 4-5) · the new pieces of
+   Outfit and the type scale (pages 13-14) · the orbit's 1 s move (pages 4-5) · the new pieces of
    appendix A · the orientation map (pages 15-16) · the WhatsApp button on every page (page 17). */
 
 /* Outfit, served by the site (Google Fonts' official file, OFL; assets/fonts/outfit). */
@@ -20,7 +20,7 @@ main .lead,main :is(.hero,.page-intro,.labs-hero,.r6-dark-box,.about-hero,.ai-he
 .languages a{font-size:14px;font-weight:600}
 .button,.nav-cta,.text-link{font-size:15px;font-weight:600}
 .nav-cta{font-size:14px}
-.section-note,.form-note,.footer-bottom,.footer-bottom a,.r7-direct-meta,.orbit-countdown{font-size:14px}
+.section-note,.form-note,.footer-bottom,.footer-bottom a,.r7-direct-meta{font-size:14px}
 .form-note{font-size:13px}
 .enquiry-form label{font-size:14px;font-weight:600}
 .r7-footer-col a{font-size:16px}
@@ -30,7 +30,7 @@ main .lead,main :is(.hero,.page-intro,.labs-hero,.r6-dark-box,.about-hero,.ai-he
 @media(max-width:540px){main h1{font-size:clamp(32px,9.6vw,38px)!important;line-height:1.12!important}h2{font-size:28px}body{font-size:16px}main .lead,main :is(.hero,.page-intro,.labs-hero,.r6-dark-box,.about-hero,.ai-hero,.creative-hero,.kraken-hero,.aura-hero) .lead{font-size:17px}
 .padded p,.project-text,.family-card p,.contact-path>p:not(.eyebrow),.lab-card-copy>p:not(.eyebrow),.priority-card p,.agent-card>p:not(.agent-name),.service-family-title p,.about-step h3+p,.partner-copy p:not(.partner-index),.r7-direct-lead,.end-card p:not(.eyebrow){font-size:16px}}
 
-/* Home orbit: the 1 s move (pages 4-5); progress and countdown are driven by orbit.js. */
+/* Home orbit: the 1 s move (pages 4-5); the progress is driven by orbit.js (the countdown left in report 09). */
 .orbit-card{transition-duration:1s,1s}
 /* With JavaScript the orbit itself moves the cards (one continuous ellipse), so no CSS transition on them. */
 .r7-orbit.is-js .orbit-card{transition:none;will-change:transform,opacity}
@@ -38,8 +38,6 @@ main .lead,main :is(.hero,.page-intro,.labs-hero,.r6-dark-box,.about-hero,.ai-he
 .orbit-card,.orbit-card img{-webkit-user-drag:none}
 .r7-orbit.is-dragging .orbit-card{cursor:grabbing}
 .r7-orbit .slider-dot .slider-fill,.r7-orbit .slider-dot[aria-current=true] .slider-fill.is-running{animation:none!important;transform-origin:left center}
-.orbit-countdown{margin:2px 0 0;color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:.02em}
-.r7-orbit.is-static .orbit-countdown{display:none}
 .r7-orbit.is-static .slider-fill{transform:scaleX(0)!important}
 .r7-orbit.is-static .slider-dot[aria-current=true] .slider-fill{transform:scaleX(1)!important}
 

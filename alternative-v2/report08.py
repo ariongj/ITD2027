@@ -2,7 +2,7 @@
 
 Texts from appendix A in SQ / EN / DE (here for the texts held in T and copy(), and in finalize() for the texts
 that come from the original pages), banners in the visitor's language, the orbit on a 5 s JavaScript clock with
-a countdown and dragging, the Outfit font, an orientation map on Contact and a WhatsApp button on every page.
+dragging (report 09: every 2.5 s, no countdown), the Outfit font, an orientation map on Contact and a WhatsApp button on every page.
 Design pieces (orbit, font, map, WhatsApp) belong to the main version only; ITD2027/M keeps its look but shares
 the corrected texts. Layout and motion: assets/report08.css, assets/orbit.js and assets/report08.js."""
 import atexit, re
@@ -195,7 +195,7 @@ def _report_unused():
 
 # ---------------------------------------------------------------- home
 # The four service banners in the visitor's language (the brand line "IT Department / Your Technology Partner"
-# stays in English); the orbit turns on a 5 s JavaScript clock with a countdown under the card.
+# stays in English); the orbit turns on a JavaScript clock (report 09: 2.5 s, no countdown).
 BANNER_ALT={
  'web':('Web & softuer. Ndërtuar për biznesin tënd. Webfaqe. Aplikacione. Softuer biznesi.','Web & Software. Built for your business. Websites. Apps. Business software.','Web & Software. Für Ihr Unternehmen. Websites. Apps. Unternehmenssoftware.'),
  'it':('IT & siguri. Puno i sigurt. Vazhdo përpara. Mbështetje IT. Siguri kibernetike. Auditime IT.','IT & Security. Stay secure. Keep moving. IT support. Cybersecurity. IT audits.','IT & Sicherheit. Sicher bleiben. Weiterkommen. IT-Support. Cybersicherheit. IT-Audits.'),
@@ -215,7 +215,7 @@ def orbit(l):
  return (f'<section class="r7-orbit" aria-roledescription="{tr(l,"prezantim me slajde","carousel","Karussell")}" aria-label="{tr(l,"Shërbimet tona","Our services","Unsere Leistungen")}" data-orbit>'
   f'<button type="button" class="orbit-pause" data-pause="{pause[0]}" data-play="{pause[1]}">{pause[0]}</button>'
   f'<div class="orbit-stage" id="orbit-slides" aria-live="off">{cards}</div>'
-  f'<div class="orbit-controls" hidden><div class="slider-dots">{dots}</div><p class="orbit-countdown" aria-hidden="true" data-countdown>05 s</p>'
+  f'<div class="orbit-controls" hidden><div class="slider-dots">{dots}</div>'
   f'<p class="orbit-caption" aria-hidden="true" data-caption>01 / {tr(l,*SERVICE_SLIDES[0][3])}</p></div></section>')
 
 def home(l,t):

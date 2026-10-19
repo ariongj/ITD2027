@@ -207,6 +207,18 @@ Source: `ITD2027_Raporti_i_Ndryshimeve_08.pdf` (55 pages, the only reference for
   - **Real-world tests:** a real Formspree delivery, email receipt and Calendly confirmation; the HTTPS, cache and error-page check on the final domain; real-device tests.
   - **Replace the banners:** swap in the originals from the source files once they are supplied.
 
+## Change report 09, 19 October 2026
+
+Source: `ITD2027_Raporti09_Vetem_Ndryshimet_e_Fundit.pdf` (7 pages, the last changes before going live). Only the main version is affected; ITD2027/M is unchanged.
+
+- **Slideshow:** a new card every 2.5 s (`STEP=2500`, `MOVE=1000`, `READ=1500` in `orbit.js`). The cards arrive in the centre at 2.5, 5, 7.5 and 10 s, and the approved orbit movement is unchanged. The numeric countdown is gone: the `[data-countdown]` element, its CSS and the code that wrote the seconds, with no empty line left. The indicators and the service name ("01 / Web & Software") remain, now on every width. Clicking, dragging and swiping are kept.
+- **AURA box on ITD Labs (`report09.py`, `assets/aura-live.js`, `assets/report09.css`):** only the emblem and the phrase on the right move. The title, text, button and the box layout stay, and the Labs hero and catalogue are unchanged.
+  - **Emblem:** inline SVG built from the original ribbon geometry (`assets/labs/aura-emblem.svg`, itself rebuilt from the AURA app's drawing code). It uses the AURA app's active state, read from the app's own build: the three ribbons turn on their own (4.8 s, 6 s in reverse, 4.8 s), the emblem breathes (`orb-breathe` 4.4 s) and the halo pulses (2.8 s). The glow sits behind the lines.
+  - **Phrase:** "Say it." is static. "Consider it handled." is typed as HTML text: a short wait with a cursor, about 60 ms per letter, the full phrase held for 3 s, a 300 ms fade, then again. It is set in Outfit 400 at 12 px (11 px on phones). The phrase's box always holds the full phrase, so nothing jumps.
+  - **Behaviour:** it runs only while the box is on screen and the tab is active. Screen readers get the phrase once (the typed copy is hidden from them, no aria-live). There are no new controls, no sound and no microphone. With reduced motion the emblem stands still and the full phrase shows without a cursor. The brand phrase stays in English on SQ/EN/DE pages.
+- **Cache:** the version fingerprints on CSS/JS links make browsers load the new orbit and AURA files right after publication.
+- Verified: `test09.py` passes 63/63 (the 2.5 s rhythm and 1 s turn, no countdown on desktop and phones, the service name, all earlier orbit, language, font, width, contact and WhatsApp checks, and the AURA checks of page 7). The audit was rebuilt after the scratchpad was cleaned: axe finds 0 violations on 54 pages and there is no sideways overflow. check-pages.py, qa-seo.py (preview and production), M, opus and the language scan pass.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.
