@@ -26,7 +26,8 @@
  // Above a cookie panel (shown only when measurement is enabled on the final domain).
  const lift=()=>{
   const panel=document.querySelector('.consent-panel');
-  const h=panel&&!panel.hidden&&panel.offsetParent!==null?panel.getBoundingClientRect().height:0;
+  // (The panel is position:fixed, so offsetParent is always null; its client rects tell whether it shows.)
+  const h=panel&&!panel.hidden&&panel.getClientRects().length?panel.getBoundingClientRect().height:0;
   wa.style.setProperty('--wa-lift',h?`${Math.round(h)+16}px`:'0px');
  };
  lift();new MutationObserver(lift).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});

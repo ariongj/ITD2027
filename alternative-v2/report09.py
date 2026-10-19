@@ -29,6 +29,28 @@ def aura_live():
   '<span class="aura-type-live" aria-hidden="true"><span data-typed>Consider it handled.</span><i class="aura-caret"></i></span>'
   '<span class="sr-only">Consider it handled.</span></span></p></figure>')
 
+# Going live on itdks.tech: the server's Content-Security-Policy allows styles from stylesheets only, so the agent
+# characters' pivot points live in report09.css instead of style attributes.
+_r7_agent_bot=agent_bot
+def agent_bot(name):
+ return re.sub(r' style="transform-origin:[^"]*"','',_r7_agent_bot(name))
+
+# With Google Analytics enabled at launch (production build), the privacy page describes that configuration, as
+# report 08 asks, together with its paragraphs on forms, external services and fonts.
+PRIVACY_GA={
+ 'sq':'Google Analytics aktivizohet vetëm me pëlqimin tënd dhe mund të çaktivizohet te Cilësimet e privatësisë në fund të faqes. Matim faqen, gjuhën, shërbimin ose produktin dhe veprimin; nuk përfshijmë emër, email, telefon apo mesazh në eventet tona.',
+ 'en':'Google Analytics activates only with your consent and can be disabled through Privacy settings in the footer. We measure page, language, service or product and action; our events exclude names, emails, phone numbers and messages.',
+ 'de':'Google Analytics wird nur mit Ihrer Einwilligung aktiviert und kann über die Datenschutzeinstellungen im Footer deaktiviert werden. Wir messen Seite, Sprache, Leistung oder Produkt und Aktion; unsere Ereignisse enthalten keine Namen, E-Mails, Telefonnummern oder Nachrichten.'}
+_r8_finalize=finalize
+def finalize(html,page,l):
+ html=_r8_finalize(html,page,l)
+ if page=='privacy' and PRODUCTION and os.environ.get('ITD_ANALYTICS')=='1':
+  paras=[PRIVACY_GA[l]]+PRIVACY[l][:3]+PRIVACY[l][4:]
+  body=''.join(f'<p>{p}</p>' for p in paras)+f'<a class="text-link" href="mailto:{cfg["email"]}">{cfg["email"]}</a>'
+  html,n=re.subn(r'<div class="wrap legal">.*?</div>',f'<div class="wrap legal">{body}</div>',html,count=1,flags=re.S)
+  assert n==1
+ return html
+
 def labs(l,t):
  html=_r8_labs(l,t)
  if THEME=='m': return html

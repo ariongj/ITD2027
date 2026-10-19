@@ -217,6 +217,14 @@ Source: `ITD2027_Raporti09_Vetem_Ndryshimet_e_Fundit.pdf` (7 pages, the last cha
   - **Phrase:** "Say it." is static. "Consider it handled." is typed as HTML text: a short wait with a cursor, about 60 ms per letter, the full phrase held for 3 s, a 300 ms fade, then again. It is set in Outfit 400 at 12 px (11 px on phones). The phrase's box always holds the full phrase, so nothing jumps.
   - **Behaviour:** it runs only while the box is on screen and the tab is active. Screen readers get the phrase once (the typed copy is hidden from them, no aria-live). There are no new controls, no sound and no microphone. With reduced motion the emblem stands still and the full phrase shows without a cursor. The brand phrase stays in English on SQ/EN/DE pages.
 - **Cache:** the version fingerprints on CSS/JS links make browsers load the new orbit and AURA files right after publication.
+- **Going live on itdks.tech (19 October):** the owner chose the main domain, indexable, with Google Analytics after consent.
+  - **Package:** the production build (`ITD_PRODUCTION=1`, `ITD_SITE_URL=https://itdks.tech`, `ITD_ANALYTICS=1`, `ITD_INDEXABLE=1`) is packaged as `qa/release/ITD-itdks.tech-2026-10-19.zip` (206 files, mode 0644). Next to it are a manifest, an upload guide and a list of 34 current-site files the new site no longer uses, among them the old chatbot `chat.php`; `stats/` and `.env` stay.
+  - **Fixes for the server's security policy:**
+    - The Google map is added to `frame-src`, and `data:` to `img-src` for the decorative SVG lines.
+    - The agent characters' pivot points moved from style attributes into `report09.css`, since `style-src 'self'` blocks inline styles.
+    - The WhatsApp button now really rises above the cookie panel: the check used `offsetParent`, which is always null for a fixed element.
+  - **Privacy page:** in that build it describes Google Analytics with consent, together with the report 08 paragraphs on forms, external services and fonts.
+  - **Tests:** the production build, served with the same CSP and clean URLs, shows no policy violations on the key pages. The orbit, map, AURA, agents, Outfit and consent panel all work, and Google Analytics does not load before consent. axe finds 0 violations and there is no overflow.
 - Verified: `test09.py` passes 63/63 (the 2.5 s rhythm and 1 s turn, no countdown on desktop and phones, the service name, all earlier orbit, language, font, width, contact and WhatsApp checks, and the AURA checks of page 7). The audit was rebuilt after the scratchpad was cleaned: axe finds 0 violations on 54 pages and there is no sideways overflow. check-pages.py, qa-seo.py (preview and production), M, opus and the language scan pass.
 
 ## Deferred, missing or not live-verified

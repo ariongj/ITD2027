@@ -28,3 +28,29 @@
 @keyframes aura-caret{50%{opacity:0}}
 @media(max-width:540px){.aura-phone .aura-line{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.aura-orb,.orb-halo,.orb-ribbon,.aura-caret{animation:none!important}.aura-type-live{transition:none}}
+
+/* AI Agents: each character's eye centres and hand joints (were style attributes; the server's security policy
+   allows styles from stylesheets only). Values from AGENT_RIG in report07.py. */
+[data-agent-bot=ari] .ab-eye-l{transform-origin:49.0% 34.6%}
+[data-agent-bot=ari] .ab-eye-r{transform-origin:66.5% 29.6%}
+[data-agent-bot=ari] .ab-hand-l{transform-origin:23.0% 55.5%}
+[data-agent-bot=ari] .ab-hand-r{transform-origin:78.9% 40.5%}
+[data-agent-bot=dita] .ab-eye-l{transform-origin:49.9% 34.3%}
+[data-agent-bot=dita] .ab-eye-r{transform-origin:66.5% 27.1%}
+[data-agent-bot=dita] .ab-hand-l{transform-origin:26.7% 65.3%}
+[data-agent-bot=nora] .ab-eye-l{transform-origin:48.7% 33.2%}
+[data-agent-bot=nora] .ab-eye-r{transform-origin:66.3% 29.4%}
+[data-agent-bot=nora] .ab-hand-l{transform-origin:23.0% 55.5%}
+[data-agent-bot=nora] .ab-hand-r{transform-origin:78.9% 45.6%}
+[data-agent-bot=leo] .ab-eye-l{transform-origin:49.1% 34.2%}
+[data-agent-bot=leo] .ab-eye-r{transform-origin:66.7% 30.1%}
+[data-agent-bot=leo] .ab-hand-l{transform-origin:23.0% 55.5%}
+[data-agent-bot=leo] .ab-hand-r{transform-origin:78.9% 40.5%}
+[data-agent-bot=mira] .ab-eye-l{transform-origin:46.9% 33.3%}
+[data-agent-bot=mira] .ab-eye-r{transform-origin:63.1% 24.1%}
+[data-agent-bot=mira] .ab-hand-l{transform-origin:26.7% 65.3%}
+[data-agent-bot=mira] .ab-hand-r{transform-origin:79.1% 44.3%}
+[data-agent-bot=fin] .ab-eye-l{transform-origin:49.0% 34.3%}
+[data-agent-bot=fin] .ab-eye-r{transform-origin:66.3% 30.6%}
+[data-agent-bot=fin] .ab-hand-l{transform-origin:23.0% 55.5%}
+[data-agent-bot=fin] .ab-hand-r{transform-origin:77.0% 55.5%}
