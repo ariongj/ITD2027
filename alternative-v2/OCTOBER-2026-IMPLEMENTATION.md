@@ -227,6 +227,50 @@ Source: `ITD2027_Raporti09_Vetem_Ndryshimet_e_Fundit.pdf` (7 pages, the last cha
   - **Tests:** the production build, served with the same CSP and clean URLs, shows no policy violations on the key pages. The orbit, map, AURA, agents, Outfit and consent panel all work, and Google Analytics does not load before consent. axe finds 0 violations and there is no overflow.
 - Verified: `test09.py` passes 63/63 (the 2.5 s rhythm and 1 s turn, no countdown on desktop and phones, the service name, all earlier orbit, language, font, width, contact and WhatsApp checks, and the AURA checks of page 7). The audit was rebuilt after the scratchpad was cleaned: axe finds 0 violations on 54 pages and there is no sideways overflow. check-pages.py, qa-seo.py (preview and production), M, opus and the language scan pass.
 
+## Change report 10, 21 October 2026
+
+Source: `ITD_Raporti10_Final_v2.pdf` (14 pages; the round after going live). Only the main version is affected; ITD2027/M and opus are unchanged. The work is a new layer, `report10.py`, with `assets/report10.css` and `assets/report10.js`.
+
+- **Typography (pages 2-3):**
+  - Outfit at its real weights only, with `font-synthesis: none`: 700 for titles, 600 for the menu and buttons, 400 for text.
+  - Desktop: H1 48-56 px, text 18 px at 1.6, buttons 16 px. Phones: H1 36-40 px, text 17 px. Titles stay centred.
+  - The phone and desktop now share the same H1 weight and letter-spacing.
+  - Two text boxes no longer sit under a transform, so their text stays sharp: the WhatsApp label (it was centred with a half-pixel offset) and the KrakenOS screenshot caption (a 3D tilt).
+- **Partners (page 4):** Cisco, Hostinger, MikroTik, Adobe, KoBags Group, Paysera, Optika Miftari, Raiffeisen Bank, Human+. The order is the same on the home page and /partners, in SQ/EN/DE, and on desktop and phone; the DOM follows the same order.
+- **Decorative numbers (page 5):** removed from the finished pages of every language, together with the space they used.
+  - Standalone numbers on cards, process steps, the AI flow and agent cards, about values, contact paths and service details.
+  - "01 / " in front of labels: Labs eyebrows, process phases, "PARTNER", and the slideshow caption, which now shows only the service name.
+  - The "0N / 04" counter drawn inside the four home banners (SQ/EN/DE), retouched from the original report 08 artwork; "IT DEPARTMENT" stays.
+  - Prices, phone numbers, dates and the slide positions read out to screen readers keep their numbers.
+- **Icons (page 6):** four new SVGs for the home areas and the matching service families: window + code, shield + check, assistant with eyes and antenna, pen nib + shape.
+  - One 26-unit grid, 1.5 stroke, round ends, `currentColor`, on a soft red tile.
+  - 26 px at every width, `aria-hidden`; hover and focus lift them 2 px in 0.2 s.
+- **Characters (pages 7-10):**
+  - **AI character, 7 s storyboard:** listens (looks at the request), thinks (tilts up to 3°, eyes pulse), waves (hand 12-18° at the shoulder, the ring glows), then settles with a short nod. Float is 7 px.
+  - **Six agents, each with its own gesture:** Ari waves and looks back; Dita reads and nods; Nora opens both hands; Leo points twice and nods; Mira explains with her eyes following the hand; Fin balances and confirms. Float is 5 px, the body moves up to 3°, hands 10-18°, blinks last about 150 ms, and loops run 6.6-7.6 s.
+  - **How the motion is built:** an outer frame floats, a rig inside it tilts and nods, and hands and eyes turn on their own joints. Separate properties are used, so no two loops write the same transform.
+  - **When it plays:** each figure moves only while on screen. It starts from the beginning when it appears; figures that appear together gesture 1.1 s apart. A hidden tab pauses everything. Hover or focus gives a short hop. With reduced motion the figures are still and complete.
+- **Terms and Privacy (pages 11-13):** two full pages in SQ/EN/DE.
+  - **Layout:** a centred title, summary and update date (21.10.2026). A topic menu sits beside the text on wide screens and above it on phones, and marks the section being read. Text is 18 px at 1.65 in a column of about 70 characters (17 px on phones).
+  - **Privacy:**
+    - Identity.
+    - Each data flow with its data, purpose, legal basis and retention: form, browser draft, email/phone/WhatsApp, Calendly, Google Analytics with consent (production only), server logs, map and fonts.
+    - External providers with links to their policies, and transfers outside Kosovo.
+    - Rights under Law 06/L-082, with the AIP link.
+    - A table of what is stored in the browser, and how to refuse and withdraw.
+  - **Terms:** identity and scope, offers and services, content and ownership, use and links, liability (no absolute exclusions), complaints and changes.
+  - **What the pages describe:** only what the site really does, read from its code and security policy. The legal name, address and business number appear once they are entered in `LEGAL_ENTITY`; until then the pages show the published identity (IT Department, Prishtina, email, phone).
+- **Verified:**
+  - Report 10 test: 61/61. It covers partners, numbers on 51 pages, icons, typography at 360-1920 px, the seven characters sampled for 11 s (float, tilt, hand, blink and the gesture order), in view and off screen, hidden tab, hover, reduced motion, both legal pages in three languages and two widths, keyboard, and widths 360/390/768/1440/1920 plus 200 % zoom.
+  - `test09` passes 63/63, updated for the caption without "01 /" and 18 px desktop text.
+  - Production with its CSP and clean URLs: 25/25, including a real consent test with Google blocked at the network level. The first visit loads nothing; "No analytics" holds across pages; "Allow" loads GA; withdrawal deletes the `_ga` cookies.
+  - axe finds 0 violations and there is no overflow. check-pages, qa-seo, M (54 pages), opus (18) and the language scan pass.
+- **Open for the company (pages 12-13):**
+  - The legal name, registered address and business number.
+  - Real retention periods for enquiries and emails, and the GA4 data-retention setting (the page says "no more than 14 months").
+  - Confirmation of the jurisdiction wording.
+  - Legal approval of the final texts.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.

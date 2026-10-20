@@ -1,0 +1,172 @@
+/* Change report 10 (21 October 2026) — the main version only; ITD2027/M does not load this file.
+   Typography after the approved phone view (pages 2-3) · the four area icons (page 6) · the AI character and the
+   six agents in motion (pages 7-10) · Terms and Privacy as full pages (pages 11-13). */
+
+/* Outfit at its real weights only: 700 titles, 600 menu and buttons, 400 text; no synthesised bold or italic. */
+html{font-synthesis:none}
+@media(min-width:801px){.button{font-size:16px}}
+@media(min-width:1121px){
+ body{font-size:18px}
+ .padded p,.project-text,.family-card p,.contact-path>p:not(.eyebrow),.lab-card-copy>p:not(.eyebrow),.priority-card p,.agent-card>p:not(.agent-name),.service-family-title p,.about-step h3+p,.partner-copy p:not(.partner-index),.r7-direct-lead,.end-card p:not(.eyebrow){font-size:18px;line-height:1.6}}
+@media(max-width:540px){
+ main h1{font-size:clamp(32px,10vw,40px)!important;line-height:1.1!important}
+ body{font-size:17px}
+ .padded p,.project-text,.family-card p,.contact-path>p:not(.eyebrow),.lab-card-copy>p:not(.eyebrow),.priority-card p,.agent-card>p:not(.agent-name),.service-family-title p,.about-step h3+p,.partner-copy p:not(.partner-index),.r7-direct-lead,.end-card p:not(.eyebrow){font-size:17px}}
+
+/* Text stays sharp: no transform on boxes that hold static text (the WhatsApp label was centred with a half-pixel
+   translate, the KrakenOS screenshot and its caption sat in a 3D tilt). */
+.wa-tip{top:0;bottom:0;height:max-content;margin-block:auto;transform:none}
+.product-hero-image,.product-hero-image:hover{transform:none}
+
+/* The four areas: small 26 px symbols on a soft tile of the same red; hover and focus lift them 2 px. */
+.r10-icon{overflow:visible;transition:translate .2s ease}
+.family-card>.r10-icon{width:26px;height:26px}
+.r10-tile{opacity:.08;transition:opacity .2s ease}
+.family-card:is(:hover,:focus-visible)>.r10-icon{translate:0 -2px}
+.family-card:is(:hover,:focus-visible) .r10-tile{opacity:.16}
+
+/* Characters. Each one: an outer frame that floats, a rig inside it that tilts and nods, and hands and eyes that
+   turn on their own joints. Separate properties (translate, rotate, scale, filter) so no two loops write the
+   same transform. Off screen a figure rests, and its loop starts from the beginning when it appears (report10.js);
+   a hidden tab pauses every loop. */
+.motion-ready [data-motion]:not(.is-live),.motion-ready [data-motion]:not(.is-live) *,.motion-ready [data-motion]:not(.is-live) *::after{animation:none!important}
+.motion-hidden [data-motion],.motion-hidden [data-motion] *,.motion-hidden [data-motion] *::after{animation-play-state:paused!important}
+
+/* The AI character, one 7 s loop: listens 0-1.5 s (looks at the request), thinks 1.5-3 s (tilts up to 3°, eyes
+   pulse), waves 3-4.5 s (hand 12-18° at the shoulder, the ring glows), settles 4.5-7 s (a short nod, then rest). */
+.agent-character{animation:r10-hero-float 3.5s ease-in-out infinite}
+.ac-rig{position:absolute;inset:0;transform-origin:50% 86%;animation:r10-hero-rig 7s ease-in-out infinite}
+.ac-hand{animation:r10-hero-hand 7s ease-in-out infinite}
+.ac-eye-l,.ac-eye-r{animation:r10-hero-gaze 7s ease-in-out infinite,r10-hero-blink 7s linear infinite,r10-hero-pulse 7s ease-in-out infinite}
+.ac-foot-l,.ac-foot-r{animation:r10-foot 3.5s ease-in-out .3s infinite}
+.ac-foot-r{animation-delay:.45s}
+.r6-orbit::after{content:'';position:absolute;inset:-2px;border-radius:50%;box-shadow:0 0 26px 5px #7fe8d4;opacity:0;pointer-events:none;animation:r10-glow 7s ease-in-out infinite}
+@keyframes r10-hero-float{0%,100%{translate:0 0}50%{translate:0 -7px}}
+@keyframes r10-hero-rig{0%,4%{rotate:0deg;translate:0 0}12%,19%{rotate:-1.5deg;translate:0 0}28%{rotate:3deg;translate:0 0}36%{rotate:2deg;translate:0 0}43%{rotate:.5deg;translate:0 0}58%{rotate:-1deg;translate:0 0}66%{rotate:0deg;translate:0 0}70%{rotate:-1deg;translate:0 3px}74%{rotate:0deg;translate:0 0}78%{rotate:-.5deg;translate:0 2px}83%,100%{rotate:0deg;translate:0 0}}
+@keyframes r10-hero-hand{0%,40%{rotate:0deg}45%{rotate:-17deg}49.5%{rotate:-7deg}54%{rotate:-18deg}58.5%{rotate:-8deg}62%{rotate:-13deg}67%,100%{rotate:0deg}}
+@keyframes r10-hero-gaze{0%{translate:0 0}8%,19%{translate:-1.6% 1.2%}26%,40%{translate:.4% -1%}46%,62%{translate:1.2% 0}70%,100%{translate:0 0}}
+@keyframes r10-hero-blink{0%,22%,24.1%,80%,82.1%,100%{scale:1 1}23.05%,81.05%{scale:1 .1}}
+@keyframes r10-hero-pulse{0%,22%,42%,100%{filter:none}28%{filter:brightness(1.4)}32%{filter:none}36%{filter:brightness(1.35)}}
+@keyframes r10-glow{0%,40%,70%,100%{opacity:0}48%,60%{opacity:.5}}
+@keyframes r10-foot{0%,100%{translate:0 0}50%{translate:0 2%}}
+
+/* The six agents: float 5 px and a loop of 6.6-7.6 s each. Agents that appear together start 1.1 s apart (--s);
+   --g makes each gesture visible about 2.8 s after its start, so the gestures follow one another. */
+#agent-ari{--t:7s;--g:0s}
+#agent-dita{--t:6.6s;--g:1.52s}
+#agent-nora{--t:7.4s;--g:0s}
+#agent-leo{--t:6.8s;--g:.57s}
+#agent-mira{--t:7.6s;--g:.28s}
+#agent-fin{--t:7.2s;--g:.79s}
+.agent-bot[data-motion]{animation:r10-float calc(var(--t,7s) / 2) ease-in-out infinite}
+.ab-rig{position:absolute;inset:0;display:block;transform-origin:50% 88%}
+[data-agent-bot] .ab-eye-l,[data-agent-bot] .ab-eye-r{animation:r10-blink var(--t,7s) linear calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot] .ab-foot-l,[data-agent-bot] .ab-foot-r{animation:r10-foot calc(var(--t,7s) / 2) ease-in-out .3s infinite}
+[data-agent-bot] .ab-foot-r{animation-delay:.45s}
+@keyframes r10-float{0%,100%{translate:0 0}50%{translate:0 -5px}}
+@keyframes r10-blink{0%,29%,31.1%,81%,83.1%,100%{scale:1 1}30.05%,82.05%{scale:1 .1}}
+@keyframes r10-blink-b{0%,11%,13.1%,85%,87.1%,100%{scale:1 1}12.05%,86.05%{scale:1 .1}}
+
+/* Ari waves with the right hand, then looks back at the visitor. */
+[data-agent-bot=ari] .ab-rig{animation:r10-ari-rig var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=ari] .ab-hand-r{animation:r10-ari-hand var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=ari] :is(.ab-eye-l,.ab-eye-r){animation:r10-ari-gaze var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite,r10-blink var(--t) linear calc(var(--s,0s) + var(--g,0s)) infinite}
+@keyframes r10-ari-rig{0%,40%,70%,100%{rotate:0deg}48%{rotate:-2.5deg}60%{rotate:-1deg}}
+@keyframes r10-ari-hand{0%,38%,68%,100%{rotate:0deg}43%{rotate:-17deg}47.5%{rotate:-6deg}52%{rotate:-17deg}56.5%{rotate:-6deg}61%{rotate:-14deg}}
+@keyframes r10-ari-gaze{0%,16%,72%,100%{translate:0 0}24%,36%{translate:1.6% 0}44%,62%{translate:.8% -.4%}}
+
+/* Dita leans in as if reading, her eyes run left and right, then a small nod. */
+[data-agent-bot=dita] .ab-rig{animation:r10-dita-rig var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=dita] .ab-hand-l{animation:r10-dita-hand var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=dita] :is(.ab-eye-l,.ab-eye-r){animation:r10-dita-gaze var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite,r10-blink-b var(--t) linear calc(var(--s,0s) + var(--g,0s)) infinite}
+@keyframes r10-dita-rig{0%,14%,80%,100%{rotate:0deg;translate:0 0}24%,52%{rotate:-3deg;translate:0 0}60%{rotate:-2deg;translate:0 2px}65%{rotate:-2.5deg;translate:0 0}70%{rotate:-1.5deg;translate:0 1.5px}}
+@keyframes r10-dita-hand{0%,18%,60%,100%{rotate:0deg}26%,52%{rotate:10deg}}
+@keyframes r10-dita-gaze{0%,20%,58%,100%{translate:0 0}26%{translate:-1.8% .8%}33%{translate:1.4% .8%}40%{translate:-1.8% .8%}47%{translate:1.4% .8%}53%{translate:-.4% .4%}}
+
+/* Nora opens both hands in welcome, tilts a little and comes back. */
+[data-agent-bot=nora] .ab-rig{animation:r10-nora-rig var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=nora] .ab-hand-l{animation:r10-nora-hand-l var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=nora] .ab-hand-r{animation:r10-nora-hand-r var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=nora] :is(.ab-eye-l,.ab-eye-r){animation:r10-nora-gaze var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite,r10-blink var(--t) linear calc(var(--s,0s) + var(--g,0s)) infinite}
+@keyframes r10-nora-rig{0%,36%,74%,100%{rotate:0deg}46%,56%{rotate:2.5deg}}
+@keyframes r10-nora-hand-l{0%,34%,72%,100%{rotate:0deg}44%,58%{rotate:15deg}}
+@keyframes r10-nora-hand-r{0%,34%,72%,100%{rotate:0deg}44%,58%{rotate:-15deg}}
+@keyframes r10-nora-gaze{0%,36%,74%,100%{translate:0 0}46%,58%{translate:0 -.6%}}
+
+/* Leo points towards the action twice, then nods. */
+[data-agent-bot=leo] .ab-rig{animation:r10-leo-rig var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=leo] .ab-hand-r{animation:r10-leo-hand var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=leo] :is(.ab-eye-l,.ab-eye-r){animation:r10-leo-gaze var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite,r10-blink-b var(--t) linear calc(var(--s,0s) + var(--g,0s)) infinite}
+@keyframes r10-leo-rig{0%,60%,78%,100%{rotate:0deg;translate:0 0}64%{rotate:-1deg;translate:0 2px}68%{rotate:0deg;translate:0 0}72%{rotate:-.5deg;translate:0 1.5px}}
+@keyframes r10-leo-hand{0%,30%,58%,100%{rotate:0deg;translate:0 0}36%{rotate:-12deg;translate:3% 0}41%{rotate:-5deg;translate:0 0}46%{rotate:-12deg;translate:3% 0}51%{rotate:-5deg;translate:0 0}}
+@keyframes r10-leo-gaze{0%,28%,62%,100%{translate:0 0}34%,56%{translate:1.5% 0}}
+
+/* Mira explains with an open hand; her eyes follow it. */
+[data-agent-bot=mira] .ab-rig{animation:r10-mira-rig var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=mira] .ab-hand-r{animation:r10-mira-hand var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=mira] :is(.ab-eye-l,.ab-eye-r){animation:r10-mira-gaze var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite,r10-blink var(--t) linear calc(var(--s,0s) + var(--g,0s)) infinite}
+@keyframes r10-mira-rig{0%,32%,70%,100%{rotate:0deg}40%,60%{rotate:-2deg}}
+@keyframes r10-mira-hand{0%,30%,70%,100%{rotate:0deg}38%{rotate:-15deg}46%{rotate:-4deg}54%{rotate:-13deg}62%{rotate:-2deg}}
+@keyframes r10-mira-gaze{0%,30%,72%,100%{translate:0 0}38%{translate:1.6% -.8%}46%{translate:1% 0}54%{translate:1.6% -.6%}62%{translate:.6% 0}}
+
+/* Fin balances both hands, the eyes pulse softly, then a short nod to confirm. */
+[data-agent-bot=fin] .ab-rig{animation:r10-fin-rig var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=fin] .ab-hand-l{animation:r10-fin-hand-l var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=fin] .ab-hand-r{animation:r10-fin-hand-r var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite}
+[data-agent-bot=fin] :is(.ab-eye-l,.ab-eye-r){animation:r10-fin-pulse var(--t) ease-in-out calc(var(--s,0s) + var(--g,0s)) infinite,r10-blink-b var(--t) linear calc(var(--s,0s) + var(--g,0s)) infinite}
+@keyframes r10-fin-rig{0%,80%,94%,100%{translate:0 0}84%{translate:0 2px}88%{translate:0 0}91%{translate:0 1px}}
+@keyframes r10-fin-hand-l{0%,24%,62%,100%{rotate:0deg;translate:0 0}32%{rotate:10deg;translate:0 -3%}42%{rotate:-3deg;translate:0 2%}52%{rotate:10deg;translate:0 -3%}}
+@keyframes r10-fin-hand-r{0%,24%,62%,100%{rotate:0deg;translate:0 0}32%{rotate:3deg;translate:0 2%}42%{rotate:-10deg;translate:0 -3%}52%{rotate:3deg;translate:0 2%}}
+@keyframes r10-fin-pulse{0%,60%,82%,100%{filter:none}64%{filter:brightness(1.4)}69%{filter:none}74%{filter:brightness(1.35)}78%{filter:none}}
+
+/* Hover or keyboard focus on a card: one short hop of the character, then back. */
+.agent-card:is(:hover,:focus-within) .agent-heading{animation:r10-react .7s cubic-bezier(.3,.7,.4,1) 1}
+@keyframes r10-react{0%,100%{translate:0 0;rotate:0deg}30%{translate:0 -6px;rotate:-3deg}60%{translate:0 1px;rotate:1deg}}
+@media(prefers-reduced-motion:reduce){[data-motion],[data-motion] *,[data-motion] *::after,.agent-heading,.r10-icon{animation:none!important;transition:none!important;translate:none!important}}
+
+/* Terms and Privacy: centred title, summary and date; the topic menu beside the text (above it on phones);
+   18 px text at 1.65 in a 65-75 character column. */
+.r10-legal-intro{text-align:center}
+.r10-legal-intro h1,.r10-legal-intro .lead{margin-inline:auto}
+.r10-legal-intro h1{overflow-wrap:break-word;hyphens:auto}
+.r10-legal-intro .lead{max-width:640px}
+.r10-updated{margin:16px 0 0;color:var(--muted);font-size:15px}
+.r10-legal{display:grid;grid-template-columns:minmax(220px,260px) minmax(0,30em);gap:56px;justify-content:center;align-items:start;padding-top:24px;padding-bottom:96px}
+.r10-toc{position:sticky;top:112px;padding:24px 22px;border-radius:18px;background:#efefeb}
+.r10-toc h2{margin:0 0 10px;font-size:18px;line-height:1.3;letter-spacing:0}
+.r10-toc ul{margin:0;padding:0;list-style:none}
+.r10-toc a{display:block;padding:7px 0;color:#4b4e55;font-size:16px;line-height:1.35}
+.r10-toc a:hover{color:var(--ink)}
+.r10-toc a[aria-current]{color:#c40000;font-weight:600}
+.r10-legal-text{font-size:18px;line-height:1.65;color:#2b2d31}
+.r10-legal-text section+section{margin-top:40px;padding-top:40px;border-top:1px solid var(--line)}
+.r10-legal-text h2{margin:0 0 12px;font-size:clamp(26px,2.2vw,30px)}
+.r10-legal-text p,.r10-legal-text ul{margin:14px 0 0}
+.r10-legal-text ul{padding-left:1.2em}
+.r10-legal-text li+li{margin-top:6px}
+.r10-legal-text a{color:#c40000;text-decoration:underline;text-underline-offset:3px}
+.r10-legal-text a[href^="tel:"]{white-space:nowrap}
+.r10-flow{margin-top:18px;padding:20px 22px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.r10-flow h3{margin:0 0 10px;font-size:19px}
+.r10-flow dl{display:grid;gap:10px;margin:0}
+.r10-flow dl>div{display:grid;gap:2px}
+.r10-flow dt{color:var(--ink);font-size:16px;font-weight:600}
+.r10-flow dd{margin:0;font-size:17px;line-height:1.6}
+.r10-table{margin-top:18px;overflow-x:auto}
+.r10-table table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.5}
+.r10-table caption{padding-bottom:8px;font-weight:600;text-align:left}
+.r10-table :is(th,td){padding:10px 10px 10px 0;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.r10-table thead th{color:var(--muted);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.r10-table code{font-size:14px;overflow-wrap:anywhere}
+@media(max-width:900px){.r10-legal{grid-template-columns:minmax(0,1fr);gap:28px}.r10-toc{position:static}}
+@media(max-width:540px){
+ .r10-legal{padding-top:8px;padding-bottom:64px}
+ .r10-legal-text{font-size:17px}
+ .r10-legal-text section+section{margin-top:32px;padding-top:32px}
+ .r10-legal-text h2{font-size:24px}
+ .r10-flow{padding:18px}
+ .r10-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+ .r10-table :is(table,caption,tbody,tr,th,td){display:block}
+ .r10-table tr{padding:12px 0;border-bottom:1px solid var(--line)}
+ .r10-table :is(th,td){padding:2px 0;border:0}
+ .r10-table td:before{content:attr(data-label) ': ';color:var(--muted);font-weight:600}}
