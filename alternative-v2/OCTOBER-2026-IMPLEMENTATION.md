@@ -271,6 +271,51 @@ Source: `ITD_Raporti10_Final_v2.pdf` (14 pages; the round after going live). Onl
   - Confirmation of the jurisdiction wording.
   - Legal approval of the final texts.
 
+## Change report 11, 21 October 2026
+
+Source: `ITD_Raporti11_Profesional_SQ_EN_DE_v3.pdf` (18 pages): the AI Agents scenes in three languages, and the remaining font and legal items. Only the main version is affected; ITD2027/M and opus are unchanged. The work is a new layer, `report11.py`, with `assets/report11.css` and `assets/report11.js`.
+
+- **Six scenes (pages 5-12):** each agent card now opens with a scene, then the name, role and text.
+  - **Each scene has:**
+    - the status at the top;
+    - three phase marks;
+    - the character beside its work object;
+    - the sentence below the scene (13 px, two lines reserved);
+    - a three-part progress bar.
+  - **Scene size:** 150 px on desktop and 136 px on phones.
+  - **The task:** each agent does one 9 s task (start 0-2 s, work 2-6 s, result 6-9 s).
+    - Ari lifts a phone with the arm, voice waves pulse and the request is noted.
+    - Dita types (hand 2-4 px, keys light at irregular moments) while the table rows fill.
+    - Nora receives a question, three typing dots appear while she points to the answer, then the reply is sent and she opens her hands.
+    - Leo moves a task card across three columns (0.63 s each, ease-in-out), points to approval and nods.
+    - Mira opens a document, a lens follows her hand along the lines, and the found section lights up.
+    - Fin takes a calculator, three keys light, the chart grows from the base and he presents it.
+  - **How it is drawn:** all objects are inline SVG in one family (thin outlines, soft corners, the agent's colour). Hand-held objects sit in the arm's group and turn around the shoulder. Text inside the scene is replaced by shapes; real sentences are HTML outside the scene.
+- **AI character (page 6):** the box now shows the character beside the vertical flow Request / Agent / Approval / Action, with a demo caption and a three-part bar.
+  - **9 s loop:** listens (0-2 s, Request lit), works with the hand (2-5 s, Agent), points to Approval (5-7 s), then nods and returns (7-9 s, Action).
+  - **Movement:** float 6 px, body up to 2.8°, hand up to 21°.
+- **Languages (pages 13-17):** one dictionary in SQ/EN/DE (`r11-copy`, keys like `ari.state_work`, `nora.message_done`), with the report's texts.
+  - `report11.js` reads each scene's CSS clock, so texts and gestures stay in step. It types the work sentence at 45-85 ms per letter with a cursor.
+  - If the page language changes, every scene restarts cleanly in the new language.
+  - The scenes are `aria-hidden`; a full sentence per scene stays in HTML for screen readers, with no aria-live typing.
+- **Behaviour:**
+  - Scenes start when they come into view, also on phones. Scenes that appear together start 1.1 s apart.
+  - A scene rests off screen and pauses in a hidden tab.
+  - With reduced motion the scenes are still and show the readable result.
+  - No audio, microphone or real data.
+- **Font (page 4):** a proof was run in Chrome and Edge at 100 / 125 / 200 % and on a phone. The site's Outfit file paints every letter, including Ë ç Ä ö Ü ß and digits, at its real instances: Bold titles, SemiBold buttons, Regular text. Synthesis is off, the WOFF2 answers 200, and Outfit is loaded before the first paint, so no fallback is shown. Only the client's confirmation on their own computer remains.
+- **Legal (pages 2-3):** the GitHub preview states that Analytics is off; the itdks.tech build states Analytics with consent, as tested. The other items need the company's confirmed data, and the report says not to publish assumed values:
+  - legal name and address;
+  - retention periods for enquiries, client files and invoices;
+  - the hosting log period;
+  - each provider's role, processing location and transfer safeguard under the agreements actually signed;
+  - the competent law and forum.
+- **Verified:**
+  - Report 11 test: 50/50. It covers the texts at start, work and result in all three languages, letter-by-letter typing, every work object, the hero steps in time, amplitudes, scene sizes at 360-1920 px with the German texts, a stable height, start order, off screen, hidden tab, a language change while typing, and reduced motion.
+  - Report 10 test: 44/44, without its character section, which report 11 replaces.
+  - `test09` 63/63; production with CSP 26/26, with the scenes typing under the policy.
+  - axe finds 0 violations and there is no overflow. check-pages, qa-seo, M, opus and the language scan pass.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.

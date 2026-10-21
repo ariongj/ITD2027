@@ -1,0 +1,214 @@
+/* Change report 11 (21 October 2026) — the main version only; ITD2027/M does not load this file.
+   AI Agents: one scene per agent (pages 5-12) and the AI character beside the flow (page 6).
+   Every scene runs one 9 s task: start 0-2 s, work 2-6 s, result 6-9 s. Its clock (r11-clock) and all its parts
+   start together when the scene appears (report10.js sets --s, 1.1 s apart); a hidden tab pauses them. The markup
+   holds the result, which is also the still view with reduced motion. */
+.r11-stage,.r11-hero{--r11run:9s ease-in-out var(--s,0s) infinite backwards;--r11lin:9s linear var(--s,0s) infinite backwards}
+
+/* ---- the card: scene on top, then name, role and text */
+body[data-page=ai-agents] .agent-card{display:flex;flex-direction:column;align-items:stretch;text-align:left}
+body[data-page=ai-agents] .agent-card>.agent-name{align-self:stretch;margin:0;font-size:30px}
+body[data-page=ai-agents] .agent-card>h3{align-self:stretch;margin-top:4px}
+.r11-stage{position:relative;margin:0 0 22px;padding:13px 16px 14px;border:1px solid #ffffff17;border-radius:16px;background:linear-gradient(160deg,#13222b,#0e171d);animation:r11-clock var(--r11lin)}
+@keyframes r11-clock{0%,100%{opacity:1}}
+.r11-top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:20px}
+.r11-state{color:var(--agent);font-size:13px;font-weight:600;line-height:1.35}
+.r11-phase{display:flex;gap:4px;flex-shrink:0}
+.r11-phase i{width:9px;height:3px;border-radius:2px;background:#ffffff26}
+.r11-scene{position:relative;display:grid;grid-template-columns:minmax(0,46fr) minmax(0,54fr);align-items:center;height:150px}
+.r11-actor{position:relative;z-index:1;display:flex;justify-content:flex-start}
+.r11-scene .agent-bot{width:min(140px,100%)}
+.r11-panel{position:relative;padding:7px 8px 8px;border:1px solid #ffffff1f;border-radius:10px;background:#0b161c}
+.r11-panel-head{display:flex;align-items:center;gap:7px;margin:0 0 5px;color:var(--agent);font-size:12px;font-weight:600;line-height:1.3}
+.r11-ddd{display:flex;gap:2.5px}
+.r11-ddd i{width:3px;height:3px;border-radius:50%;background:#ffffff59}
+.r11-panel>svg{display:block;width:100%;height:auto;overflow:visible}
+.r11-status{margin:9px 0 0;padding-bottom:9px;min-height:calc(2.9em + 9px);border-bottom:1px solid #ffffff14;color:#c3d0d4;font-size:13px;line-height:1.45}
+.r11-caret{display:inline-block;width:1.5px;height:1em;margin-left:2px;vertical-align:-2px;background:var(--agent);opacity:0}
+.r11-stage.is-typing .r11-caret{opacity:1;animation:r11-caret .9s steps(1) infinite}
+@keyframes r11-caret{50%{opacity:0}}
+.r11-progress{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;margin-top:10px}
+.r11-progress i{height:3px;border-radius:2px;background:#ffffff1f}
+.r11-stage :is(.r11-phase,.r11-progress) i:nth-child(3){background:var(--agent)}
+.r11-stage :is(.r11-phase,.r11-progress) i:nth-child(1){animation:r11-p1 var(--r11lin)}
+.r11-stage :is(.r11-phase,.r11-progress) i:nth-child(2){animation:r11-p2 var(--r11lin)}
+.r11-stage :is(.r11-phase,.r11-progress) i:nth-child(3){animation:r11-p3 var(--r11lin)}
+@keyframes r11-p1{0%,21.5%{background:var(--agent)}22.5%,100%{background:#ffffff1f}}
+@keyframes r11-p2{0%,21.5%{background:#ffffff1f}22.5%,66%{background:var(--agent)}67%,100%{background:#ffffff1f}}
+@keyframes r11-p3{0%,66%{background:#ffffff1f}67%,100%{background:var(--agent)}}
+/* hover or keyboard focus on a card: one short hop of the character */
+.agent-card:is(:hover,:focus-within) .r11-actor{animation:r10-react .7s cubic-bezier(.3,.7,.4,1) 1}
+
+/* ---- shapes of the work objects (one family: thin outlines, soft corners, dark ground, the agent's colour) */
+.r11-shape{fill:#33444e}.r11-light{fill:#3f535e}.r11-dim{opacity:.6}
+.r11-acc-fill{fill:var(--agent)}.r11-acc-soft{fill:var(--agent);fill-opacity:.24}
+.r11-acc-ring{fill:none;stroke:var(--agent);stroke-width:1.6}
+.r11-acc-line{fill:none;stroke:var(--agent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.r11-thick{stroke-width:2.8}
+.r11-device{fill:#14232b;stroke:#c9d6dc;stroke-width:1.6}.r11-acc-edge{stroke:var(--agent)}
+.r11-screen{fill:#22343d}.r11-key{fill:#3a4c56}
+.r11-cell{fill:#33444e}.r11-cell-hi{fill:var(--agent)}
+.r11-bubble{fill:#1c2d36;stroke:#ffffff1f}.r11-bubble-out{fill:var(--agent);fill-opacity:.14;stroke:var(--agent);stroke-opacity:.5}
+.r11-col{fill:#15242c;stroke:#ffffff1a}
+.r11-ink{fill:#1a1424;opacity:.55}.r11-ink-line{stroke:#1a1424}.r11-badge{fill:#fff}
+.r11-axis{fill:none;stroke:#ffffff33;stroke-width:1.2}
+.r11-panel svg *,.r11-held,.r11-keyboard *{transform-box:fill-box;transform-origin:50% 50%}
+
+/* ---- the characters: float, rig, arms (with what they hold), eyes; separate properties, no shared transform */
+.r11-scene .agent-bot{animation:r11-float 4.5s ease-in-out infinite}
+.r11-scene .ab{animation:none}
+.r11-arm{position:absolute;inset:0;display:block}
+.r11-scene [data-agent-bot] :is(.ab-eye-l,.ab-eye-r){animation:r11-blink var(--r11lin)}
+.r11-scene [data-agent-bot] :is(.ab-foot-l,.ab-foot-r){animation:r11-foot 4.5s ease-in-out .3s infinite}
+.r11-scene [data-agent-bot] .ab-rig{animation:none}
+@keyframes r11-float{0%,100%{translate:0 0}50%{translate:0 -5px}}
+@keyframes r11-foot{0%,100%{translate:0 0}50%{translate:0 2%}}
+@keyframes r11-blink{0%,29.2%,30.9%,84.2%,85.9%,100%{scale:1 1}30.05%,85.05%{scale:1 .1}}
+@keyframes r11-show-p3{0%,64%{opacity:0}70%,100%{opacity:1}}
+@keyframes r11-show-p2{0%,23%{opacity:0}26%,62%{opacity:1}66%,100%{opacity:0}}
+[data-agent-bot=ari] .r11-hand-l,[data-agent-bot=leo] .r11-hand-l,[data-agent-bot=nora] .r11-hand-l,[data-agent-bot=fin] .r11-hand-l{transform-origin:23% 55.5%}
+[data-agent-bot=dita] .r11-hand-l,[data-agent-bot=mira] .r11-hand-l{transform-origin:26.7% 65.3%}
+[data-agent-bot=ari] .r11-hand-r,[data-agent-bot=leo] .r11-hand-r{transform-origin:78.9% 40.5%}
+[data-agent-bot=nora] .r11-hand-r{transform-origin:78.9% 45.6%}
+[data-agent-bot=mira] .r11-hand-r{transform-origin:79.1% 44.3%}
+[data-agent-bot=fin] .r11-hand-r{transform-origin:77% 55.5%}
+.r11-held{position:absolute;display:block;height:auto;overflow:visible}
+
+/* Ari: lifts the phone to the side of the head, talks (small nods, voice waves), notes the request and lowers it. */
+.r11-phone{left:93%;top:2%;width:16%}
+.r11-voice{left:111%;top:12%;width:7%;opacity:0}
+[data-agent-bot=ari] .r11-hand-r{rotate:10deg;animation:r11-ari-arm var(--r11run)}
+.r11-scene [data-agent-bot=ari] .ab-rig{animation:r11-ari-rig var(--r11run)}
+.r11-scene [data-agent-bot=ari] :is(.ab-eye-l,.ab-eye-r){animation:r11-ari-gaze var(--r11run),r11-blink var(--r11lin)}
+[data-scene=ari] .r11-voice{animation:r11-voice var(--r11lin)}
+[data-scene=ari] .r11-wave{opacity:0;animation:r11-show-p2 var(--r11lin)}
+[data-scene=ari] .r11-bar{animation:r11-eq .7s ease-in-out infinite alternate}
+[data-scene=ari] .r11-bar-1,[data-scene=ari] .r11-bar-5{animation-delay:-.25s}[data-scene=ari] .r11-bar-2,[data-scene=ari] .r11-bar-6{animation-delay:-.5s}[data-scene=ari] .r11-bar-3,[data-scene=ari] .r11-bar-7{animation-delay:-.15s}
+[data-scene=ari] .r11-done{animation:r11-show-p3 var(--r11lin)}
+@keyframes r11-ari-arm{0%{rotate:10deg}14%,22%{rotate:-3deg}30%{rotate:-6deg}38%{rotate:-3deg}46%{rotate:-6deg}54%{rotate:-3deg}64%{rotate:-4deg}74%,100%{rotate:10deg}}
+@keyframes r11-ari-rig{0%,22%{rotate:0deg;translate:0 0}26%{rotate:1.5deg;translate:0 0}30%{translate:0 1.5px}34%{translate:0 0}44%{translate:0 1.5px}48%{translate:0 0}58%{translate:0 1.5px}62%{rotate:1.5deg;translate:0 0}70%,100%{rotate:0deg;translate:0 0}}
+@keyframes r11-ari-gaze{0%{translate:0 0}12%,62%{translate:1.6% 0}70%,100%{translate:0 0}}
+@keyframes r11-voice{0%,23%{opacity:0}27%,35%,43%,51%,59%{opacity:1}31%,39%,47%,55%{opacity:.3}64%,100%{opacity:0}}
+@keyframes r11-eq{from{scale:1 .35}to{scale:1 1}}
+
+/* Dita: leans to the screen, types (hand 2-4 px, irregular), the rows fill, a check; then a nod. */
+.r11-keyboard{position:absolute;right:0;bottom:2px;width:66%;height:auto;overflow:visible}
+[data-scene=dita] .r11-panel{align-self:start;margin-top:8px}
+[data-agent-bot=dita] .r11-hand-l{animation:r11-dita-arm var(--r11run)}
+.r11-scene [data-agent-bot=dita] .ab-rig{animation:r11-dita-rig var(--r11run)}
+.r11-scene [data-agent-bot=dita] :is(.ab-eye-l,.ab-eye-r){animation:r11-dita-gaze var(--r11run),r11-blink var(--r11lin)}
+[data-scene=dita] .r11-cell-r0{animation:r11-row0 var(--r11lin)}[data-scene=dita] .r11-cell-r1{animation:r11-row1 var(--r11lin)}[data-scene=dita] .r11-cell-r2{animation:r11-row2 var(--r11lin)}
+[data-scene=dita] .r11-key{animation:r11-keytap var(--r11lin)}
+[data-scene=dita] :is(.r11-key-1,.r11-key-5){animation-delay:calc(var(--s,0s) + .37s)}[data-scene=dita] :is(.r11-key-2,.r11-key-6){animation-delay:calc(var(--s,0s) + .71s)}[data-scene=dita] :is(.r11-key-3,.r11-key-8){animation-delay:calc(var(--s,0s) + .19s)}[data-scene=dita] .r11-key-7{animation-delay:calc(var(--s,0s) + .53s)}
+[data-scene=dita] .r11-done{animation:r11-show-p3 var(--r11lin)}
+@keyframes r11-dita-arm{0%,22%{translate:0 0}25%{translate:0 3px}27%{translate:0 0}30%{translate:0 2px}33%{translate:0 0}35%{translate:0 4px}38%{translate:0 0}42%{translate:0 2.5px}44%{translate:0 0}47%{translate:0 3.5px}50%{translate:0 0}54%{translate:0 2px}56%{translate:0 0}59%{translate:0 3px}62%,100%{translate:0 0}}
+@keyframes r11-dita-rig{0%,6%{rotate:0deg;translate:0 0}18%,64%{rotate:2.5deg;translate:0 0}72%{rotate:1deg;translate:0 2px}76%{rotate:1deg;translate:0 0}80%{rotate:.5deg;translate:0 1.5px}86%,100%{rotate:0deg;translate:0 0}}
+@keyframes r11-dita-gaze{0%{translate:0 0}14%{translate:1.2% 1.4%}26%{translate:.4% 1.4%}34%{translate:1.6% 1.4%}42%{translate:.4% 1.4%}50%{translate:1.6% 1.4%}58%{translate:.8% 1.4%}66%{translate:1.2% 1%}76%,100%{translate:0 0}}
+@keyframes r11-row0{0%,26%{opacity:.25}32%,100%{opacity:1}}
+@keyframes r11-row1{0%,38%{opacity:.25}44%,100%{opacity:1}}
+@keyframes r11-row2{0%,50%{opacity:.25}56%,100%{opacity:1}}
+@keyframes r11-keytap{0%,25%,27.5%,33%,35.5%,40%,42.5%,48%,50.5%,56%,58.5%,100%{fill:#3a4c56}26%,34%,41%,49%,57%{fill:var(--agent)}}
+
+/* Nora: the question comes in, three typing dots while she points to the answer, the reply is sent, open hands. */
+[data-scene=nora] .r11-ask{animation:r11-nora-ask var(--r11run)}
+[data-scene=nora] .r11-bubble-out{animation:r11-nora-out var(--r11lin)}
+[data-scene=nora] .r11-typing{opacity:0;animation:r11-show-p2 var(--r11lin)}
+[data-scene=nora] :is(.r11-dot-0,.r11-dot-1,.r11-dot-2){animation:r11-bounce .9s ease-in-out infinite}
+[data-scene=nora] .r11-dot-1{animation-delay:.15s}[data-scene=nora] .r11-dot-2{animation-delay:.3s}
+[data-scene=nora] .r11-reply{animation:r11-show-p3 var(--r11lin)}
+[data-agent-bot=nora] .r11-hand-r{animation:r11-nora-arm-r var(--r11run)}
+[data-agent-bot=nora] .r11-hand-l{animation:r11-nora-arm-l var(--r11run)}
+.r11-scene [data-agent-bot=nora] .ab-rig{animation:r11-nora-rig var(--r11run)}
+.r11-scene [data-agent-bot=nora] :is(.ab-eye-l,.ab-eye-r){animation:r11-nora-gaze var(--r11run),r11-blink var(--r11lin)}
+@keyframes r11-nora-ask{0%,3%{opacity:0;translate:-6px 0}12%,100%{opacity:1;translate:0 0}}
+@keyframes r11-nora-out{0%,22%{opacity:0}26%,100%{opacity:1}}
+@keyframes r11-bounce{0%,60%,100%{translate:0 0}30%{translate:0 -3px}}
+@keyframes r11-nora-arm-r{0%,24%{rotate:0deg}32%,58%{rotate:-12deg}66%{rotate:0deg}72%,84%{rotate:-15deg}92%,100%{rotate:0deg}}
+@keyframes r11-nora-arm-l{0%,66%{rotate:0deg}72%,84%{rotate:15deg}92%,100%{rotate:0deg}}
+@keyframes r11-nora-rig{0%{rotate:0deg}8%,22%{rotate:1.5deg}30%,64%{rotate:1deg}72%,84%{rotate:-2.5deg}92%,100%{rotate:0deg}}
+@keyframes r11-nora-gaze{0%{translate:0 0}8%,22%{translate:1.4% -.6%}30%,60%{translate:1.6% .8%}70%,100%{translate:0 0}}
+
+/* Leo: picks the task, moves it across the board with his hand (0.63 s each, ease-in-out), points to approval, nods. */
+[data-scene=leo] .r11-task{translate:92px 0;animation:r11-leo-task var(--r11run),r11-leo-pick var(--r11run)}
+[data-scene=leo] .r11-done{animation:r11-show-p3 var(--r11lin)}
+[data-agent-bot=leo] .r11-hand-r{animation:r11-leo-arm var(--r11run)}
+.r11-scene [data-agent-bot=leo] .ab-rig{animation:r11-leo-rig var(--r11run)}
+.r11-scene [data-agent-bot=leo] :is(.ab-eye-l,.ab-eye-r){animation:r11-leo-gaze var(--r11run),r11-blink var(--r11lin)}
+@keyframes r11-leo-task{0%,24%{translate:0 0}31%,62%{translate:46px 0}69%,100%{translate:92px 0}}
+@keyframes r11-leo-pick{0%,6%{scale:1}10%{scale:1.08}14%,100%{scale:1}}
+@keyframes r11-leo-arm{0%{rotate:0deg}8%,22%{rotate:-8deg}31%,58%{rotate:-14deg}66%{rotate:-6deg}72%,78%{rotate:-17deg}86%,100%{rotate:0deg}}
+@keyframes r11-leo-rig{0%,78%{rotate:0deg;translate:0 0}81%{rotate:-1deg;translate:0 2px}85%{rotate:0deg;translate:0 0}88%{rotate:0deg;translate:0 1.5px}92%,100%{rotate:0deg;translate:0 0}}
+@keyframes r11-leo-gaze{0%{translate:0 0}8%,24%{translate:1.2% .8%}31%,62%{translate:1.6% .8%}69%,80%{translate:2% .6%}90%,100%{translate:0 0}}
+
+/* Mira: the document opens, the lens follows her hand along the lines, the section lights up, she explains. */
+[data-scene=mira] .r11-doc{animation:r11-mira-doc var(--r11run)}
+[data-scene=mira] .r11-lens{opacity:0;translate:104px 29px;animation:r11-mira-lens var(--r11run)}
+[data-scene=mira] .r11-found{animation:r11-mira-found var(--r11lin)}
+[data-agent-bot=mira] .r11-hand-r{animation:r11-mira-arm var(--r11run)}
+.r11-scene [data-agent-bot=mira] .ab-rig{animation:r11-mira-rig var(--r11run)}
+.r11-scene [data-agent-bot=mira] :is(.ab-eye-l,.ab-eye-r){animation:r11-mira-gaze var(--r11run),r11-blink var(--r11lin)}
+@keyframes r11-mira-doc{0%,2%{opacity:0;translate:0 6px}14%,100%{opacity:1;translate:0 0}}
+@keyframes r11-mira-lens{0%,22%{opacity:0;translate:34px 17px}26%{opacity:1;translate:34px 17px}38%{translate:96px 17px}46%{translate:40px 30px}58%{translate:100px 30px}62%{opacity:1;translate:104px 29px}68%,100%{opacity:0;translate:104px 29px}}
+@keyframes r11-mira-found{0%,64%{opacity:0}70%,100%{opacity:1}}
+@keyframes r11-mira-arm{0%,22%{rotate:0deg}30%{rotate:-10deg}40%{rotate:-6deg}50%{rotate:-12deg}60%{rotate:-6deg}68%{rotate:-15deg}76%{rotate:-4deg}84%{rotate:-13deg}92%,100%{rotate:0deg}}
+@keyframes r11-mira-rig{0%{rotate:0deg}10%,22%{rotate:2deg}30%,64%{rotate:1deg}72%{rotate:2.5deg}86%,100%{rotate:0deg}}
+@keyframes r11-mira-gaze{0%{translate:0 0}10%,22%{translate:1% .6%}38%{translate:1.8% .4%}46%{translate:1% 1%}58%{translate:1.8% 1%}66%{translate:1.4% .8%}74%,100%{translate:0 0}}
+
+/* Fin: reads the figures, the calculator comes to hand, three keys light, the bars grow from the base, he presents. */
+.r11-calc{left:80%;top:60%;width:20%}
+[data-scene=fin] .r11-calc{animation:r11-fin-calc var(--r11run)}
+[data-scene=fin] :is(.r11-key-4,.r11-key-1,.r11-key-7){animation:r11-fin-key var(--r11lin)}
+[data-scene=fin] .r11-key-1{animation-delay:calc(var(--s,0s) + .45s)}[data-scene=fin] .r11-key-7{animation-delay:calc(var(--s,0s) + .9s)}
+[data-scene=fin] .r11-col-bar{transform-origin:50% 100%;animation:r11-fin-bar var(--r11run)}
+[data-scene=fin] .r11-col-bar-1{animation-delay:calc(var(--s,0s) + .15s)}[data-scene=fin] .r11-col-bar-2{animation-delay:calc(var(--s,0s) + .3s)}[data-scene=fin] .r11-col-bar-3{animation-delay:calc(var(--s,0s) + .45s)}
+[data-agent-bot=fin] .r11-hand-r{animation:r11-fin-arm var(--r11run)}
+.r11-scene [data-agent-bot=fin] .ab-rig{animation:r11-fin-rig var(--r11run)}
+.r11-scene [data-agent-bot=fin] :is(.ab-eye-l,.ab-eye-r){animation:r11-fin-gaze var(--r11run),r11-blink var(--r11lin),r11-fin-glow var(--r11run)}
+@keyframes r11-fin-calc{0%,4%{opacity:0;scale:.8}14%,100%{opacity:1;scale:1}}
+@keyframes r11-fin-key{0%,25%,27.5%,30%,32.5%,100%{fill:#3a4c56}26%,31%{fill:var(--agent)}}
+@keyframes r11-fin-bar{0%,38%{scale:1 .12}52%,100%{scale:1 1}}
+@keyframes r11-fin-arm{0%{rotate:10deg}12%,24%{rotate:0deg}26%{rotate:-3deg}28%{rotate:0deg}31%{rotate:-3deg}33%{rotate:0deg}36%{rotate:-3deg}38%,66%{rotate:0deg}72%,80%{rotate:-14deg}88%,100%{rotate:0deg}}
+@keyframes r11-fin-rig{0%,80%{translate:0 0}84%{translate:0 2px}88%{translate:0 0}91%{translate:0 1px}95%,100%{translate:0 0}}
+@keyframes r11-fin-gaze{0%{translate:0 0}8%,64%{translate:1.6% .6%}72%,100%{translate:0 0}}
+@keyframes r11-fin-glow{0%,66%,100%{filter:none}72%{filter:brightness(1.35)}78%{filter:none}}
+
+/* ---- the AI character beside the flow (page 6), one 9 s loop: listens 0-2 s (Request), works 2-5 s (Agent),
+   points to Approval 5-7 s, nods and returns 7-9 s (Action). The step being shown lights up in time. */
+.ai-flow-card.r11-hero{min-height:0;padding:24px 24px 20px}
+.r11-hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+.r11-hero-actor{display:flex;justify-content:center}
+.r11-hero .agent-character{width:min(100%,210px);margin:0;animation:r11-hero-float 4.5s ease-in-out infinite}
+.r11-hero .ac-rig{animation:r11-hero-rig var(--r11run)}
+.r11-hero .ac-hand{animation:r11-hero-hand var(--r11run)}
+.r11-hero :is(.ac-eye-l,.ac-eye-r){animation:r11-hero-gaze var(--r11run),r11-blink var(--r11lin)}
+.r11-hero :is(.ac-foot-l,.ac-foot-r){animation:r11-foot 4.5s ease-in-out .3s infinite}
+.r11-steps{display:grid;gap:9px;margin:0;padding:0;list-style:none}
+.r11-steps li{padding:9px 14px;border-radius:9px;background:#1d3338;color:#cfe9e4;font-size:14px;font-weight:600;line-height:1.3}
+.r11-steps li:nth-child(3){background:#7fe8d4;color:#0b1a1c}
+.r11-steps li:nth-child(1){animation:r11-step-a var(--r11lin)}
+.r11-steps li:nth-child(2){animation:r11-step-b var(--r11lin)}
+.r11-steps li:nth-child(3){animation:r11-step-c var(--r11lin)}
+.r11-steps li:nth-child(4){animation:r11-step-d var(--r11lin)}
+.ai-flow-card>.r11-hero-caption{margin:18px 0 0;padding-bottom:10px;border-bottom:1px solid #ffffff1a;color:#9fb8bd;font-size:13px;text-align:left}
+.r11-hero .r11-progress i:nth-child(3){background:#7fe8d4}
+.r11-hero .r11-progress i:nth-child(1){animation:r11-step-a var(--r11lin)}
+.r11-hero .r11-progress i:nth-child(2){animation:r11-step-b var(--r11lin)}
+.r11-hero .r11-progress i:nth-child(3){animation:r11-step-cd var(--r11lin)}
+@keyframes r11-step-a{0%,21.2%{background:#7fe8d4;color:#0b1a1c}22.8%,100%{background:#1d3338;color:#cfe9e4}}
+@keyframes r11-step-b{0%,21.2%{background:#1d3338;color:#cfe9e4}22.8%,54.6%{background:#7fe8d4;color:#0b1a1c}56.2%,100%{background:#1d3338;color:#cfe9e4}}
+@keyframes r11-step-c{0%,54.6%{background:#1d3338;color:#cfe9e4}56.2%,76.8%{background:#7fe8d4;color:#0b1a1c}78.4%,100%{background:#1d3338;color:#cfe9e4}}
+@keyframes r11-step-d{0%,76.8%{background:#1d3338;color:#cfe9e4}78.4%,100%{background:#7fe8d4;color:#0b1a1c}}
+@keyframes r11-step-cd{0%,54.6%{background:#1d3338}56.2%,100%{background:#7fe8d4}}
+.r11-hero .r11-progress i{background:#1d3338}
+@keyframes r11-hero-float{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@keyframes r11-hero-rig{0%,4%{rotate:0deg;translate:0 0}14%,20%{rotate:1.5deg;translate:0 0}30%{rotate:-1.5deg;translate:0 0}38%{rotate:1deg;translate:0 0}46%{rotate:-1deg;translate:0 0}54%{rotate:0deg;translate:0 0}62%,74%{rotate:2.8deg;translate:0 0}80%{rotate:1deg;translate:0 3px}84%{rotate:.5deg;translate:0 0}88%{rotate:0deg;translate:0 2px}94%,100%{rotate:0deg;translate:0 0}}
+@keyframes r11-hero-hand{0%,20%{rotate:0deg}26%{rotate:-12deg}31%{rotate:-19deg}36%{rotate:-10deg}41%{rotate:-18deg}47%{rotate:-9deg}53%{rotate:-4deg}60%{rotate:20deg}65%{rotate:16deg}70%{rotate:21deg}76%{rotate:18deg}84%,100%{rotate:0deg}}
+@keyframes r11-hero-gaze{0%{translate:0 0}8%,20%{translate:1.6% -.8%}26%,52%{translate:.4% .8%}60%,76%{translate:1.8% 1.4%}86%,100%{translate:0 0}}
+
+@media(max-width:540px){
+ .r11-stage{padding:12px 13px 13px}
+ .r11-scene{height:136px}
+ .r11-scene .agent-bot{width:min(126px,100%)}
+ .r11-hero-grid{gap:12px}
+ .r11-steps li{padding:8px 11px;font-size:13px}}
+@media(prefers-reduced-motion:reduce){.r11-stage,.r11-stage *,.r11-hero,.r11-hero *{animation:none!important}.r11-caret{opacity:0!important}}
