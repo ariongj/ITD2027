@@ -364,6 +364,24 @@ Source: `itdks_security_and_bug_audit.pdf` (5 pages). Each finding was checked a
   - Report 11 50/50, Report 10 44/44, Report 09 63/63 (phone swipe and the Maps profile link), production 26/26.
   - axe finds 0 violations and there is no overflow. check-pages, qa-seo (preview and production), M and opus pass.
 
+## Calendly link and llms.txt, developer report of 24 October 2026
+
+Source: `ITD_Calendly_llms_SQ_EN_DE_Developer_24-10-2026.pdf` (6 pages, two notes from the user's audit screenshots).
+
+- **Calendly fallback:** the booking dialog's link ("Hap në Calendly" / "Open in Calendly" / "In Calendly öffnen") now has the real booking address from the moment it exists, so Lighthouse no longer reports "Links are not crawlable".
+  - The address comes from `bookingUrl` in `site.config.json`, through the page's `site-copy` data block.
+  - It keeps that `href` while the calendar is open and after it closes.
+  - Without JavaScript, the page's booking buttons are already plain links to the same page.
+- **llms.txt:** every build writes `llms.txt` to the site root.
+  - **Format:** `# IT Department`, a one-line summary, then `## Shqip (sq)`, `## English (en)` and `## Deutsch (de)`. Each section has 14 Markdown links to the main pages, with the page names and URLs of its own language.
+  - **What it isn't:** it does not replace the sitemap, robots.txt or hreflang.
+  - **Old files:** the old site's `llms.txt` on the server (plain URLs, the removed chatbot) is replaced. The old `llms-full.txt` is listed for deletion in the package.
+- **Verified:** 13/13 checks.
+  - On eight pages in three languages, the fallback has its `href` before any click, the report's text, and no link anywhere lacks an `href`.
+  - Keyboard opening and closing work, and so does the no-JavaScript case.
+  - `llms.txt` has its structure; each of the 42 links goes to a page in its section's language and already answers 200 on itdks.tech.
+  - Audit checks 12/12, production 26/26, axe 0 violations, check-pages, qa-seo and M pass.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.

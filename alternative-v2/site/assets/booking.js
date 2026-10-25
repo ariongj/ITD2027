@@ -1,12 +1,14 @@
 'use strict';
 (() => {
  const lang=document.documentElement.lang;
- const text={sq:['Cakto një takim','Po hapet kalendari…','Nëse kalendari nuk hapet, vazhdo në Calendly.','Hap në Calendly','Mbyll','Takimi u konfirmua nga Calendly.'],en:['Book a meeting','Opening the calendar…','If the calendar does not open, continue on Calendly.','Open Calendly','Close','Your meeting was confirmed by Calendly.'],de:['Termin vereinbaren','Kalender wird geöffnet…','Falls der Kalender nicht lädt, öffnen Sie Calendly direkt.','Calendly öffnen','Schließen','Ihr Termin wurde von Calendly bestätigt.']}[lang];
+ const text={sq:['Cakto një takim','Po hapet kalendari…','Nëse kalendari nuk hapet, vazhdo në Calendly.','Hap në Calendly','Mbyll','Takimi u konfirmua nga Calendly.'],en:['Book a meeting','Opening the calendar…','If the calendar does not open, continue on Calendly.','Open in Calendly','Close','Your meeting was confirmed by Calendly.'],de:['Termin vereinbaren','Kalender wird geöffnet…','Falls der Kalender nicht lädt, öffnen Sie Calendly direkt.','In Calendly öffnen','Schließen','Ihr Termin wurde von Calendly bestätigt.']}[lang];
+ // The booking page from site.config.json (via the page's data block), so the fallback link is a real link from the start.
+ let booking='';try{booking=JSON.parse(document.getElementById('site-copy')?.textContent||'{}').booking||'';}catch{}
  let loader=null,trigger=null,timer,initialized=false,initializing=false,confirmed=false;const seen=new Set();
  const dialog=document.createElement('dialog');dialog.className='booking-dialog';dialog.setAttribute('aria-labelledby','booking-title');
  const bar=document.createElement('div');bar.className='booking-toolbar';const title=document.createElement('h2');title.id='booking-title';title.textContent=text[0];const close=document.createElement('button');close.type='button';close.className='button outline';close.textContent=text[4];close.onclick=()=>dialog.close();bar.append(title,close);
  const status=document.createElement('p');status.className='booking-status';status.setAttribute('role','status');const host=document.createElement('div');host.className='booking-host';
- const fallback=document.createElement('a');fallback.className='text-link booking-fallback';fallback.target='_blank';fallback.rel='noopener noreferrer';fallback.dataset.bookingExternal='true';fallback.textContent=text[3]+(document.body.dataset.theme==='m'?' ↗':'');
+ const fallback=document.createElement('a');fallback.className='text-link booking-fallback';if(booking)fallback.href=booking;fallback.target='_blank';fallback.rel='noopener noreferrer';fallback.dataset.bookingExternal='true';fallback.textContent=text[3]+(document.body.dataset.theme==='m'?' ↗':'');
  dialog.append(bar,status,host,fallback);document.body.append(dialog);dialog.addEventListener('close',()=>{clearTimeout(timer);trigger?.focus({preventScroll:true});});
  function load(){if(window.Calendly)return Promise.resolve();if(loader)return loader;loader=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://assets.calendly.com/assets/external/widget.js';s.async=true;s.onload=()=>window.Calendly?resolve():reject(new Error('Unavailable'));s.onerror=()=>{s.remove();loader=null;reject(new Error('Unavailable'));};document.head.append(s);});return loader;}
  document.addEventListener('click',async e=>{

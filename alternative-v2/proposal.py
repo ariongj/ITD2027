@@ -280,7 +280,7 @@ for l,t in T.items():
   if page in NEW_META: title,description=[tr(l,*v) for v in NEW_META[page]]
   if page=='privacy' and PRODUCTION and os.environ.get('ITD_ANALYTICS')=='1':
    body=intro(t['privacyTitle'],'',t)+f'<div class="wrap legal"><p>{tr(l,"Google Analytics aktivizohet vetëm me pëlqimin tënd dhe mund të çaktivizohet te Cilësimet e privatësisë në fund të faqes. Matim faqen, gjuhën, shërbimin ose produktin dhe veprimin; nuk përfshijmë emër, email, telefon apo mesazh në eventet tona. Formularët përpunohen nga Formspree. Drafti ruhet në sessionStorage në këtë skedë. Calendly dhe WhatsApp kanë politikat e tyre. Mos dërgo të dhëna të ndjeshme. Për pyetje: info@itdks.tech.","Google Analytics activates only with your consent and can be disabled through Privacy settings in the footer. We measure page, language, service or product and action; our events exclude names, emails, phone numbers and messages. Forms are processed by Formspree. The draft stays in sessionStorage in this tab. Calendly and WhatsApp have their own policies. Do not send sensitive data. Questions: info@itdks.tech.","Google Analytics wird nur mit Ihrer Einwilligung aktiviert und kann über die Datenschutzeinstellungen im Footer deaktiviert werden. Wir messen Seite, Sprache, Leistung oder Produkt und Aktion; unsere Ereignisse enthalten keine Namen, E-Mails, Telefonnummern oder Nachrichten. Formulare werden von Formspree verarbeitet. Der Entwurf bleibt im sessionStorage dieses Tabs. Calendly und WhatsApp haben eigene Richtlinien. Senden Sie keine sensiblen Daten. Fragen: info@itdks.tech.")}</p></div>'
-  data=json.dumps({**{k:c[k] for k in ['send','sending','success','failure','invalid','count']},'close':t['close']},ensure_ascii=False).replace('<','\\u003c')
+  data=json.dumps({**{k:c[k] for k in ['send','sending','success','failure','invalid','count']},'close':t['close'],'booking':cfg['bookingUrl']},ensure_ascii=False).replace('<','\\u003c')
   alternates=''.join(f'<link rel="alternate" hreflang="{lang}" href="{PUBLIC_BASE}/{public_path(page,lang)}">' for lang in ['sq','en','de'])
   alternates+=f'<link rel="alternate" hreflang="x-default" href="{PUBLIC_BASE}/{public_path(page,"sq")}"><link rel="canonical" href="{PUBLIC_BASE}/{public_path(page,l)}">'
   robots="index,follow" if INDEXABLE and page!="404" and page not in NOINDEX else "noindex,follow"
@@ -303,6 +303,15 @@ for l,t in T.items():
   (OUT/route(page,l)).write_text(finalize(html,page,l),encoding='utf-8')
 (OUT/'site.webmanifest').write_text(json.dumps({'name':'IT Department','short_name':'IT Department','start_url':'./','display':'browser','background_color':'#f4f4f2','theme_color':'#0b0d10','icons':[{'src':'assets/brand/logo-shield.png','sizes':'512x512','type':'image/png'}]},indent=1),encoding='utf-8')
 (OUT/'robots.txt').write_text('User-agent: *\nAllow: /\n'+('Sitemap: '+PUBLIC_BASE+'/sitemap.xml\n' if INDEXABLE else ''),encoding='utf-8')
+# llms.txt (developer report of 24 October): the main pages as Markdown links, one section per language, each
+# name with the URL of its own language. It does not replace the sitemap, robots.txt or hreflang.
+LLMS=[('index','Kreu','Home','Startseite'),('services','Shërbimet','Services','Leistungen'),('web-software','Web dhe softuer','Web and software','Web und Software'),
+ ('ai-automation','Automatizim AI','AI automation','KI-Automatisierung'),('ai-agents','AI Agents','AI Agents','KI-Agenten'),('creative','Kreativa','Creative','Kreativleistungen'),
+ ('projects','Projektet','Projects','Projekte'),('itd-labs','ITD Labs','ITD Labs','ITD Labs'),('krakenos','Kraken OS','Kraken OS','Kraken OS'),
+ ('kraken-communications','Kraken Assistant','Kraken Assistant','Kraken Assistant'),('aura','AURA','AURA','AURA'),('partners','Partnerët','Partners','Partner'),
+ ('about','Rreth nesh','About us','Über uns'),('contact','Kontakt','Contact','Kontakt')]
+(OUT/'llms.txt').write_text('# IT Department\n\n> Web development, software and AI automation, with IT support, security and creative services. In Albanian, English and German.\n'
+ +''.join(f'\n## {head} ({l})\n\n'+''.join(f'- [{tr(l,sq,en,de)}]({PUBLIC_BASE}/{public_path(p,l)})\n' for p,sq,en,de in LLMS) for l,head in (('sq','Shqip'),('en','English'),('de','Deutsch'))),encoding='utf-8')
 if PRODUCTION:
  # RFC 9116: where to report a security problem (audit of 25 October, SEC-02); renewed by every build.
  import datetime
