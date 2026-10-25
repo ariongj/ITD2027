@@ -228,6 +228,7 @@ exec(compile((BASE/"report08.py").read_text(encoding="utf-8-sig"),str(BASE/"repo
 exec(compile((BASE/"report09.py").read_text(encoding="utf-8-sig"),str(BASE/"report09.py"),"exec"))
 exec(compile((BASE/"report10.py").read_text(encoding="utf-8-sig"),str(BASE/"report10.py"),"exec"))
 exec(compile((BASE/"report11.py").read_text(encoding="utf-8-sig"),str(BASE/"report11.py"),"exec"))
+exec(compile((BASE/"report_seo.py").read_text(encoding="utf-8-sig"),str(BASE/"report_seo.py"),"exec"))
 exec(compile((BASE/"theme_m.py").read_text(encoding="utf-8-sig"),str(BASE/"theme_m.py"),"exec"))
 
 import os

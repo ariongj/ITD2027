@@ -316,6 +316,18 @@ Source: `ITD_Raporti11_Profesional_SQ_EN_DE_v3.pdf` (18 pages): the AI Agents sc
   - `test09` 63/63; production with CSP 26/26, with the scenes typing under the policy.
   - axe finds 0 violations and there is no overflow. check-pages, qa-seo, M, opus and the language scan pass.
 
+## SEO report, 23 October 2026
+
+Source: `ITD_SEO_Raporti_Final_Ekipi_23-10-2026.pdf` (6 pages). Google Search Console and Google Business were already set up by the SEO team; the website changes are in `report_seo.py`.
+
+- **Titles (pages 3-5):** every page's `<title>` and `og:title` in SQ/EN/DE as the report gives them. The titles have no geographic suffix, and the product names are kept. The project detail page uses its project's name ("… | Projekte nga IT Department"). The visible headings are unchanged. This applies to the main version only.
+- **Google Maps (page 2):** the contact page's map button now reads "Na gjej në Google Maps" / "Find us on Google Maps" / "Finden Sie uns auf Google Maps". It opens the business profile, `share.google/EnL0Qbs1GCVTKIfoY`, which resolves to Google's "IT Department" panel.
+- **Facebook (page 2):** the stable address `facebook.com/people/ITDepartment/61589358992650/` replaces the share link in every footer and in schema.org `sameAs`.
+- **Waiting for the company:**
+  - **Review link:** "Na vlerëso në Google" appears on the contact page and in the footer as soon as `reviewUrl` in `site.config.json` holds the direct link from Google Business → Ask for reviews. The report asks for that link, not the profile link.
+  - **Projects:** the client request, the work done and the solution for each real project need the company's texts and approval in SQ/EN/DE.
+- **Verified:** all 54 titles match the report; check-pages, qa-seo (preview and production), M, opus and axe (0 violations, no overflow) pass.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.
