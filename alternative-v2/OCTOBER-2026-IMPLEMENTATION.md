@@ -328,6 +328,42 @@ Source: `ITD_SEO_Raporti_Final_Ekipi_23-10-2026.pdf` (6 pages). Google Search Co
   - **Projects:** the client request, the work done and the solution for each real project need the company's texts and approval in SQ/EN/DE.
 - **Verified:** all 54 titles match the report; check-pages, qa-seo (preview and production), M, opus and axe (0 violations, no overflow) pass.
 
+## Security and bug audit, 25 October 2026
+
+Source: `itdks_security_and_bug_audit.pdf` (5 pages). Each finding was checked against the code and the live site before it was fixed.
+
+- **BUG-01 / BUG-02 (www):** these do not reproduce live. `www.itdks.tech` answers every address, missing pages included, with a 301 to `itdks.tech` (the rule in `production.htaccess`), so no page is served on www. Both points were hardened anyway:
+  - The 404 pages link their files root-relative (`/assets/…`, or `/ITD2027/assets/…` on GitHub) instead of `https://itdks.tech/…`.
+  - `measurement.js` treats `www.itdks.tech` and `itdks.tech` as the same site, and nothing else.
+- **BUG-03 (orbit drag):**
+  - **Bug:** a drag released outside the carousel stayed active.
+  - **Fix:** the stage now captures the pointer once the cards follow it. A mouse that comes back with no button pressed ends any pending drag. Touch swipes are unaffected: only the stage's own `lostpointercapture` counts.
+- **BUG-04 (Calendly):** the "if the calendar does not open" warning appeared over a working calendar. Now it appears only if the calendar fails to load or answers nothing within 15 s; Calendly's own messages clear the status, and reopening shows no warning. With the production CSP, opening the calendar raised no policy report in the test.
+- **BUG-05 (Creative form):** the form now offers the same six services as the cards in each language (`report_audit.py`), so a card selects its own option instead of adding a near-duplicate.
+- **BUG-06 (drafts):** the draft records its language.
+  - **Text** still carries over between languages.
+  - **Service:** comes back only in its own language, or when the list there has the same option, so no Albanian option lands in the English form.
+  - **The `[data-agent]` listener stays:** ITD2027/M still uses it.
+- **BUG-07 (illustrative project page):** `noindex`, out of the sitemap (48 URLs), and its link to itself and its filter attributes are removed.
+- **BUG-08 (AI Agents):** scenes off screen are no longer read; `getAnimations()` runs only for scenes on screen.
+- **SEC-02:** the production build writes `/.well-known/security.txt` (RFC 9116), with contact info@itdks.tech, languages sq/en/de, the canonical URL and an expiry 360 days after the build.
+- **SEC-03:** `Cross-Origin-Opener-Policy: same-origin-allow-popups` and `Cross-Origin-Resource-Policy: same-site` are in `production.htaccess`. The `platform`, `panel` and `Server` headers are added by Hostinger's edge and cannot be removed from `.htaccess`.
+- **SEC-01 (DMARC):** a DNS record for the company to add in Hostinger. SPF and the Google DKIM key are already published and mail goes through Google, so `_dmarc.itdks.tech TXT "v=DMARC1; p=quarantine; rua=mailto:info@itdks.tech; adkim=r; aspf=r"` can be added. Starting with `p=none` for two weeks is the cautious option.
+- **Checkers:** `scripts/check-pages.py` and `qa-seo.py` accept root-relative links only under the site's base path (from the canonical URL) and check that they resolve.
+- **Verified:**
+  - Audit checks 12/12 on the production build with its CSP:
+    - drag released outside, and a press released outside;
+    - creative options;
+    - draft languages;
+    - no polling off screen;
+    - the www check;
+    - Calendly without the warning, also when reopened;
+    - `security.txt`;
+    - noindex and sitemap;
+    - the 404 page on a missing nested URL.
+  - Report 11 50/50, Report 10 44/44, Report 09 63/63 (phone swipe and the Maps profile link), production 26/26.
+  - axe finds 0 violations and there is no overflow. check-pages, qa-seo (preview and production), M and opus pass.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.

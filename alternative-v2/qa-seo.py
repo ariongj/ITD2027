@@ -28,20 +28,27 @@ for production in [False,True]:
  os.environ['ITD_PRODUCTION']='1' if production else '0';os.environ['ITD_SITE_URL']='https://itdks.tech' if production else 'https://ariongj.github.io/ITD2027';os.environ['ITD_ANALYTICS']='1' if production else '0'
  runpy.run_path(str(BASE/'build.py'),run_name='__main__')
  root=BASE/('qa/production' if production else 'site');pages={p.name:Page(p) for p in root.glob('*.html')};assert len(pages)==54
- urls=[e.find('{*}loc').text for e in ET.parse(root/'sitemap.xml').getroot()];assert len(urls)==51 and len(set(urls))==51
+ # The illustrative project page (three languages) is noindex and left out of the sitemap (audit of 25 October).
+ unlisted=lambda name:name.startswith('404') or name.startswith('project-detail')
+ urls=[e.find('{*}loc').text for e in ET.parse(root/'sitemap.xml').getroot()];assert len(urls)==48 and len(set(urls))==48
  titles=[];canonical=set()
  for name,p in pages.items():
   assert p.h1==1 and p.desc and len(p.canonical)==1,name
   titles.append(p.title);canonical.add(p.canonical[0]);assert set(p.alt)=={'sq','en','de','x-default'},name
   assert p.canonical[0]==p.alt[p.lang],name
   assert p.canonical[0].startswith(os.environ['ITD_SITE_URL']+'/'),name
-  assert ('noindex' in p.robots)==(not production or name.startswith('404')),name
-  if not name.startswith('404'):assert p.canonical[0] in urls,name
+  assert ('noindex' in p.robots)==(not production or unlisted(name)),name
+  if not unlisted(name):assert p.canonical[0] in urls,name
   for ref in p.refs:
    u=urlsplit(ref)
    if u.scheme or u.netloc:continue
    target=unquote(u.path)
    if not target:continue
+   # Root-relative links (the 404 pages) count from the site's base path: /ITD2027/ on GitHub, / on itdks.tech.
+   base=urlsplit(os.environ['ITD_SITE_URL']).path.rstrip('/')+'/'
+   if target.startswith('/'):
+    assert target.startswith(base),(name,ref)
+    target=target[len(base):] or './'
    if production and target in ['./','en','de']:target={'./':'index.html','en':'index-en.html','de':'index-de.html'}[target]
    elif production and '.' not in Path(target).name:target+='.html'
    assert (root/target).is_file(),(name,ref)

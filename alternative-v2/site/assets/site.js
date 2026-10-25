@@ -40,8 +40,11 @@ $$('.enquiry-form').forEach(form=>{
  const key='itd-proposal-v1-'+form.dataset.form,status=$('.form-status',form),submit=$('[type="submit"]',form),recovery=$('.form-recovery',form);let pending=false;
  const field=name=>form.elements.namedItem(name);
  function addService(value){const select=field('service');if(value&&!Array.from(select.options).some(o=>o.value===value)){select.add(new Option(value,value));}select.value=value;}
- function save(){try{const draft={};fields.forEach(n=>draft[n]=field(n).value);sessionStorage.setItem(key,JSON.stringify(draft));}catch{}}
- try{const draft=JSON.parse(sessionStorage.getItem(key)||'null');if(draft&&typeof draft==='object'){fields.forEach(n=>{if(typeof draft[n]!=='string')return;if(n==='service')addService(draft[n].slice(0,200));else field(n).value=draft[n].slice(0,field(n).maxLength>0?field(n).maxLength:3000);});}}catch{}
+ // The draft keeps its text across a language change; a chosen service comes back only in the language it was
+ // chosen in (or when the list here has the same option), so no option from another language is added.
+ const lang=document.documentElement.lang;
+ function save(){try{const draft={lang};fields.forEach(n=>draft[n]=field(n).value);sessionStorage.setItem(key,JSON.stringify(draft));}catch{}}
+ try{const draft=JSON.parse(sessionStorage.getItem(key)||'null');if(draft&&typeof draft==='object'){fields.forEach(n=>{if(typeof draft[n]!=='string')return;if(n==='service'){const v=draft[n].slice(0,200);if(draft.lang===lang)addService(v);else if(Array.from(field(n).options).some(o=>o.value===v))field(n).value=v;}else field(n).value=draft[n].slice(0,field(n).maxLength>0?field(n).maxLength:3000);});}}catch{}
  const service=new URLSearchParams(location.search).get('service');if(service){addService(service.slice(0,200));save();}
  form.addEventListener('input',e=>{if(e.target.setCustomValidity)e.target.setCustomValidity('');save();if(status.dataset.state==='success'){status.textContent='';delete status.dataset.state;}});
  form.addEventListener('change',save);

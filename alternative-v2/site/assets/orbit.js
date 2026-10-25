@@ -105,8 +105,11 @@
  stage.addEventListener('pointerdown',e=>{if(e.button!==0)return;drag={x:e.clientX,y:e.clientY,pos0:pos,target0:target,active:false};});
  stage.addEventListener('pointermove',e=>{
   if(!drag)return;
+  // A mouse that comes back with no button pressed was released elsewhere: the drag is over.
+  if(e.pointerType==='mouse'&&e.buttons===0){release(e,true);return;}
   const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
-  if(!drag.active&&Math.abs(dx)>8&&Math.abs(dx)>Math.abs(dy)){drag.active=true;dragging=true;anim=null;root.classList.add('is-dragging');update();}
+  // Once the cards follow the pointer, the stage keeps it, so a release outside the stage still ends the drag.
+  if(!drag.active&&Math.abs(dx)>8&&Math.abs(dx)>Math.abs(dy)){drag.active=true;dragging=true;anim=null;root.classList.add('is-dragging');try{stage.setPointerCapture(e.pointerId);}catch{}update();}
   if(drag.active&&!reduced)pos=drag.pos0-Math.max(-1,Math.min(1,dx/span()));
  });
  function release(e,cancel){
@@ -121,6 +124,8 @@
  }
  stage.addEventListener('pointerup',e=>release(e,false));
  stage.addEventListener('pointercancel',e=>release(e,true));
+ // Only the stage's own capture: on touch a card held the pointer first and reports losing it to the stage.
+ stage.addEventListener('lostpointercapture',e=>{if(e.target===stage)release(e,true);});
  stage.addEventListener('dragstart',e=>e.preventDefault());
  // After a drag no card opens; a click on a side card brings it to the centre; the centre card opens.
  cards.forEach((c,i)=>c.addEventListener('click',e=>{

@@ -13,11 +13,13 @@ ROOT = Path(sys.argv[1]).resolve() if len(sys.argv) > 1 else Path(__file__).reso
 class Page(HTMLParser):
     def __init__(self, text):
         super().__init__()
-        self.refs, self.ids, self.headings = [], set(), 0
+        self.refs, self.ids, self.headings, self.canonical = [], set(), 0, ""
         self.feed(text)
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        if tag == "link" and attrs.get("rel") == "canonical":
+            self.canonical = attrs.get("href", "")
         if attrs.get("id"):
             self.ids.add(attrs["id"])
         if tag == "h1":
@@ -37,10 +39,17 @@ def check_reference(source, reference):
     url = urlsplit(reference)
     if url.scheme or url.netloc:
         return
-    if url.path.startswith("/"):
-        errors.append(f"{source.name}: root-relative URL breaks project hosting: {reference}")
-        return
-    target = (source.parent / unquote(url.path)).resolve() if url.path else source.resolve()
+    path = url.path
+    if path.startswith("/"):
+        # Root-relative is fine only under the site's own base path (taken from the page's canonical URL, e.g.
+        # /ITD2027/ on GitHub): the 404 pages use it because they answer for missing URLs at any depth.
+        canonical = pages[source.resolve()].canonical if source.resolve() in pages else ""
+        base = urlsplit(canonical).path.rsplit("/", 1)[0] + "/"
+        if not canonical or not path.startswith(base):
+            errors.append(f"{source.name}: root-relative URL breaks project hosting: {reference}")
+            return
+        path = path[len(base):]
+    target = (source.parent / unquote(path)).resolve() if path else source.resolve()
     if target.is_dir():
         target /= "index.html"
     checked += 1

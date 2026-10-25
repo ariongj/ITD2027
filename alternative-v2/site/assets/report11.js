@@ -16,9 +16,12 @@
   stage.querySelector('[data-r11-state]').textContent=state;stage.querySelector('[data-r11-msg]').textContent=text;stage.classList.toggle('is-typing',typing);
  }
  function frame(){
-  const w=words();
+  const w=words(),gated=document.documentElement.classList.contains('motion-ready');
   for(const stage of stages){
-   const c=w[stage.dataset.scene],clock=reduce.matches?null:stage.getAnimations().find(a=>a.animationName==='r11-clock');
+   const c=w[stage.dataset.scene];
+   // Off screen (report10.js keeps the scene at rest) the scene shows its result and its animations are not read.
+   if(reduce.matches||(gated&&!stage.classList.contains('is-live'))){show(stage,c.state_result,c.message_done,false);continue;}
+   const clock=stage.getAnimations().find(a=>a.animationName==='r11-clock');
    if(!clock){show(stage,c.state_result,c.message_done,false);continue;}
    const t=(clock.effect.getComputedTiming().progress||0)*9000;
    if(t<2000)show(stage,c.state_start,w.demo,false);

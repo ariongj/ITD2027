@@ -229,6 +229,7 @@ exec(compile((BASE/"report09.py").read_text(encoding="utf-8-sig"),str(BASE/"repo
 exec(compile((BASE/"report10.py").read_text(encoding="utf-8-sig"),str(BASE/"report10.py"),"exec"))
 exec(compile((BASE/"report11.py").read_text(encoding="utf-8-sig"),str(BASE/"report11.py"),"exec"))
 exec(compile((BASE/"report_seo.py").read_text(encoding="utf-8-sig"),str(BASE/"report_seo.py"),"exec"))
+exec(compile((BASE/"report_audit.py").read_text(encoding="utf-8-sig"),str(BASE/"report_audit.py"),"exec"))
 exec(compile((BASE/"theme_m.py").read_text(encoding="utf-8-sig"),str(BASE/"theme_m.py"),"exec"))
 
 import os
@@ -246,6 +247,8 @@ M_FONTS='<link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2"
 # Link previews (Open Graph / X) and structured data (schema.org) for every page except the 404.
 OG_LOCALE={'sq':'sq_AL','en':'en_US','de':'de_DE'}
 PARENTS={'krakenos':'itd-labs','kraken-communications':'itd-labs','aura':'itd-labs','web-software':'services','ai-automation':'services','project-detail':'projects'}
+# Pages kept out of search and the sitemap: the illustrative case has no links to it (audit of 25 October, BUG-07).
+NOINDEX={'project-detail'}
 def share_tags(page,l,title,description):
  url=f'{PUBLIC_BASE}/{public_path(page,l)}'; image=f'{PUBLIC_BASE}/assets/brand/og-{l}.jpg'
  alt=tr(l,'IT Department — Teknologji që ta lehtëson punën.','IT Department — Technology that makes work easier.','IT Department — Technologie, die Ihre Arbeit erleichtert.')
@@ -280,7 +283,7 @@ for l,t in T.items():
   data=json.dumps({**{k:c[k] for k in ['send','sending','success','failure','invalid','count']},'close':t['close']},ensure_ascii=False).replace('<','\\u003c')
   alternates=''.join(f'<link rel="alternate" hreflang="{lang}" href="{PUBLIC_BASE}/{public_path(page,lang)}">' for lang in ['sq','en','de'])
   alternates+=f'<link rel="alternate" hreflang="x-default" href="{PUBLIC_BASE}/{public_path(page,"sq")}"><link rel="canonical" href="{PUBLIC_BASE}/{public_path(page,l)}">'
-  robots="index,follow" if INDEXABLE and page!="404" else "noindex,follow"
+  robots="index,follow" if INDEXABLE and page!="404" and page not in NOINDEX else "noindex,follow"
   share=share_tags(page,l,title,description) if page!='404' else ''
   html=f'''<!doctype html><html lang="{l}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | IT Department</title><meta name="description" content="{esc(description)}"><meta name="robots" content="{robots}"><meta name="theme-color" content="#0b0d10"><link rel="icon" href="assets/brand/favicon.png"><link rel="apple-touch-icon" href="assets/brand/logo-shield.png"><link rel="manifest" href="site.webmanifest">{alternates}{share}{M_FONTS if THEME=="m" else '<link rel="preload" href="assets/fonts/outfit/outfit-wght.woff2" as="font" type="font/woff2" crossorigin>'}<link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/revision.css">{'<link rel="stylesheet" href="assets/m/m.css">' if THEME=="m" else '<link rel="stylesheet" href="assets/report06.css"><link rel="stylesheet" href="assets/report07.css"><link rel="stylesheet" href="assets/report08.css"><link rel="stylesheet" href="assets/report09.css"><link rel="stylesheet" href="assets/report10.css"><link rel="stylesheet" href="assets/report11.css">'}<script type="application/json" id="site-copy">{data}</script><script src="assets/measurement-config.js" defer></script><script src="assets/measurement.js" defer></script><script src="assets/site.js" defer></script><script src="assets/booking.js" defer></script>{'' if THEME=='m' else '<script src="assets/report08.js" defer></script>'}{'<script src="assets/report10.js" defer></script>' if THEME!='m' and page in ('ai-agents','privacy','terms') else ''}{'<script src="assets/report11.js" defer></script>' if THEME!='m' and page=='ai-agents' else ''}{('<script src="assets/slider.js" defer></script>' if THEME=='m' else '<script src="assets/orbit.js" defer></script>') if page=='index' else ''}</head><body data-page="{page}"{' data-theme="m"' if THEME=="m" else ''}{' data-axis="center"' if THEME!="m" and page in CENTER_PAGES else ''}>{header(page,l,t)}<main id="main">{body}</main>{footer(l,t,page)}<dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title"><div class="lightbox-toolbar"><strong id="lightbox-title"></strong><button class="lightbox-close" type="button">{t['close']}<span aria-hidden="true">×</span></button></div><img id="lightbox-image" alt=""></dialog></body></html>'''
   if PRODUCTION:
@@ -291,13 +294,21 @@ for l,t in T.items():
       html=html.replace('href="'+old+suffix,'href="'+new+suffix)
   if page=='404':
    # The 404 page is served for missing URLs at any depth (/a/b, /ITD2027/calm/x), so its
-   # links must not depend on the folder: make them absolute. In-page #anchors stay as they are.
+   # links must not depend on the folder: make them root-relative (/assets/…, or /ITD2027/assets/… on GitHub),
+   # which also keeps them on the host that answered. In-page #anchors stay as they are.
    import re
-   html=re.sub(r'(href|src)="(?!https?:|//|#|mailto:|tel:|data:)([^"]*)"',lambda m:m.group(1)+'="'+PUBLIC_BASE+'/'+m.group(2).removeprefix('./')+'"',html)
+   from urllib.parse import urlsplit
+   root=urlsplit(PUBLIC_BASE).path.rstrip('/')
+   html=re.sub(r'(href|src)="(?!https?:|//|#|mailto:|tel:|data:)([^"]*)"',lambda m:m.group(1)+'="'+root+'/'+m.group(2).removeprefix('./')+'"',html)
   (OUT/route(page,l)).write_text(finalize(html,page,l),encoding='utf-8')
 (OUT/'site.webmanifest').write_text(json.dumps({'name':'IT Department','short_name':'IT Department','start_url':'./','display':'browser','background_color':'#f4f4f2','theme_color':'#0b0d10','icons':[{'src':'assets/brand/logo-shield.png','sizes':'512x512','type':'image/png'}]},indent=1),encoding='utf-8')
 (OUT/'robots.txt').write_text('User-agent: *\nAllow: /\n'+('Sitemap: '+PUBLIC_BASE+'/sitemap.xml\n' if INDEXABLE else ''),encoding='utf-8')
-urls=[PUBLIC_BASE+'/'+public_path(p,l) for p in [*builders,'privacy'] for l in T]
+if PRODUCTION:
+ # RFC 9116: where to report a security problem (audit of 25 October, SEC-02); renewed by every build.
+ import datetime
+ (OUT/'.well-known').mkdir(exist_ok=True)
+ (OUT/'.well-known/security.txt').write_text(f'Contact: mailto:{cfg["email"]}\nExpires: {(datetime.date.today()+datetime.timedelta(days=360)).isoformat()}T00:00:00.000Z\nPreferred-Languages: sq, en, de\nCanonical: {PUBLIC_BASE}/.well-known/security.txt\n',encoding='utf-8')
+urls=[PUBLIC_BASE+'/'+public_path(p,l) for p in [*builders,'privacy'] if p not in NOINDEX for l in T]
 (OUT/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+esc(u)+'</loc></url>' for u in urls)+'</urlset>',encoding='utf-8')
 (OUT/'assets/measurement-config.js').write_text('window.ITD_MEASUREMENT='+json.dumps({'enabled':PRODUCTION and os.environ.get('ITD_ANALYTICS')=='1','id':'G-B0S3HLRPWD','origin':PUBLIC_BASE})+';',encoding='utf-8')
 print('Generated '+str((len(builders)+2)*3)+' pages in SQ, EN and DE. Production: '+str(PRODUCTION))

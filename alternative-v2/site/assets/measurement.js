@@ -17,7 +17,10 @@
  }
  const locale={sq:['Matja e vizitave','Me lejen tënde, Google Analytics mat vizitat dhe veprimet e kontaktit. Emri, emaili, telefoni dhe mesazhi nuk përfshihen në eventet tona.','Lejo matjen','Pa analytics','Cilësimet e privatësisë'],en:['Visit measurement','With your permission, Google Analytics measures visits and contact actions. Names, emails, phone numbers and messages are excluded from our events.','Allow analytics','No analytics','Privacy settings'],de:['Besuchsmessung','Mit Ihrer Erlaubnis misst Google Analytics Besuche und Kontaktaktionen. Namen, E-Mails, Telefonnummern und Nachrichten werden nicht in unsere Ereignisse aufgenommen.','Analytics erlauben','Ohne Analytics','Datenschutzeinstellungen']}[lang];
  let consent=false,loaded=false;const key='itd-analytics-consent-v1';
- const enabled=config.enabled===true && location.origin===new URL(config.origin).origin && navigator.doNotTrack!=='1';
+ // The configured site, with or without "www." (the server redirects www to the bare domain; this keeps the
+ // consent choice working even if a page is ever served on www).
+ const site=u=>u.protocol+'//'+u.hostname.replace(/^www\./,'')+(u.port?':'+u.port:'');
+ const enabled=config.enabled===true && site(location)===site(new URL(config.origin)) && navigator.doNotTrack!=='1';
  try{consent=enabled && localStorage.getItem(key)==='granted';}catch{}
  function start(){
   if(!consent||!enabled)return;

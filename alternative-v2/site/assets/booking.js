@@ -13,7 +13,7 @@
   const a=e.target.closest('a[href]');if(!a||a.dataset.bookingExternal||new URL(a.href).hostname!=='calendly.com'||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
   // Browsers without <dialog> keep the plain link to Calendly.
   if(typeof dialog.showModal!=='function')return;
-  e.preventDefault();trigger=a;fallback.href=a.href;dialog.showModal();close.focus();if(!confirmed)status.textContent=initialized?text[2]:text[1];
+  e.preventDefault();trigger=a;fallback.href=a.href;dialog.showModal();close.focus();if(!confirmed)status.textContent=initialized?'':text[1];
   // One calendar per page, also when the dialog is reopened while widget.js is still loading.
   if(initialized||initializing)return;
   initializing=true;
@@ -31,6 +31,6 @@
    seen.add(uri);confirmed=true;status.textContent=text[5];
    // No invitee identifiers or payload fields pass into analytics.
    window.ITDTracking?.record('book_meeting','','calendly-confirmed');
-  }else if(!confirmed)status.textContent=text[2];
+  }else if(!confirmed)status.textContent=''; // the calendar is loaded and answering: no warning above it
  });
 })();

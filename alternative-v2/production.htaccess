@@ -56,6 +56,10 @@ Header always set X-Content-Type-Options "nosniff"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 Header always set X-Frame-Options "SAMEORIGIN"
 Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), browsing-topics=()"
+# Cross-origin isolation (audit of 25 October, SEC-03): popups such as Calendly or WhatsApp stay separate windows,
+# and other sites cannot load this site's files into their pages.
+Header always set Cross-Origin-Opener-Policy "same-origin-allow-popups"
+Header always set Cross-Origin-Resource-Policy "same-site"
 Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 # The strict policy is for the new pages. The existing /stats dashboard uses inline code,
 # so it keeps the live site's current policy instead of breaking.
