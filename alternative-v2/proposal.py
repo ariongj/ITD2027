@@ -230,6 +230,7 @@ exec(compile((BASE/"report10.py").read_text(encoding="utf-8-sig"),str(BASE/"repo
 exec(compile((BASE/"report11.py").read_text(encoding="utf-8-sig"),str(BASE/"report11.py"),"exec"))
 exec(compile((BASE/"report_seo.py").read_text(encoding="utf-8-sig"),str(BASE/"report_seo.py"),"exec"))
 exec(compile((BASE/"report_audit.py").read_text(encoding="utf-8-sig"),str(BASE/"report_audit.py"),"exec"))
+exec(compile((BASE/"report_projects.py").read_text(encoding="utf-8-sig"),str(BASE/"report_projects.py"),"exec"))
 exec(compile((BASE/"theme_m.py").read_text(encoding="utf-8-sig"),str(BASE/"theme_m.py"),"exec"))
 
 import os
@@ -246,7 +247,7 @@ def public_path(page,l):
 M_FONTS='<link rel="preload" href="assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="assets/m/fonts/fraunces-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>'
 # Link previews (Open Graph / X) and structured data (schema.org) for every page except the 404.
 OG_LOCALE={'sq':'sq_AL','en':'en_US','de':'de_DE'}
-PARENTS={'krakenos':'itd-labs','kraken-communications':'itd-labs','aura':'itd-labs','web-software':'services','ai-automation':'services','project-detail':'projects'}
+PARENTS={'krakenos':'itd-labs','kraken-communications':'itd-labs','aura':'itd-labs','web-software':'services','ai-automation':'services','project-detail':'projects',**dict.fromkeys(PROJECT_BUILDERS,'projects')}
 # Pages kept out of search and the sitemap: the illustrative case has no links to it (audit of 25 October, BUG-07).
 NOINDEX={'project-detail'}
 def share_tags(page,l,title,description):
@@ -264,7 +265,7 @@ def share_tags(page,l,title,description):
  data=json.dumps({'@context':'https://schema.org','@graph':graph},ensure_ascii=False).replace('</','<\\/')
  return tags+f'<script type="application/ld+json">{data}</script>'
 
-builders={"itd-labs":labs,"kraken-communications":communications,"aura":aura,"web-software":web_software,"ai-automation":ai_automation,"index":home,"services":services,"projects":projects,"partners":partners,"creative":creative,"ai-agents":ai,"about":about,"contact":contact,"krakenos":krakenos,"project-detail":case_detail,"terms":terms}
+builders={"itd-labs":labs,"kraken-communications":communications,"aura":aura,"web-software":web_software,"ai-automation":ai_automation,"index":home,"services":services,"projects":projects,"partners":partners,"creative":creative,"ai-agents":ai,"about":about,"contact":contact,"krakenos":krakenos,"project-detail":case_detail,"terms":terms,**PROJECT_BUILDERS}
 for l,t in T.items():
  c=copy(l)
  for page in [*builders,'privacy','404']:
@@ -285,21 +286,24 @@ for l,t in T.items():
   alternates+=f'<link rel="alternate" hreflang="x-default" href="{PUBLIC_BASE}/{public_path(page,"sq")}"><link rel="canonical" href="{PUBLIC_BASE}/{public_path(page,l)}">'
   robots="index,follow" if INDEXABLE and page!="404" and page not in NOINDEX else "noindex,follow"
   share=share_tags(page,l,title,description) if page!='404' else ''
-  html=f'''<!doctype html><html lang="{l}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | IT Department</title><meta name="description" content="{esc(description)}"><meta name="robots" content="{robots}"><meta name="theme-color" content="#0b0d10"><link rel="icon" href="assets/brand/favicon.png"><link rel="apple-touch-icon" href="assets/brand/logo-shield.png"><link rel="manifest" href="site.webmanifest">{alternates}{share}{M_FONTS if THEME=="m" else '<link rel="preload" href="assets/fonts/outfit/outfit-wght.woff2" as="font" type="font/woff2" crossorigin>'}<link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/revision.css">{'<link rel="stylesheet" href="assets/m/m.css">' if THEME=="m" else '<link rel="stylesheet" href="assets/report06.css"><link rel="stylesheet" href="assets/report07.css"><link rel="stylesheet" href="assets/report08.css"><link rel="stylesheet" href="assets/report09.css"><link rel="stylesheet" href="assets/report10.css"><link rel="stylesheet" href="assets/report11.css">'}<script type="application/json" id="site-copy">{data}</script><script src="assets/measurement-config.js" defer></script><script src="assets/measurement.js" defer></script><script src="assets/site.js" defer></script><script src="assets/booking.js" defer></script>{'' if THEME=='m' else '<script src="assets/report08.js" defer></script>'}{'<script src="assets/report10.js" defer></script>' if THEME!='m' and page in ('ai-agents','privacy','terms') else ''}{'<script src="assets/report11.js" defer></script>' if THEME!='m' and page=='ai-agents' else ''}{('<script src="assets/slider.js" defer></script>' if THEME=='m' else '<script src="assets/orbit.js" defer></script>') if page=='index' else ''}</head><body data-page="{page}"{' data-theme="m"' if THEME=="m" else ''}{' data-axis="center"' if THEME!="m" and page in CENTER_PAGES else ''}>{header(page,l,t)}<main id="main">{body}</main>{footer(l,t,page)}<dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title"><div class="lightbox-toolbar"><strong id="lightbox-title"></strong><button class="lightbox-close" type="button">{t['close']}<span aria-hidden="true">×</span></button></div><img id="lightbox-image" alt=""></dialog></body></html>'''
+  html=f'''<!doctype html><html lang="{l}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)} | IT Department</title><meta name="description" content="{esc(description)}"><meta name="robots" content="{robots}"><meta name="theme-color" content="#0b0d10"><link rel="icon" href="assets/brand/favicon.png"><link rel="apple-touch-icon" href="assets/brand/logo-shield.png"><link rel="manifest" href="site.webmanifest">{alternates}{share}{M_FONTS if THEME=="m" else '<link rel="preload" href="assets/fonts/outfit/outfit-wght.woff2" as="font" type="font/woff2" crossorigin>'}<link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/revision.css">{'<link rel="stylesheet" href="assets/m/m.css">' if THEME=="m" else '<link rel="stylesheet" href="assets/report06.css"><link rel="stylesheet" href="assets/report07.css"><link rel="stylesheet" href="assets/report08.css"><link rel="stylesheet" href="assets/report09.css"><link rel="stylesheet" href="assets/report10.css"><link rel="stylesheet" href="assets/report11.css">'}{'<link rel="stylesheet" href="assets/projects.css">' if THEME!='m' else ''}<script type="application/json" id="site-copy">{data}</script><script src="assets/measurement-config.js" defer></script><script src="assets/measurement.js" defer></script><script src="assets/site.js" defer></script><script src="assets/booking.js" defer></script>{'' if THEME=='m' else '<script src="assets/report08.js" defer></script>'}{'<script src="assets/report10.js" defer></script>' if THEME!='m' and page in ('ai-agents','privacy','terms') else ''}{'<script src="assets/report11.js" defer></script>' if THEME!='m' and page=='ai-agents' else ''}{('<script src="assets/slider.js" defer></script>' if THEME=='m' else '<script src="assets/orbit.js" defer></script>') if page=='index' else ''}</head><body data-page="{page}"{' data-theme="m"' if THEME=="m" else ''}{' data-axis="center"' if THEME!="m" and page in CENTER_PAGES else ''}>{header(page,l,t)}<main id="main">{body}</main>{footer(l,t,page)}<dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title"><div class="lightbox-toolbar"><strong id="lightbox-title"></strong><button class="lightbox-close" type="button">{t['close']}<span aria-hidden="true">×</span></button></div><img id="lightbox-image" alt=""></dialog></body></html>'''
   if PRODUCTION:
    for linked_page in [*builders,'privacy','404']:
     for linked_lang in T:
      old=route(linked_page,linked_lang); new=public_path(linked_page,linked_lang) or './'
      for suffix in ['"','?','#']:
       html=html.replace('href="'+old+suffix,'href="'+new+suffix)
-  if page=='404':
-   # The 404 page is served for missing URLs at any depth (/a/b, /ITD2027/calm/x), so its
-   # links must not depend on the folder: make them root-relative (/assets/…, or /ITD2027/assets/… on GitHub),
-   # which also keeps them on the host that answered. In-page #anchors stay as they are.
+  if page=='404' or '/' in page:
+   # The 404 page is served for missing URLs at any depth (/a/b, /ITD2027/calm/x), and the project pages live in
+   # project/, so their links must not depend on the folder: make them root-relative (/assets/…, or
+   # /ITD2027/assets/… on GitHub), which also keeps them on the host that answered. In-page #anchors stay.
    import re
    from urllib.parse import urlsplit
    root=urlsplit(PUBLIC_BASE).path.rstrip('/')
-   html=re.sub(r'(href|src)="(?!https?:|//|#|mailto:|tel:|data:)([^"]*)"',lambda m:m.group(1)+'="'+root+'/'+m.group(2).removeprefix('./')+'"',html)
+   rel=lambda u:u if re.match(r'(https?:|//|#|mailto:|tel:|data:|/)',u) else root+'/'+u.removeprefix('./')
+   html=re.sub(r'(href|src)="([^"]*)"',lambda m:m.group(1)+'="'+rel(m.group(2))+'"',html)
+   html=re.sub(r'srcset="([^"]*)"',lambda m:'srcset="'+', '.join(' '.join([rel(x.split()[0])]+x.split()[1:]) for x in m.group(1).split(','))+'"',html)
+  (OUT/route(page,l)).parent.mkdir(parents=True,exist_ok=True)
   (OUT/route(page,l)).write_text(finalize(html,page,l),encoding='utf-8')
 (OUT/'site.webmanifest').write_text(json.dumps({'name':'IT Department','short_name':'IT Department','start_url':'./','display':'browser','background_color':'#f4f4f2','theme_color':'#0b0d10','icons':[{'src':'assets/brand/logo-shield.png','sizes':'512x512','type':'image/png'}]},indent=1),encoding='utf-8')
 (OUT/'robots.txt').write_text('User-agent: *\nAllow: /\n'+('Sitemap: '+PUBLIC_BASE+'/sitemap.xml\n' if INDEXABLE else ''),encoding='utf-8')

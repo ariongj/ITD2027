@@ -29,10 +29,15 @@ class Page(HTMLParser):
                 self.refs.append(attrs[key])
 
 pages = {path.resolve(): Page(path.read_text(encoding="utf-8-sig"))
-         for path in ROOT.glob("*.html")}
+         for path in ROOT.rglob("*.html")}
 errors, checked = [], 0
-if len(pages) != 54 or not (ROOT / "index.html").is_file():
-    errors.append("Expected the complete newer website with 54 HTML pages.")
+# 54 pages, plus the 18 project pages in project/ on the main version.
+EXPECTED = 72 if (ROOT / "project").is_dir() else 54
+if len(pages) != EXPECTED or not (ROOT / "index.html").is_file():
+    errors.append(f"Expected the complete newer website with {EXPECTED} HTML pages.")
+# The site's base path from the home page's canonical URL (/ITD2027/ on GitHub, / on the domain).
+home = pages.get((ROOT / "index.html").resolve())
+BASE = urlsplit(home.canonical).path.rsplit("/", 1)[0] + "/" if home and home.canonical else ""
 
 def check_reference(source, reference):
     global checked
@@ -41,15 +46,14 @@ def check_reference(source, reference):
         return
     path = url.path
     if path.startswith("/"):
-        # Root-relative is fine only under the site's own base path (taken from the page's canonical URL, e.g.
-        # /ITD2027/ on GitHub): the 404 pages use it because they answer for missing URLs at any depth.
-        canonical = pages[source.resolve()].canonical if source.resolve() in pages else ""
-        base = urlsplit(canonical).path.rsplit("/", 1)[0] + "/"
-        if not canonical or not path.startswith(base):
+        # Root-relative is fine only under the site's own base path: the 404 pages (missing URLs at any depth)
+        # and the pages in project/ use it. It resolves from the site root.
+        if not BASE or not path.startswith(BASE):
             errors.append(f"{source.name}: root-relative URL breaks project hosting: {reference}")
             return
-        path = path[len(base):]
-    target = (source.parent / unquote(path)).resolve() if path else source.resolve()
+        target = (ROOT / unquote(path[len(BASE):])).resolve()
+    else:
+        target = (source.parent / unquote(path)).resolve() if path else source.resolve()
     if target.is_dir():
         target /= "index.html"
     checked += 1

@@ -1,0 +1,50 @@
+/* Project pages (report of 25 October 2026): /project/<slug> in SQ / EN / DE. The title and introduction in the centre,
+   a large view of the website, the story in a readable column, what it includes (one card per row on phones), a
+   gallery, the related service, similar projects and "Have a similar project?". */
+.pj-hero{padding-top:56px;text-align:center}
+.pj-hero h1{margin-inline:auto}
+.pj-hero .lead{max-width:640px;margin:12px auto 0}
+.pj-hero .actions{justify-content:center}
+.pj-shot{max-width:1040px;margin:40px auto 0;overflow:hidden;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 24px 60px #17181a14}
+.pj-shot img,.pj-fig img{display:block;width:100%;height:auto}
+.pj-shot figcaption,.pj-fig figcaption{padding:10px 14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;text-align:left}
+.pj-body{max-width:780px;padding-top:44px}
+.pj-body h2{margin:36px 0 10px;font-size:clamp(24px,2.2vw,30px)}
+.pj-body>p{color:#2b2d31;font-size:18px;line-height:1.65}
+.pj-features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0 0;padding:0;list-style:none}
+.pj-features li{padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:#fff;font-size:16px;line-height:1.5}
+.pj-visual{margin-top:22px;color:var(--muted);font-size:16px;line-height:1.6}
+.pj-visual strong{color:var(--ink);font-weight:600}
+.pj-note{margin-top:18px;padding:14px 16px;border-left:3px solid #e00000;border-radius:0 10px 10px 0;background:#fff4f2;color:#2b2d31;font-size:15px;line-height:1.55}
+.pj-gallery h2{margin-bottom:22px}
+.pj-gallery-grid{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.pj-fig{flex:1 1 320px;margin:0;overflow:hidden;border:1px solid var(--line);border-radius:14px;background:#fff}
+.pj-fig-phone{flex:0 1 230px}
+.pj-fig a{display:block}
+.pj-fig a:focus-visible{outline:3px solid #e00000;outline-offset:-3px}
+.pj-service{max-width:780px;margin-top:8px}
+.pj-service-card{position:relative;display:grid;gap:6px;padding:22px 56px 22px 24px}
+.pj-service-card strong{font-size:20px}
+.pj-service-card>span:not(.eyebrow){color:var(--muted);font-size:16px}
+.pj-arrow{position:absolute;top:50%;right:22px;transform:translateY(-50%);color:#e00000;font-size:22px}
+.pj-cta{max-width:900px;margin:72px auto 96px;padding:44px 28px;border-radius:24px;background:#0b0d10;color:#fff;text-align:center}
+.pj-cta h2{color:#fff}
+.pj-cta p{max-width:560px;margin:12px auto 0;color:#c9ccd2;font-size:17px}
+.pj-cta .actions{justify-content:center}
+.pj-cta .button.outline{border-color:#ffffff59;color:#fff}
+/* Six projects: three per row on wide screens (the grid was made for five, 3 + 2). */
+@media(min-width:1121px){.project-grid:not(.project-grid-home)>.project-card:nth-child(n+4){grid-column:span 2}}
+/* The list of projects on the "Websites & software" service page. */
+.pj-done-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:0;padding:0;list-style:none}
+.pj-done-list a{display:grid;gap:6px;height:100%;padding:18px 20px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.pj-done-list a:hover{border-color:#e00000}
+.pj-done-list strong{font-size:18px}
+.pj-done-list span{color:var(--muted);font-size:15px;line-height:1.5}
+@media(max-width:900px){.pj-done-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){
+ .pj-hero{padding-top:36px}
+ .pj-shot{margin-top:28px;border-radius:14px}
+ .pj-body>p{font-size:17px}
+ .pj-features,.pj-done-list{grid-template-columns:minmax(0,1fr)}
+ .pj-fig-phone{flex-basis:100%;max-width:300px;margin-inline:auto}
+ .pj-cta{margin:56px 0 72px;padding:34px 20px}}

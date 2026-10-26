@@ -382,6 +382,42 @@ Source: `ITD_Calendly_llms_SQ_EN_DE_Developer_24-10-2026.pdf` (6 pages, two note
   - `llms.txt` has its structure; each of the 42 links goes to a page in its section's language and already answers 200 on itdks.tech.
   - Audit checks 12/12, production 26/26, axe 0 violations, check-pages, qa-seo and M pass.
 
+## Project pages, report of 25 October 2026
+
+Source: `ITD_Projektet_Faqet_e_Brendshme_SEO_25-10-2026.pdf` (14 pages). Only the main version is affected; M and opus are unchanged. The work is in `report_projects.py` and `assets/projects.css`, with the routes in `proposal.py`.
+
+- **Six projects, 18 pages:** verkaufeimmobilie.de, RATA Solar, KoBags Group, Paketoje, Optika Miftari and the new Kalkulatori, each in SQ/EN/DE.
+  - **Addresses:** `/project/<slug>`, `/project/<slug>-en` and `/project/<slug>-de`. The report proposed `/projects/<slug>`, but a folder named `projects` would make the server answer `/projects` as a folder (a 301 to `/projects/`, then 403), so the detail pages live in `project/`.
+  - **Folder links:** the pages in that folder link everything root-relative, including `srcset`, as the 404 pages do.
+- **Template (page 3):**
+  - **Hero:** the project name and short type in the centre, "Vizito website-in" to the live site (new tab), and "All projects".
+  - **Story:** a large view of the website, then the introduction, goal and solution in a readable column, what it includes as four cards (one per row on phones) and the visual direction.
+  - **Gallery:** two or three further views (desktop pages and the phone view, opening in the lightbox).
+  - **Links and CTA:** the related service (Websites & software), three similar projects, and "Have a similar project?" with contact.
+- **Texts (pages 4-13):**
+  - **SQ:** in full, as given.
+  - **EN/DE:** the introductions, titles and meta descriptions as given. The goal, solution, features, visual direction, card texts and labels were translated from the SQ base.
+  - **Titles and meta:** set through `NEW_META`, for example "RATA Solar | Website për Energji Solare | IT Department".
+  - **Demo notes:** Paketoje says its orders and payments are simulated. verkaufeimmobilie.de says the website shows a customer preview with illustrative example valuations and properties (page 14).
+- **Project data (page 14):**
+  - RATA Solar's address is now `https://ratasolar.com/`.
+  - KoBags is described as a catalogue with quotations; the old "design studio" text is gone.
+  - Kalkulatori is presented as a services website.
+  - Each project's external address is kept in one field (`url`).
+- **Views:** captured from the public websites on 25 October 2026 (desktop 1440 × 900, phone 390 × 844 at 2×), as WebP in `assets/projects/`. Cookie banners were closed with their "reject" choice, and the card images were replaced with the same fresh views.
+- **Cards and links:** the cards on Home and Projects open the internal page in the same language ("Shiko projektin" / "View project" / "Projekt ansehen"; card and button share one URL). On wide screens the six cards sit three per row. The "Websites & software" page lists the six projects.
+- **SEO:** the 18 pages answer 200 and each has its own title and meta, one H1, a self-canonical, reciprocal hreflang sq/en/de with x-default, a breadcrumb (Home → Projects → project), and an entry in the sitemap (66 URLs). The illustrative `/project-detail` stays `noindex` (no equivalent page to redirect it to).
+- **Checkers:** `check-pages.py` (72 pages, base path from the home page's canonical URL) and `qa-seo.py` (72 pages, 66 sitemap URLs, rglob) cover the folder.
+- **Verified:**
+  - Projects test: 32/32, on the production build with the server's CSP and clean URLs. In three languages it covers the cards, Home, the service page and each of the 18 pages:
+    - title and meta, H1, canonical and hreflang, the sections;
+    - four features, the gallery (images load, with descriptions), the visit button;
+    - language switch to the same project, similar projects, the service link, the CTA;
+    - no policy violations.
+  - Also the lightbox, phones at 360/390 (one card per row, no sideways scroll) and the sitemap.
+  - axe finds 0 violations and there is no overflow on all 72 pages.
+  - Report 09 63/63, Report 11 50/50, Report 10 44/44, audit 12/12, Calendly/llms 13/13, production 26/26. check-pages, qa-seo, M and opus pass.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.
