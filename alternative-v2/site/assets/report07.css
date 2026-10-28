@@ -68,6 +68,7 @@
 .footer .footer-cta{min-width:300px;min-height:54px;margin-top:26px;background:transparent;border:2px solid #e00000;color:#fff;font-size:17px}
 .r7-footer .r7-social-phone{display:none}
 .footer .footer-cta:hover{background:#e00000;border-color:#e00000;color:#fff}
+.footer .footer-cta.r7-review{display:flex;width:fit-content;margin-top:12px}
 .r7-footer-label{margin:0 0 12px;color:#9a9ea6;font-size:12px;font-weight:700;letter-spacing:.12em}
 .r7-footer-col ul{margin:0;padding:0;list-style:none}
 .r7-footer-col li+li{margin-top:0}
@@ -145,7 +146,7 @@ body[data-page=ai-agents] .agent-card details{border-top:0;padding-top:0}
 /* Footer on phones as on page 16: the name, the email button and the three icons, centred. */
 .r7-footer-brand{text-align:center}
 .r7-footer-brand>p{display:none}
-.footer .footer-cta{width:100%;min-width:0}
+.footer .footer-cta,.footer .footer-cta.r7-review{width:100%;min-width:0}
 .r7-footer .r7-social-phone{display:flex;justify-content:center;gap:18px;margin-top:26px}
 .r7-footer .r7-social-wide{display:none}
 .r7-footer .r7-social a{width:50px;height:50px}

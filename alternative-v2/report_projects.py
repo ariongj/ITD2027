@@ -60,7 +60,7 @@ PROJECT_DATA=[
   home=('faqja kryesore','home page','Startseite'),
   gallery=[('kalkulator',('kalkulatori i sistemit sipas konsumit','the system calculator based on consumption','Anlagenrechner nach Verbrauch')),
    ('projektet',('faqja e projekteve të realizuara','the completed projects page','Seite mit realisierten Projekten')),('mobile',None)]),
- dict(key='kobags',slug='kobags-group',name='KoBags Group',url='https://kobags.itdks.tech/',similar=['paketoje','rata-solar','optika-miftari'],
+ dict(key='kobags',slug='kobags-group',name='KoBags Group',url='https://kobags-group.com/',similar=['paketoje','rata-solar','optika-miftari'],
   cat=('Prodhim & ambalazh B2B · Website B2B & katalog','B2B manufacturing & packaging · B2B website & catalogue','B2B-Produktion & Verpackung · B2B-Website & Katalog'),
   title=('KoBags Group | Website B2B','KoBags Group | B2B Website','KoBags Group | B2B-Website'),
   meta=('Website B2B për qese të personalizuara: katalog, madhësi, specifikime, prodhim dhe kërkesë për ofertë. Projekti KoBags Group nga IT Department.',
@@ -188,7 +188,7 @@ def figure(src_base,alt,mobile,caption,l):
  w,h=(780,1688) if mobile else (1440,900)
  small=f'{src_base}-390.webp 390w, {src_base}-780.webp 780w' if mobile else f'{src_base}-720.webp 720w, {src_base}-1440.webp 1440w'
  big=f'{src_base}-780.webp' if mobile else f'{src_base}-1440.webp'
- return (f'<figure class="pj-fig{" pj-fig-phone" if mobile else ""}"><a href="{big}" data-lightbox="{esc(alt)}"><img src="{big}" srcset="{small}" sizes="{"(max-width:800px) 60vw, 240px" if mobile else "(max-width:800px) 100vw, 520px"}" width="{w}" height="{h}" alt="{esc(alt)}" loading="lazy" decoding="async"></a>'
+ return (f'<figure class="pj-fig{" pj-fig-phone" if mobile else ""}"><a href="{big}" data-lightbox="{esc(alt)}"><img src="{big}" srcset="{small}" sizes="{"(max-width:640px) 300px, 240px" if mobile else "(max-width:800px) 100vw, 520px"}" width="{w}" height="{h}" alt="{esc(alt)}" loading="lazy" decoding="async"></a>'
   f'<figcaption>{caption}</figcaption></figure>')
 
 def project_page(p,l,t):

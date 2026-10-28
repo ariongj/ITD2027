@@ -73,6 +73,8 @@ body[data-page=kraken-communications] .r8-open:hover{background:#d8e9fb;border-c
 .r8-map-actions .button{width:min(100%,340px);min-height:52px}
 .r8-mail{background:#0b0d10;border:2px solid #e00000;color:#fff}
 .r8-mail:hover{background:#e00000;border-color:#e00000;color:#fff}
+.r8-review{background:transparent;border:2px solid #e00000;color:var(--ink)}
+.r8-review:hover{background:#e00000;border-color:#e00000;color:#fff}
 
 /* WhatsApp: a small fixed button on every page (page 17), the outline in the section's colour; no arrow, no
    constant animation. Under dialogs and the phone menu; it moves above a cookie panel; it steps aside when

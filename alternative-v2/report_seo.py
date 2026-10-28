@@ -3,7 +3,9 @@
 The <title> of every page in SQ / EN / DE as the report gives it (the visible headings stay); "Find us on Google
 Maps" on the contact page opens the business profile; the stable Facebook address in the footer and in schema.org;
 the "Review us on Google" link appears in the contact page and the footer once cfg["reviewUrl"] holds the direct
-review link from Google Business (Ask for reviews), never the general profile link."""
+review link from Google Business (Ask for reviews), never the general profile link.
+Update of 27 October 2026: the direct link is set; the button texts are the update's (page 1) and in the footer the
+button sits under the email button, in the same style, on every page."""
 
 # Facebook: the profile's stable address instead of the share link, everywhere it is used (links and sameAs).
 SOCIAL[:]=[(n,'https://www.facebook.com/people/ITDepartment/61589358992650/' if n=='Facebook' else u) for n,u in SOCIAL]
@@ -38,7 +40,7 @@ from html import unescape as html_unescape
 def review_link(l,cls):
  url=cfg.get('reviewUrl','')
  if not url: return ''
- return f'<a class="{cls}" href="{esc(url)}" target="_blank" rel="noopener noreferrer">'+tr(l,'Na vlerëso në Google','Review us on Google','Bewerten Sie uns auf Google')+'<span class="sr-only"> ('+tr(l,'hapet në një skedë të re','opens in a new tab','öffnet in einem neuen Tab')+')</span></a>'
+ return f'<a class="{cls}" href="{esc(url)}" target="_blank" rel="noopener noreferrer">'+tr(l,'Na vlerëso në Google','Leave us a Google review','Bewerten Sie uns auf Google')+'<span class="sr-only"> ('+tr(l,'hapet në një skedë të re','opens in a new tab','öffnet in einem neuen Tab')+')</span></a>'
 
 _seo_contact=contact
 def contact(l,t):
@@ -46,13 +48,15 @@ def contact(l,t):
  if THEME=='m': return html
  old=f'<a class="button" href="https://www.google.com/maps?q=42.655800066393724,21.151119141173435" target="_blank" rel="noopener noreferrer">'+tr(l,'Hap në Google Maps','Open in Google Maps','In Google Maps öffnen')
  assert html.count(old)==1
- return html.replace(old,f'<a class="button" href="{MAPS_PROFILE}" target="_blank" rel="noopener noreferrer">'+tr(l,'Na gjej në Google Maps','Find us on Google Maps','Finden Sie uns auf Google Maps'),1).replace('<a class="button r8-mail"',review_link(l,'button outline')+'<a class="button r8-mail"',1)
+ return html.replace(old,f'<a class="button" href="{MAPS_PROFILE}" target="_blank" rel="noopener noreferrer">'+tr(l,'Na gjej në Google Maps','Find us on Google Maps','Finden Sie uns auf Google Maps'),1).replace('<a class="button r8-mail"',review_link(l,'button r8-review')+'<a class="button r8-mail"',1)
 
 _seo_footer=footer
 def footer(l,t,page='index'):
  html=_seo_footer(l,t,page)
  if THEME=='m' or not cfg.get('reviewUrl'): return html
- return html.replace('<div class="r7-legal">','<div class="r7-legal">'+review_link(l,'r7-review'),1)
+ mail=f'<a class="button footer-cta" href="mailto:{cfg["email"]}">{cfg["email"]}</a>'
+ assert html.count(mail)==1
+ return html.replace(mail,mail+review_link(l,'button footer-cta r7-review'),1)
 
 _seo_finalize=finalize
 def finalize(html,page,l):

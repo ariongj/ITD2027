@@ -418,6 +418,33 @@ Source: `ITD_Projektet_Faqet_e_Brendshme_SEO_25-10-2026.pdf` (14 pages). Only th
   - axe finds 0 violations and there is no overflow on all 72 pages.
   - Report 09 63/63, Report 11 50/50, Report 10 44/44, audit 12/12, Calendly/llms 13/13, production 26/26. check-pages, qa-seo, M and opus pass.
 
+## Update of 27 October 2026: Google review, KoBags domain, Paketoje phone view
+
+Source: `ITD_Update_Google_Review_KoBags_Paketoje_27-10-2026.pdf` (3 pages). Main version only; M and opus are unchanged.
+
+- **Google review (page 1):**
+  - `reviewUrl` in `site.config.json` holds the direct link `https://g.page/r/CYds9oGJiyl6EAI/review` (not the Maps profile).
+  - **Texts:** "Na vlerëso në Google" / "Leave us a Google review" / "Bewerten Sie uns auf Google".
+  - **Where:** on `/contact`, `/contact-en` and `/contact-de` (between "Find us on Google Maps" and the email button, `.r8-review`), and in the shared footer of every page, under the email button (`.footer-cta.r7-review`, the same red outline).
+  - **Link behaviour:** a real `a href`, `target="_blank"`, `rel="noopener noreferrer"`, a translated screen-reader note "(opens in a new tab)", no arrow, at least 52 px high.
+  - **Testing:** no review was submitted while testing.
+- **KoBags (page 2):** the project's `url` (and the M card) is `https://kobags-group.com/`, so the "Visit website" button opens it in all three languages. The internal `/project/kobags-group` pages and their canonicals stay. No page links to `kobags.itdks.tech` any more. The views captured on 25.10 show the same website and stay.
+- **Paketoje phone view (pages 2-3):**
+  - **The new capture:** `paketoje-mobile-780/-390.webp`, taken again from the live demo at 390 × 844 at 2× on 28.10.2026.
+    - It is the cup slide ("Pije të ftohta…"), taken after fonts, photos and its entrance animations had finished.
+    - The demo/CMS button is hidden and there is no cookie banner.
+    - It is scrolled so the photo with the cup sits right under the site header, with the product card (text and button) below it. No empty green area.
+  - **Display:** the gallery shows it whole with natural proportions (no crop). Its `sizes` hint now says 300 px on phones, so phones at 2× load the 780 px file.
+  - **Other uses:** no card uses this image. The lightbox opens the 780 px file.
+- **Verified:** on the production build with the server's CSP and clean URLs.
+  - The update test passes 28/28:
+    - the review button on all 72 pages and on contact, checked at 1440, 390 and 360 px in three languages (visible, at least 44 px, no sideways scroll, no policy violations);
+    - KoBags in three languages;
+    - Paketoje at 360, 390, 430 and 1440 px in three languages (whole, undistorted, sharp at 2×, demo note visible), plus the lightbox.
+  - Earlier tests: projects 32/32, audit 12/12, Calendly/llms 13/13, production 26/26, Report 09 63/63, Report 11 50/50, Report 10 44/44.
+  - axe finds 0 violations and nothing overflows on all 72 pages. check-pages (72, and M 54) and qa-seo (72 pages, 66 sitemap URLs, preview and production) pass.
+- **After publishing (page 3, for the team):** check the links, images and pages on phones, and confirm the sitemap and indexing of the new pages in Search Console. Search Console was not opened here.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.

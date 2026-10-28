@@ -118,7 +118,7 @@ PROJECTS=[
  {'key':'rata-solar','name':'RATA Solar','url':'https://rata.itdks.tech/','final':'',
   'category':('WEBSITE · ENERGJI SOLARE','WEBSITE · SOLAR ENERGY','WEBSITE · SOLARENERGIE'),
   'text':('Produkte, kalkulator dhe kërkesë për ofertë.','Products, a calculator and quote requests.','Produkte, Rechner und Angebotsanfrage.')},
- {'key':'kobags','name':'KoBags Group','url':'https://kobags.itdks.tech/','final':'',
+ {'key':'kobags','name':'KoBags Group','url':'https://kobags-group.com/','final':'',
   'category':('WEBSITE · PRODHIM','WEBSITE · MANUFACTURING','WEBSITE · PRODUKTION'),
   'text':('Qese të personalizuara dhe studio dizajni.','Custom bags and a design studio.','Individuelle Taschen und ein Designstudio.')},
  {'key':'paketoje','name':'Paketoje','url':'https://ariongj.github.io/paketa/','final':'',
