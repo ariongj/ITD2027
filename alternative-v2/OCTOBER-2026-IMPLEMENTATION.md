@@ -454,7 +454,7 @@ Source: `Detyra_Developerit_Google_Tracking_ITD_1.pdf` (2 pages). Production bui
   - That tag already carries the Google Ads destination `AW-18460710310`, as the served gtag.js shows. There is no second `config` for AW.
   - `measurement-config.js` adds `conversion: AW-18460710310/_Dj_COrP6YIdEKar4QJE`.
   - Old installation: the September site's `analytics*.js`, `consent.*` and `app*.js` are still on the server but no page loads them. They are on the delete list.
-- **Consent Mode v2, basic mode:**
+- **Consent Mode v2, basic mode** (replaced the same evening by advanced mode; see the next section):
   - Nothing from Google loads before a choice.
   - **Panel:** two unticked choices, "Statistika (Google Analytics)" and "Reklama (Google Ads)", in SQ/EN/DE.
     - Buttons: "Lejo të gjitha" and "Refuzo të gjitha" side by side at the same size, with "Ruaj zgjedhjen" below.
@@ -506,6 +506,45 @@ Source: `Detyra_Developerit_Google_Tracking_ITD_1.pdf` (2 pages). Production bui
     - check-pages (72, M 54) and qa-seo pass.
     - Earlier suites pass: projects 32/32, audit 12/12, Calendly 13/13, Report 09 63/63 (preview), 27.10 update 28/28.
   - Testing in Google (Tag Assistant, GA4 DebugView, Ads conversion status) is the owner's, as the task says.
+
+## Google tracking: advanced consent mode (1 November 2026, evening)
+
+The owner reported that Google Analytics and the Google Ads tag were "not working". A check on the live site found the cause. The tag worked after "Lejo të gjitha", but in basic mode nothing loaded before a choice. So Tag Assistant, the Google Ads tag status and GA4 saw no tag on a normal visit. The owner chose Consent Mode v2 **advanced**.
+
+- **Start of every page** (`assets/measurement.js`, production only; Do Not Track still loads nothing):
+  1. `consent default`: all four signals denied, `wait_for_update: 500`.
+  2. `set ads_data_redaction true`.
+  3. A saved choice, as `consent update`.
+  4. `js`, `set page_location`, `config`.
+  5. gtag.js.
+  6. `page_view` to GA4 only. The Ads destination sends its own page view, so Ads gets one, not two.
+- **Choice in the panel:** the page address follows the choice, then `consent update` with the real values. Withdrawing still deletes the `_ga`/`_gcl_` cookies. The `ga-disable` switch is gone, because the signals now govern what is sent.
+- **Before and without consent** (measured with the real tag: gcs `G100`):
+  - **Requests:** a cookieless GA4 page view and a cookieless Google Ads page view. After a confirmed enquiry, also a cookieless conversion with the random enquiry number and `generate_lead`.
+  - **Not sent:** no cookies, no hashed email or phone, no form-data request.
+  - **Click id:** Google redacts the gclid (`0`) in its Ads pings. The page keeps `gclid`/`gbraid`/`wbraid`/`dclid` out of the GA4 address until advertising is allowed; `utm_*` and `gad_*` stay.
+- **With consent:**
+  - **Allow all:** the address with the ad click is set before the update, so the GA4 hit that starts the session carries the gclid (attribution to Google Ads).
+  - **Advertising:** the conversion carries `gclaw`, and the `_gcl_aw` cookie is set.
+  - **Returning visitor:** the saved choice is applied before `js`/`config`.
+- **Texts:**
+  - **Panel (SQ/EN/DE):** one added sentence. Without consent, Google receives only signals without cookies or visitor identifiers.
+  - **Privacy page:**
+    - It describes the tag loading with consent denied, the cookieless signals and what they contain.
+    - Their legal basis is written as "our legitimate interest in measuring the website / our ads". This wording is for the company to confirm with its legal adviser, like the rest of the legal data still open.
+    - The basic-mode sentences ("Reject all: the tag does not load", "without it Google Analytics measures nothing") are gone.
+- **Verified:**
+  - **Tracking test:** 67/67. It covers:
+    - the first visit (tag order, cookieless pings, no cookie or localStorage, the click id kept out of GA4, the lead as a cookieless conversion);
+    - allow all, the returning visitor, failures, statistics only, advertising only, withdrawal and the next page, changing the choice;
+    - earlier choices, Do Not Track and the three forms;
+    - no CSP violation.
+  - **Other checks:**
+    - axe on the open panel: 0 violations.
+    - axe and overflow on 72 production pages: 0.
+    - check-pages (72, M 54) and qa-seo pass.
+    - Earlier suites pass: projects 32/32, audit 12/12, Calendly 13/13, Report 09 63/63 (preview), 27.10 update 28/28.
+  - **GA4 batching:** within a running session GA4 batches page views, so they leave a few seconds later or when the page is left. GA4 can also collect on `www.google.com/g/collect`, which the CSP already allows.
 
 ## Deferred, missing or not live-verified
 

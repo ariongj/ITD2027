@@ -16,19 +16,20 @@
   return {product,service};
  }
  const locale={
-  sq:{title:'Privatësia dhe matja',text:'Me lejen tënde, Google Analytics mat vizitat dhe Google Ads mat nëse një kërkesë erdhi nga reklamat tona. Zgjidh çfarë lejon; mund ta ndryshosh kurdo te “Cilësimet e privatësisë”.',analytics:['Statistika (Google Analytics)','Faqet, gjuha dhe veprimet e kontaktit, pa emër, email, telefon apo mesazh.'],ads:['Reklama (Google Ads)','Sa kërkesa vijnë nga reklamat tona; nga formulari Google merr emailin ose telefonin vetëm të koduar (hash). Pa reklama të personalizuara.'],all:'Lejo të gjitha',save:'Ruaj zgjedhjen',none:'Refuzo të gjitha',settings:'Cilësimet e privatësisë'},
-  en:{title:'Privacy and measurement',text:'With your permission, Google Analytics measures visits and Google Ads measures whether an enquiry came from our ads. Choose what you allow; you can change it at any time under “Privacy settings”.',analytics:['Statistics (Google Analytics)','Pages, language and contact actions, without names, emails, phone numbers or messages.'],ads:['Advertising (Google Ads)','How many enquiries come from our ads; from the form, Google receives your email or phone only in hashed form. No personalised advertising.'],all:'Allow all',save:'Save choice',none:'Reject all',settings:'Privacy settings'},
-  de:{title:'Datenschutz und Messung',text:'Mit Ihrer Erlaubnis misst Google Analytics Besuche und Google Ads, ob eine Anfrage über unsere Anzeigen kam. Wählen Sie, was Sie erlauben; Sie können es jederzeit unter „Datenschutzeinstellungen“ ändern.',analytics:['Statistik (Google Analytics)','Seiten, Sprache und Kontaktaktionen, ohne Namen, E-Mail-Adressen, Telefonnummern oder Nachrichten.'],ads:['Werbung (Google Ads)','Wie viele Anfragen über unsere Anzeigen kommen; aus dem Formular erhält Google E-Mail oder Telefon nur gehasht. Keine personalisierte Werbung.'],all:'Alle erlauben',save:'Auswahl speichern',none:'Alle ablehnen',settings:'Datenschutzeinstellungen'}}[lang];
- // Google Consent Mode v2, basic mode: the Google tag (G-B0S3HLRPWD, which also carries the Google Ads destination
- // AW-18460710310) is not loaded at all until the visitor allows a category. Statistics sets analytics_storage;
- // advertising sets ad_storage and ad_user_data. ad_personalization always stays denied: the site measures enquiries
+  sq:{title:'Privatësia dhe matja',text:'Me lejen tënde, Google Analytics mat vizitat dhe Google Ads mat nëse një kërkesë erdhi nga reklamat tona. Pa të, Google merr vetëm sinjale pa cookies dhe pa identifikues të vizitorit. Zgjidh çfarë lejon; mund ta ndryshosh kurdo te “Cilësimet e privatësisë”.',analytics:['Statistika (Google Analytics)','Faqet, gjuha dhe veprimet e kontaktit, pa emër, email, telefon apo mesazh.'],ads:['Reklama (Google Ads)','Sa kërkesa vijnë nga reklamat tona; nga formulari Google merr emailin ose telefonin vetëm të koduar (hash). Pa reklama të personalizuara.'],all:'Lejo të gjitha',save:'Ruaj zgjedhjen',none:'Refuzo të gjitha',settings:'Cilësimet e privatësisë'},
+  en:{title:'Privacy and measurement',text:'With your permission, Google Analytics measures visits and Google Ads measures whether an enquiry came from our ads. Without it, Google receives only signals without cookies or visitor identifiers. Choose what you allow; you can change it at any time under “Privacy settings”.',analytics:['Statistics (Google Analytics)','Pages, language and contact actions, without names, emails, phone numbers or messages.'],ads:['Advertising (Google Ads)','How many enquiries come from our ads; from the form, Google receives your email or phone only in hashed form. No personalised advertising.'],all:'Allow all',save:'Save choice',none:'Reject all',settings:'Privacy settings'},
+  de:{title:'Datenschutz und Messung',text:'Mit Ihrer Erlaubnis misst Google Analytics Besuche und Google Ads, ob eine Anfrage über unsere Anzeigen kam. Ohne sie erhält Google nur Signale ohne Cookies und ohne Besucherkennung. Wählen Sie, was Sie erlauben; Sie können es jederzeit unter „Datenschutzeinstellungen“ ändern.',analytics:['Statistik (Google Analytics)','Seiten, Sprache und Kontaktaktionen, ohne Namen, E-Mail-Adressen, Telefonnummern oder Nachrichten.'],ads:['Werbung (Google Ads)','Wie viele Anfragen über unsere Anzeigen kommen; aus dem Formular erhält Google E-Mail oder Telefon nur gehasht. Keine personalisierte Werbung.'],all:'Alle erlauben',save:'Auswahl speichern',none:'Alle ablehnen',settings:'Datenschutzeinstellungen'}}[lang];
+ // Google Consent Mode v2, advanced mode: the Google tag (G-B0S3HLRPWD, which also carries the Google Ads destination
+ // AW-18460710310) loads on every page with all four signals denied, so until the visitor allows a category Google
+ // receives only cookieless pings (no cookies, no identifiers, no form data). Statistics grants analytics_storage;
+ // advertising grants ad_storage and ad_user_data. ad_personalization always stays denied: the site measures enquiries
  // from ads and does no remarketing.
  const key='itd-consent-v2',legacy='itd-analytics-consent-v1';
  // The configured site, with or without "www." (the server redirects www to the bare domain; this keeps the
  // consent choice working even if a page is ever served on www).
  const site=u=>u.protocol+'//'+u.hostname.replace(/^www\./,'')+(u.port?':'+u.port:'');
  const enabled=config.enabled===true && site(location)===site(new URL(config.origin)) && navigator.doNotTrack!=='1';
- let choice=null,decided=false,loaded=false;
+ let choice=null,decided=false;
  if(enabled)try{
   const saved=JSON.parse(localStorage.getItem(key)||'null');
   if(saved&&typeof saved.analytics==='boolean'&&typeof saved.ads==='boolean'){choice={analytics:saved.analytics,ads:saved.ads};decided=true;}
@@ -41,27 +42,31 @@
  const campaign=['gclid','gbraid','wbraid','gad_source','gad_campaignid','dclid','utm_source','utm_medium','utm_campaign','utm_term','utm_content','utm_id'];
  const carried=new URLSearchParams();
  for(const [k,v] of new URLSearchParams(location.search))if(campaign.includes(k)&&v&&v.length<=300&&!carried.has(k))carried.set(k,v);
- const query=carried.toString(),pageLocation=canonical+(query?'?'+query:'');
+ const query=carried.toString();
+ // The ad click identifiers are sent only with advertising consent: the Google tag already removes them from its
+ // Google Ads pings without it, and this keeps them out of the Google Analytics pings too.
+ const clickIds=['gclid','gbraid','wbraid','dclid'];
+ function pageLocation(){const q=new URLSearchParams(carried);if(!choice?.ads)for(const k of clickIds)q.delete(k);const s=q.toString();return canonical+(s?'?'+s:'');}
  const signals=c=>({analytics_storage:c.analytics?'granted':'denied',ad_storage:c.ads?'granted':'denied',ad_user_data:c.ads?'granted':'denied',ad_personalization:'denied'});
  function gtag(){window.gtag.apply(null,arguments);}
- function apply(){
-  if(!enabled||!choice)return;
-  // Statistics off: Google Analytics sends nothing (its documented opt-out), also while the tag runs for advertising.
-  window['ga-disable-'+config.id]=!choice.analytics;
-  if(loaded){gtag('consent','update',signals(choice));return;}
-  if(!choice.analytics&&!choice.ads)return;
-  loaded=true;
+ function start(){
+  if(!enabled)return;
   window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments);};
-  // The denied defaults come first, then the visitor's choice, then the tag configuration and the events.
+  // The denied defaults come first, then a choice saved on an earlier visit, then the tag configuration and the events.
   gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});
+  // Without advertising consent, ad click identifiers are removed from what the tag sends to Google Ads.
   gtag('set','ads_data_redaction',true);
-  gtag('consent','update',signals(choice));
+  if(choice)gtag('consent','update',signals(choice));
   gtag('js',new Date());
-  gtag('config',config.id,{send_page_view:false,page_location:pageLocation,page_referrer:document.referrer?new URL(document.referrer).origin:'',allow_google_signals:false,allow_ad_personalization_signals:false});
+  // The page address is set for the whole page (not in the config), so it can change when consent does.
+  gtag('set',{page_location:pageLocation()});
+  gtag('config',config.id,{send_page_view:false,page_referrer:document.referrer?new URL(document.referrer).origin:'',allow_google_signals:false,allow_ad_personalization_signals:false});
   const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(config.id);document.head.append(s);
-  // Without advertising consent the page view goes to Google Analytics only, so the Ads destination stays silent.
-  gtag('event','page_view',{page_location:pageLocation,page_title:document.title,language:lang,...(choice.ads?{}:{send_to:config.id})});
+  // The Google Ads destination sends its own page view, so this one goes to Google Analytics only.
+  gtag('event','page_view',{page_location:pageLocation(),page_title:document.title,language:lang,send_to:config.id});
  }
+ // The address follows the new choice first, so the events the update triggers already carry the right one.
+ function apply(){if(!enabled||!choice)return;gtag('set',{page_location:pageLocation()});gtag('consent','update',signals(choice));}
  function record(name,selection='',intent=''){
   if(!allowedEvents.has(name))return;
   if(name==='book_meeting'&&intent!=='calendly-confirmed')return;
@@ -70,7 +75,7 @@
   const data={language:lang,page,service:service||'general',product:product||'none'};
   // Local, non-persistent diagnostic signal. No visitor data or network request.
   document.dispatchEvent(new CustomEvent('itd:measurement',{detail:{name,...data}}));
-  if(loaded&&choice.analytics)gtag('event',name,{...data,page_location:pageLocation,send_to:config.id});
+  if(enabled)gtag('event',name,{...data,page_location:pageLocation(),send_to:config.id});
  }
  // A lead counts once, and only after the form service has confirmed that it received the enquiry: site.js calls
  // this from its success branch with the id it generated for that one submission (Google Ads deduplicates on it too).
@@ -80,9 +85,10 @@
   const {product,service}=classify(selection);
   const data={form_name:'contact_form',form_location:location.pathname,language:lang,page,service:service||'general',product:product||'none'};
   document.dispatchEvent(new CustomEvent('itd:measurement',{detail:{name:'generate_lead',...data}}));
-  if(!loaded)return;
-  if(choice.analytics)gtag('event','generate_lead',{...data,page_location:pageLocation,send_to:config.id});
-  if(choice.ads&&config.conversion)gtag('event','conversion',{send_to:config.conversion,transaction_id:id});
+  if(!enabled)return;
+  // Both go out under the current consent: without it Google receives a cookieless ping and no form data.
+  gtag('event','generate_lead',{...data,page_location:pageLocation(),send_to:config.id});
+  if(config.conversion)gtag('event','conversion',{send_to:config.conversion,transaction_id:id});
  }
  window.ITDTracking=Object.freeze({record,lead});
  document.addEventListener('click',e=>{const a=e.target.closest('a[href]');if(!a)return;const u=new URL(a.href);if(u.protocol==='tel:')record('click_phone');else if(u.protocol==='mailto:')record('click_email');else if(u.hostname==='wa.me')record('click_whatsapp');});
@@ -124,5 +130,5 @@
   settings.type='button';settings.className='consent-settings';settings.textContent=locale.settings;settings.onclick=()=>{open();boxes.analytics.focus();};document.querySelector('.footer-bottom').append(settings);
   if(!decided)open();
  }
- apply();
+ start();
 })();
