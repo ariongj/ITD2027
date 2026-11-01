@@ -323,7 +323,7 @@ if PRODUCTION:
  (OUT/'.well-known/security.txt').write_text(f'Contact: mailto:{cfg["email"]}\nExpires: {(datetime.date.today()+datetime.timedelta(days=360)).isoformat()}T00:00:00.000Z\nPreferred-Languages: sq, en, de\nCanonical: {PUBLIC_BASE}/.well-known/security.txt\n',encoding='utf-8')
 urls=[PUBLIC_BASE+'/'+public_path(p,l) for p in [*builders,'privacy'] if p not in NOINDEX for l in T]
 (OUT/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join('<url><loc>'+esc(u)+'</loc></url>' for u in urls)+'</urlset>',encoding='utf-8')
-(OUT/'assets/measurement-config.js').write_text('window.ITD_MEASUREMENT='+json.dumps({'enabled':PRODUCTION and os.environ.get('ITD_ANALYTICS')=='1','id':'G-B0S3HLRPWD','origin':PUBLIC_BASE})+';',encoding='utf-8')
+(OUT/'assets/measurement-config.js').write_text('window.ITD_MEASUREMENT='+json.dumps({'enabled':PRODUCTION and os.environ.get('ITD_ANALYTICS')=='1','id':'G-B0S3HLRPWD','conversion':'AW-18460710310/_Dj_COrP6YIdEKar4QJE','origin':PUBLIC_BASE})+';',encoding='utf-8')
 print('Generated '+str((len(builders)+2)*3)+' pages in SQ, EN and DE. Production: '+str(PRODUCTION))
 
 if PRODUCTION:

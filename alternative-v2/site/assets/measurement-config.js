@@ -1,1 +1,1 @@
-window.ITD_MEASUREMENT={"enabled": false, "id": "G-B0S3HLRPWD", "origin": "https://ariongj.github.io/ITD2027"};
+window.ITD_MEASUREMENT={"enabled": false, "id": "G-B0S3HLRPWD", "conversion": "AW-18460710310/_Dj_COrP6YIdEKar4QJE", "origin": "https://ariongj.github.io/ITD2027"};

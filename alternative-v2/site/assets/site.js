@@ -58,10 +58,12 @@ $$('.enquiry-form').forEach(form=>{
   pending=true;form.setAttribute('aria-busy','true');submit.textContent=copy.sending;status.textContent=copy.sending;status.dataset.state='pending';recovery.hidden=true;
   const inputs=$$('input,select,textarea,button',form);inputs.forEach(el=>el.disabled=true);
   const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),20000);
+  // One id per submission, so the lead and the Google Ads conversion are counted once even if a callback repeats.
+  const lead=crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2);
   try{
    const response=await fetch(form.action,{method:'POST',body:data,headers:{Accept:'application/json'},signal:controller.signal});
    const result=await response.json();if(!response.ok||result.ok!==true)throw new Error('Unconfirmed delivery');
-   const selected=data.get('service')||'';window.ITDTracking?.record('generate_lead',selected);
+   const selected=data.get('service')||'';window.ITDTracking?.lead(lead,selected);
    if(new URLSearchParams(location.search).get('intent')==='demo')window.ITDTracking?.record('request_demo',selected,'demo');
    status.textContent=copy.success;status.dataset.state='success';form.reset();try{sessionStorage.removeItem(key);}catch{}
   }catch{

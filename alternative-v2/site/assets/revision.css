@@ -268,3 +268,6 @@ body[data-page=itd-labs] .page-intro{padding:48px 40px 42px}
 body[data-page=itd-labs] .page-intro{padding:36px 24px 34px}
 .slide-tag{top:12px;left:12px}
 }
+/* Consent panel with two categories, Statistics and Advertising (Google tracking task, 1 November 2026). */
+.consent-panel{max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px);overflow-y:auto;overscroll-behavior:contain}.consent-options{display:grid;gap:8px;margin-top:14px}.consent-option{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid #ddd;border-radius:12px;cursor:pointer}.consent-option input{flex:none;width:20px;height:20px;margin:2px 0 0;accent-color:#e00000;cursor:pointer}.consent-option strong{display:block;font-size:14px;line-height:1.4;color:#111318}.consent-option small{display:block;margin-top:2px;font-size:13px;line-height:1.45;color:#41454b}.consent-panel .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.consent-panel .actions .button{width:100%}.consent-panel .actions [data-consent=save]{grid-column:1/-1}
+@media(max-width:540px){.consent-panel{max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px)}}

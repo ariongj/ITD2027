@@ -445,6 +445,68 @@ Source: `ITD_Update_Google_Review_KoBags_Paketoje_27-10-2026.pdf` (3 pages). Mai
   - axe finds 0 violations and nothing overflows on all 72 pages. check-pages (72, and M 54) and qa-seo (72 pages, 66 sitemap URLs, preview and production) pass.
 - **After publishing (page 3, for the team):** check the links, images and pages on phones, and confirm the sitemap and indexing of the new pages in Search Console. Search Console was not opened here.
 
+## Google tracking, developer task of 1 November 2026
+
+Source: `Detyra_Developerit_Google_Tracking_ITD_1.pdf` (2 pages). Production build only: the GitHub preview, M and opus keep measurement off. No property, Google tag or conversion action was created.
+
+- **Identifiers:**
+  - The existing Google tag `G-B0S3HLRPWD` is loaded once per page by `assets/measurement.js`, with no inline script, so the CSP needs neither a nonce nor `'unsafe-inline'`.
+  - That tag already carries the Google Ads destination `AW-18460710310`, as the served gtag.js shows. There is no second `config` for AW.
+  - `measurement-config.js` adds `conversion: AW-18460710310/_Dj_COrP6YIdEKar4QJE`.
+  - Old installation: the September site's `analytics*.js`, `consent.*` and `app*.js` are still on the server but no page loads them. They are on the delete list.
+- **Consent Mode v2, basic mode:**
+  - Nothing from Google loads before a choice.
+  - **Panel:** two unticked choices, "Statistika (Google Analytics)" and "Reklama (Google Ads)", in SQ/EN/DE.
+    - Buttons: "Lejo të gjitha" and "Refuzo të gjitha" side by side at the same size, with "Ruaj zgjedhjen" below.
+    - "Cilësimet e privatësisë" in the footer reopens it with the current choice ticked.
+  - **Order once a choice exists:** `consent default` (all four signals denied, `wait_for_update: 500`), then `set ads_data_redaction`, then `consent update` with the real values, then `js`, `config` and events.
+  - **Signals:** Statistics sets `analytics_storage`. Advertising sets `ad_storage` and `ad_user_data`. `ad_personalization` always stays denied (no remarketing).
+  - **Statistics off:** `ga-disable-G-B0S3HLRPWD` stops Google Analytics completely, also when only advertising is allowed.
+  - **Withdrawing:** sends the denied update and deletes the `_ga` or `_gcl_` cookies.
+  - **Storage:** the choice is kept in `itd-consent-v2`.
+  - **Earlier choices:** an earlier "allow analytics" (`itd-analytics-consent-v1`) keeps Google Analytics running and asks again because advertising is new. An earlier refusal stays respected.
+  - **Do Not Track:** no panel and no tag.
+- **Lead conversion:**
+  - `site.js` creates one id per submission. Only after Formspree confirms the enquiry (`ok: true`) does it call `ITDTracking.lead(id, service)`.
+  - That sends GA4 `generate_lead` (`form_name: contact_form`, `form_location: location.pathname`, plus language/page/service/product) to `G-B0S3HLRPWD` only.
+  - It sends the Ads `conversion` with `send_to: AW-18460710310/_Dj_COrP6YIdEKar4QJE` and `transaction_id` = the id, so Google Ads also deduplicates.
+  - **Never sent:** for a click, validation, server error, an unconfirmed reply or a network failure.
+  - **Duplicates:** a repeated id is ignored, and a double click submits once.
+  - **Forms covered:** the contact, Creative and AI Agents forms in all three languages.
+- **Attribution:**
+  - The address sent to Google is the canonical URL plus only the ad click and campaign parameters (`gclid`, `gbraid`, `wbraid`, `gad_source`, `gad_campaignid`, `dclid`, `utm_*`). Other query parameters never leave the page.
+  - Until a choice is made, those parameters travel with internal links (address only, nothing stored).
+  - The server's redirects (www, `.html`, trailing slash, `/index.html`) keep the query string; checked on the live server.
+- **CSP (`production.htaccess`):** only the Google origins the tag's real requests use:
+  - **Origins:** googletagmanager, `*.google-analytics.com`, `*.analytics.google.com`, googleadservices, `googleads.g.doubleclick.net`, `ad.doubleclick.net`, `pagead2.googlesyndication.com`, `www.google.com`, `google.com`. This includes the two blocks Google reported on /about.
+  - **Directives:** in script, img, connect and frame as needed.
+  - **Not used:** no unrestricted wildcard and no `'unsafe-inline'`. The /stats policy is unchanged.
+- **Measured with the real tag** (a saved copy of gtag.js, all Google requests answered locally, pages served as `https://itdks.tech`):
+  - **Statistics only:** the Ads destination sends one cookieless page signal (consent denied, click id redacted). No form data, no conversion and no `_gcl` cookie.
+  - **Account setting for the owner:** with Advertising allowed, the Google tag's automatic "user-provided data" setting sends the email (and phone if detected) from the form to Google Ads, SHA-256 hashed only. It does so at form start, at submit and with the conversion.
+    - This is a Google tag setting, not page code. The consent note and the privacy page say so.
+    - The owner can switch it off in the Google tag settings if it is not wanted.
+- **Privacy page:** dated 1 November 2026. It covers:
+  - a Google Ads flow;
+  - the `_gcl_au`/`_gcl_aw` cookies;
+  - the new consent key and button names;
+  - Google's role.
+
+  The terms keep their date. The legal data the company owes (name, address, retention periods) is still open.
+- **Verified:**
+  - **Tracking test:** 57/57. It covers the files on 72 pages, the CSP and the privacy pages, then these scenarios:
+    - no choice, panel layout at 360/390/1440, allow all;
+    - server error, unconfirmed reply and network failure;
+    - statistics only, advertising only, withdrawal, changing the choice;
+    - earlier choices, Do Not Track, the three forms;
+    - no CSP violation anywhere.
+  - **Other checks:**
+    - axe on the open panel: 0 violations.
+    - axe and overflow on 72 production pages: 0.
+    - check-pages (72, M 54) and qa-seo pass.
+    - Earlier suites pass: projects 32/32, audit 12/12, Calendly 13/13, Report 09 63/63 (preview), 27.10 update 28/28.
+  - Testing in Google (Tag Assistant, GA4 DebugView, Ads conversion status) is the owner's, as the task says.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.
