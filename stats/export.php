@@ -7,7 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     itd_stats_json(['ok' => false, 'error' => 'method_not_allowed'], 405);
 }
 
-$providedKey = (string) ($_GET['key'] ?? ($_SERVER['HTTP_X_ITD_STATS_KEY'] ?? ''));
+// The key comes only in the X-ITD-Stats-Key header, never in the address (which would end up in server logs).
+$providedKey = (string) ($_SERVER['HTTP_X_ITD_STATS_KEY'] ?? '');
 if (!hash_equals(ITD_STATS_ADMIN_KEY, $providedKey)) {
     itd_stats_json(['ok' => false, 'error' => 'unauthorized'], 401);
 }

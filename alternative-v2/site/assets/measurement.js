@@ -16,9 +16,9 @@
   return {product,service};
  }
  const locale={
-  sq:{title:'Privatësia dhe matja',text:'Me lejen tënde, Google Analytics mat vizitat dhe Google Ads mat nëse një kërkesë erdhi nga reklamat tona. Pa të, Google merr vetëm sinjale pa cookies dhe pa identifikues të vizitorit. Zgjidh çfarë lejon; mund ta ndryshosh kurdo te “Cilësimet e privatësisë”.',analytics:['Statistika (Google Analytics)','Faqet, gjuha dhe veprimet e kontaktit, pa emër, email, telefon apo mesazh.'],ads:['Reklama (Google Ads)','Sa kërkesa vijnë nga reklamat tona; nga formulari Google merr emailin ose telefonin vetëm të koduar (hash). Pa reklama të personalizuara.'],all:'Lejo të gjitha',save:'Ruaj zgjedhjen',none:'Refuzo të gjitha',settings:'Cilësimet e privatësisë'},
-  en:{title:'Privacy and measurement',text:'With your permission, Google Analytics measures visits and Google Ads measures whether an enquiry came from our ads. Without it, Google receives only signals without cookies or visitor identifiers. Choose what you allow; you can change it at any time under “Privacy settings”.',analytics:['Statistics (Google Analytics)','Pages, language and contact actions, without names, emails, phone numbers or messages.'],ads:['Advertising (Google Ads)','How many enquiries come from our ads; from the form, Google receives your email or phone only in hashed form. No personalised advertising.'],all:'Allow all',save:'Save choice',none:'Reject all',settings:'Privacy settings'},
-  de:{title:'Datenschutz und Messung',text:'Mit Ihrer Erlaubnis misst Google Analytics Besuche und Google Ads, ob eine Anfrage über unsere Anzeigen kam. Ohne sie erhält Google nur Signale ohne Cookies und ohne Besucherkennung. Wählen Sie, was Sie erlauben; Sie können es jederzeit unter „Datenschutzeinstellungen“ ändern.',analytics:['Statistik (Google Analytics)','Seiten, Sprache und Kontaktaktionen, ohne Namen, E-Mail-Adressen, Telefonnummern oder Nachrichten.'],ads:['Werbung (Google Ads)','Wie viele Anfragen über unsere Anzeigen kommen; aus dem Formular erhält Google E-Mail oder Telefon nur gehasht. Keine personalisierte Werbung.'],all:'Alle erlauben',save:'Auswahl speichern',none:'Alle ablehnen',settings:'Datenschutzeinstellungen'}}[lang];
+  sq:{title:'Privatësia dhe matja',text:'Me lejen tënde, Google Analytics mat vizitat dhe Google Ads mat nëse një kërkesë erdhi nga reklamat tona. Pa të, Google merr vetëm sinjale pa cookies dhe pa identifikues të vizitorit. Zgjidh çfarë lejon; mund ta ndryshosh kurdo te “Cilësimet e privatësisë”.',analytics:['Statistika (Google Analytics dhe statistikat e faqes)','Faqet, gjuha dhe veprimet e kontaktit, pa emër, email, telefon apo mesazh.'],ads:['Reklama (Google Ads)','Sa kërkesa vijnë nga reklamat tona; nga formulari Google merr emailin ose telefonin vetëm të koduar (hash). Pa reklama të personalizuara.'],all:'Lejo të gjitha',save:'Ruaj zgjedhjen',none:'Refuzo të gjitha',settings:'Cilësimet e privatësisë'},
+  en:{title:'Privacy and measurement',text:'With your permission, Google Analytics measures visits and Google Ads measures whether an enquiry came from our ads. Without it, Google receives only signals without cookies or visitor identifiers. Choose what you allow; you can change it at any time under “Privacy settings”.',analytics:['Statistics (Google Analytics and our site statistics)','Pages, language and contact actions, without names, emails, phone numbers or messages.'],ads:['Advertising (Google Ads)','How many enquiries come from our ads; from the form, Google receives your email or phone only in hashed form. No personalised advertising.'],all:'Allow all',save:'Save choice',none:'Reject all',settings:'Privacy settings'},
+  de:{title:'Datenschutz und Messung',text:'Mit Ihrer Erlaubnis misst Google Analytics Besuche und Google Ads, ob eine Anfrage über unsere Anzeigen kam. Ohne sie erhält Google nur Signale ohne Cookies und ohne Besucherkennung. Wählen Sie, was Sie erlauben; Sie können es jederzeit unter „Datenschutzeinstellungen“ ändern.',analytics:['Statistik (Google Analytics und eigene Website-Statistik)','Seiten, Sprache und Kontaktaktionen, ohne Namen, E-Mail-Adressen, Telefonnummern oder Nachrichten.'],ads:['Werbung (Google Ads)','Wie viele Anfragen über unsere Anzeigen kommen; aus dem Formular erhält Google E-Mail oder Telefon nur gehasht. Keine personalisierte Werbung.'],all:'Alle erlauben',save:'Auswahl speichern',none:'Alle ablehnen',settings:'Datenschutzeinstellungen'}}[lang];
  // Google Consent Mode v2, advanced mode: the Google tag (G-B0S3HLRPWD, which also carries the Google Ads destination
  // AW-18460710310) loads on every page with all four signals denied, so until the visitor allows a category Google
  // receives only cookieless pings (no cookies, no identifiers, no form data). Statistics grants analytics_storage;
@@ -64,9 +64,28 @@
   const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(config.id);document.head.append(s);
   // The Google Ads destination sends its own page view, so this one goes to Google Analytics only.
   gtag('event','page_view',{page_location:pageLocation(),page_title:document.title,language:lang,send_to:config.id});
+  stats('page_view');
  }
  // The address follows the new choice first, so the events the update triggers already carry the right one.
- function apply(){if(!enabled||!choice)return;gtag('set',{page_location:pageLocation()});gtag('consent','update',signals(choice));}
+ function apply(){if(!enabled||!choice)return;gtag('set',{page_location:pageLocation()});gtag('consent','update',signals(choice));stats('page_view');}
+ // The site's own statistics (/stats on this server), only with the "Statistics" consent. A random id in
+ // localStorage groups one browser's visits and one in sessionStorage groups a visit; the server keeps both only as
+ // keyed hashes. Withdrawing the consent deletes them. Without consent nothing is sent.
+ const statsIds=[['itd-stats-id',()=>localStorage],['itd-stats-session',()=>sessionStorage]];
+ const statsNames={click_whatsapp:'whatsapp_click',click_phone:'phone_click',click_email:'email_click',book_meeting:'booking_click',request_demo:'request_demo',generate_lead:'form_submit_success'};
+ let viewed=false;
+ function statsId([name,store]){try{let v=store().getItem(name);if(!v){v=crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2);store().setItem(name,v);}return v;}catch{return '';}}
+ function stats(event,extra={}){
+  // An earlier "allow analytics" (v1) covered Google Analytics only, so the site statistics wait for a saved choice.
+  if(!enabled||!decided||!choice?.analytics||(event==='page_view'&&viewed))return;
+  if(event==='page_view')viewed=true;
+  const region=(navigator.language||'').split('-')[1]||'';
+  const body=JSON.stringify({event,path:location.pathname,title:document.title,language:lang,page_type:page,utm_source:carried.get('utm_source')||'',utm_campaign:carried.get('utm_campaign')||'',
+   referrer:document.referrer?new URL(document.referrer).origin:'',visitor_id:statsId(statsIds[0]),session_id:statsId(statsIds[1]),browser_language:navigator.language||'',
+   timezone:Intl.DateTimeFormat().resolvedOptions().timeZone||'',locale_country_hint:/^[A-Z]{2}$/.test(region)?region:'',viewport:innerWidth+'x'+innerHeight,...extra});
+  try{if(!navigator.sendBeacon('/stats/collect.php',new Blob([body],{type:'application/json'})))throw 0;}
+  catch{fetch('/stats/collect.php',{method:'POST',body,headers:{'Content-Type':'application/json'},keepalive:true,credentials:'omit'}).catch(()=>{});}
+ }
  function record(name,selection='',intent=''){
   if(!allowedEvents.has(name))return;
   if(name==='book_meeting'&&intent!=='calendly-confirmed')return;
@@ -76,6 +95,7 @@
   // Local, non-persistent diagnostic signal. No visitor data or network request.
   document.dispatchEvent(new CustomEvent('itd:measurement',{detail:{name,...data}}));
   if(enabled)gtag('event',name,{...data,page_location:pageLocation(),send_to:config.id});
+  stats(statsNames[name],{service:data.service,label:data.product==='none'?'':data.product});
  }
  // A lead counts once, and only after the form service has confirmed that it received the enquiry: site.js calls
  // this from its success branch with the id it generated for that one submission (Google Ads deduplicates on it too).
@@ -89,6 +109,7 @@
   // Both go out under the current consent: without it Google receives a cookieless ping and no form data.
   gtag('event','generate_lead',{...data,page_location:pageLocation(),send_to:config.id});
   if(config.conversion)gtag('event','conversion',{send_to:config.conversion,transaction_id:id});
+  stats('form_submit_success',{service:data.service,form_id:data.form_name});
  }
  window.ITDTracking=Object.freeze({record,lead});
  document.addEventListener('click',e=>{const a=e.target.closest('a[href]');if(!a)return;const u=new URL(a.href);if(u.protocol==='tel:')record('click_phone');else if(u.protocol==='mailto:')record('click_email');else if(u.hostname==='wa.me')record('click_whatsapp');});
@@ -116,7 +137,8 @@
    choice=next;decided=true;
    try{localStorage.setItem(key,JSON.stringify({analytics:next.analytics,ads:next.ads,date:new Date().toISOString().slice(0,10)}));localStorage.removeItem(legacy);}catch{}
    apply();
-   // Withdrawing a category also removes the cookies it had set on this domain.
+   // Withdrawing a category also removes the cookies it had set on this domain (and the site statistics ids).
+   if(!next.analytics)try{for(const [name,store] of statsIds)store().removeItem(name);}catch{}
    for(const cookie of document.cookie.split(';')){const name=cookie.trim().split('=')[0];if((!next.analytics&&name.startsWith('_ga'))||(!next.ads&&name.startsWith('_gcl_'))){for(const domain of ['',location.hostname,'.'+location.hostname])document.cookie=name+'=; Max-Age=0; Path=/'+(domain?'; Domain='+domain:'')+'; SameSite=Lax';}}
    panel.hidden=true;settings.focus();
   }

@@ -7,7 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     itd_stats_json(['ok' => false, 'error' => 'method_not_allowed'], 405);
 }
 
-$providedKey = (string) ($_GET['key'] ?? ($_SERVER['HTTP_X_ITD_STATS_KEY'] ?? ''));
+// The key comes only in the X-ITD-Stats-Key header, never in the address (which would end up in server logs).
+$providedKey = (string) ($_SERVER['HTTP_X_ITD_STATS_KEY'] ?? '');
 if (!hash_equals(ITD_STATS_ADMIN_KEY, $providedKey)) {
     itd_stats_json(['ok' => false, 'error' => 'unauthorized'], 401);
 }
@@ -104,7 +105,7 @@ $events = itd_stats_read_events();
 $now = time();
 $dayAgo = $now - 86400;
 $weekAgo = $now - 604800;
-$ctaEvents = ['whatsapp_click', 'booking_click', 'email_click', 'phone_click', 'form_submit_attempt', 'form_submit_success', 'package_select'];
+$ctaEvents = ['whatsapp_click', 'booking_click', 'email_click', 'phone_click', 'request_demo', 'form_submit_attempt', 'form_submit_success', 'package_select'];
 
 $events24h = [];
 $events7d = [];

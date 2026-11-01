@@ -25,6 +25,11 @@ $eventName = itd_stats_clean_string($data['event'] ?? '', 64);
 if ($eventName === '') {
     itd_stats_json(['ok' => false, 'error' => 'missing_event'], 400);
 }
+// Only the events assets/measurement.js sends, and it sends them only after the visitor allowed "Statistics".
+$allowedEvents = ['page_view', 'whatsapp_click', 'phone_click', 'email_click', 'booking_click', 'request_demo', 'form_submit_success'];
+if (!in_array($eventName, $allowedEvents, true)) {
+    itd_stats_json(['ok' => false, 'error' => 'unknown_event'], 400);
+}
 
 $path = itd_stats_clean_string($data['path'] ?? '/', 220);
 if ($path === '' || $path[0] !== '/') {
@@ -50,13 +55,8 @@ $sameSiteReferrer = in_array($referrerHost, ['itdks.tech', 'www.itdks.tech'], tr
 
 $details = [
     'label' => itd_stats_clean_string($data['label'] ?? '', 160),
-    'href' => itd_stats_clean_string($data['href'] ?? '', 220),
-    'destination_host' => itd_stats_clean_string($data['destination_host'] ?? '', 120),
     'service' => itd_stats_clean_string($data['service'] ?? '', 120),
-    'package' => itd_stats_clean_string($data['package'] ?? '', 120),
     'form_id' => itd_stats_clean_string($data['form_id'] ?? '', 100),
-    'message' => itd_stats_clean_string($data['message'] ?? '', 160),
-    'depth' => (int) ($data['depth'] ?? 0),
 ];
 
 $record = [
@@ -78,18 +78,10 @@ $record = [
     'device' => itd_stats_detect_device($agent),
     'browser' => itd_stats_detect_browser($agent),
     'browser_language' => itd_stats_clean_string($data['browser_language'] ?? '', 40),
-    'browser_languages' => itd_stats_clean_string($data['browser_languages'] ?? '', 120),
     'timezone' => itd_stats_clean_string($data['timezone'] ?? '', 80),
-    'timezone_offset' => max(-1440, min(1440, (int) ($data['timezone_offset'] ?? 0))),
-    'platform' => itd_stats_clean_string($data['platform'] ?? '', 80),
-    'connection_type' => itd_stats_clean_string($data['connection_type'] ?? '', 40),
-    'save_data' => (bool) ($data['save_data'] ?? false),
-    'color_scheme' => itd_stats_clean_string($data['color_scheme'] ?? '', 20),
     'viewport' => itd_stats_clean_string($data['viewport'] ?? '', 40),
-    'screen' => itd_stats_clean_string($data['screen'] ?? '', 40),
-    'seconds_on_page' => max(0, min(86400, (int) ($data['seconds_on_page'] ?? 0))),
     'details' => array_filter($details, static function ($value) {
-        return $value !== '' && $value !== 0;
+        return $value !== '';
     }),
 ];
 
@@ -106,12 +98,25 @@ fwrite($handle, $line);
 flock($handle, LOCK_UN);
 fclose($handle);
 
-if (is_file(ITD_STATS_EVENT_FILE) && filesize(ITD_STATS_EVENT_FILE) > 5242880) {
-    $events = itd_stats_read_events(ITD_STATS_MAX_EVENTS);
+// Events are kept for 90 days, and at most the last ITD_STATS_MAX_EVENTS. The file is rewritten when it passes
+// 5 MB or when its oldest event is older than 90 days.
+clearstatcache(true, ITD_STATS_EVENT_FILE);
+$cutoff = time() - 90 * 86400;
+$oldest = time();
+$reader = fopen(ITD_STATS_EVENT_FILE, 'rb');
+if ($reader) {
+    $first = json_decode((string) fgets($reader), true);
+    fclose($reader);
+    $oldest = strtotime((string) ($first['server_time'] ?? '')) ?: time();
+}
+if (is_file(ITD_STATS_EVENT_FILE) && (filesize(ITD_STATS_EVENT_FILE) > 5242880 || $oldest < $cutoff)) {
+    $events = array_filter(itd_stats_read_events(ITD_STATS_MAX_EVENTS), static function (array $event) use ($cutoff): bool {
+        return (strtotime((string) ($event['server_time'] ?? '')) ?: 0) >= $cutoff;
+    });
     $trimmed = array_map(static function (array $event): string {
         return json_encode($event, JSON_UNESCAPED_SLASHES);
     }, $events);
-    file_put_contents(ITD_STATS_EVENT_FILE, implode(PHP_EOL, $trimmed) . PHP_EOL, LOCK_EX);
+    file_put_contents(ITD_STATS_EVENT_FILE, $trimmed ? implode(PHP_EOL, $trimmed) . PHP_EOL : '', LOCK_EX);
 }
 
 itd_stats_json(['ok' => true]);

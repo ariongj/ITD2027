@@ -546,6 +546,33 @@ The owner reported that Google Analytics and the Google Ads tag were "not workin
     - Earlier suites pass: projects 32/32, audit 12/12, Calendly 13/13, Report 09 63/63 (preview), 27.10 update 28/28.
   - **GA4 batching:** within a running session GA4 batches page views, so they leave a few seconds later or when the page is left. GA4 can also collect on `www.google.com/g/collect`, which the CSP already allows.
 
+## Site statistics (/stats) reconnected with consent (1 November 2026, night)
+
+The private statistics panel at `itdks.tech/stats/admin` still had its September collector (`/stats/collect.php`), but the rebuilt site no longer sent anything to it. The owner chose to reconnect it under the "Statistika" consent.
+
+- **Site (`assets/measurement.js`, production only):**
+  - **When it sends:** page views and contact actions go to `/stats/collect.php` only after a saved choice with "Statistika". An older "allow analytics" choice (v1) covered Google Analytics only, so it does not count.
+  - **Events:** `page_view`, `whatsapp_click`, `phone_click`, `email_click`, `booking_click`, `request_demo`, `form_submit_success` (after Formspree confirms).
+  - **Data:** page, title, language, page type, utm source and campaign, referrer origin, browser language, time zone, window size, a random browser id (`itd-stats-id`, localStorage) and visit id (`itd-stats-session`, sessionStorage). No names, emails, phone numbers or messages.
+  - **Withdrawal:** withdrawing "Statistika" removes both ids.
+  - **Texts:** the panel label reads "Statistics (Google Analytics and our site statistics)" in SQ/EN/DE. The privacy page has a new flow "Site statistics (on our own server)" with consent as its basis and 90 days at Hostinger. The storage table lists the two ids.
+- **Collector (`stats/collect.php`):**
+  - **Events:** only the seven events above are accepted; others get 400.
+  - **Details:** reduced to label, service and form id.
+  - **Retention:** events older than 90 days are removed when the log is rewritten.
+  - **Hashing:** IP and visitor id are still stored only as keyed hashes. `summary.php` counts `request_demo` as a CTA.
+- **Panel (`stats/admin.html`, `admin.css`, `admin.js`):**
+  - **No inline code:** the panel has none, so `/stats` now has its own strict policy without `'unsafe-inline'` (`production.htaccess`).
+  - **Admin key:** it is sent in the `X-ITD-Stats-Key` header and kept for the browser tab only (sessionStorage). The old copies in localStorage are removed. `summary.php` and `export.php` accept the key only in that header. A `?key=` bookmark no longer works, and the panel takes it out of the address bar. Export downloads through the same header.
+  - **Content:** status pills for Google Analytics, Google Ads and site statistics; metrics for visitors, page views, sessions, CTA, enquiries, conversion, bounce and stored events. The September "Platforms", "Connection" and "Clear local cache" parts are gone.
+  - **Not packaged:** `stats/config.php` (the secret) and `stats/storage/` are never packaged or committed.
+- **Verified:**
+  - **Tracking test:** 93/93, the 67 above plus 26 for the statistics:
+    - nothing without "Statistika" or with a v1 choice; one page view per page;
+    - the contact actions and the confirmed enquiry; ids removed on withdrawal;
+    - the panel under its strict policy with a test key in the header; wrong key; export; no inline code.
+  - **Other checks:** the regression suites, axe and the panel at 1440 and 390 px pass as above.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.
