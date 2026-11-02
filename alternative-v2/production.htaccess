@@ -32,6 +32,10 @@ RewriteRule ^index-en$ /en [R=301,L]
 RewriteRule ^index-de$ /de [R=301,L]
 RewriteRule ^stats/?$ /stats/admin [R=301,L]
 RewriteRule ^stats/storage/ - [F,L]
+# The ITD Themes catalogue links to /en/contact and /de/contact (with the chosen model) and to /en/web-software and
+# /de/web-software. This site's pages are /contact-en and so on; the query string travels with the redirect.
+RewriteCond %{DOCUMENT_ROOT}/$2-$1.html -f
+RewriteRule ^(en|de)/([a-z0-9-]+)/?$ /$2-$1 [R=301,L,NE]
 # .html -> clean URL. Anchored to the requested path, so ".html" in a query string or an
 # internal rewrite can never trigger it (the unanchored form could loop).
 RewriteCond %{THE_REQUEST} ^[A-Z]+\s/+([^?\s]+?)\.html[?\s] [NC]

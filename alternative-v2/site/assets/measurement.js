@@ -12,7 +12,7 @@
  function classify(selection){
   const s=String(selection||'').trim();
   const product=products[s]||(/^kraken\s?os\b/i.test(s)?'kraken-os':/^kraken communications\b/i.test(s)?'kraken-communications':/^aura\b/i.test(s)?'aura':'');
-  const service=Object.keys(services).find(k=>services[k].includes(s))||(s&&(keywords.find(([,re])=>re.test(s))||[])[0])||pageService[page]||'';
+  const service=Object.keys(services).find(k=>services[k].includes(s))||(/^ITD Themes\b/.test(s)&&'web-software')||(s&&(keywords.find(([,re])=>re.test(s))||[])[0])||pageService[page]||'';
   return {product,service};
  }
  const locale={

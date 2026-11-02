@@ -1,0 +1,64 @@
+/* ITD Themes in the main site (report of 1 November 2026): a section on the home page, a dark block on Web & software,
+   a link at the web service and in the footer. Three cards on wider screens; on phones one large and two compact, with
+   no automatic rotation. Plain links; hover is a very slight lift and a stronger border, with a clear keyboard focus. */
+.th-section .section-heading{text-align:center}
+.th-section .eyebrow{color:var(--red)}
+.th-section .section-heading p:not(.eyebrow){max-width:780px;margin-inline:auto}
+.th-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:32px}
+.th-card{display:flex;flex-direction:column;align-items:center;height:100%;padding:10px 10px 18px;border:1px solid var(--line);border-radius:18px;background:#fff;color:var(--ink);text-align:center;text-decoration:none;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.th-card:hover{transform:translateY(-2px);border-color:#a9aaa6;box-shadow:0 10px 26px #17181a12}
+.th-card:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.th-frame{display:block;width:100%;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#fff}
+.th-bar{display:flex;align-items:center;gap:5px;height:26px;padding:0 12px;background:#ecece8}
+.th-bar i{width:6px;height:6px;border-radius:50%;background:#a9aaa6}
+.th-bar b{margin-left:auto;color:#55575c;font-size:11px;font-weight:500}
+/* The same part of every screenshot: whole headlines, nothing cut through a line. */
+.th-frame img{display:block;width:100%;height:auto;aspect-ratio:1280/610;object-fit:cover;object-position:top}
+.th-industry{margin-top:14px;color:var(--muted);font-size:12px;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+.th-name{margin-top:6px;color:var(--ink);font-size:22px;font-weight:600;line-height:1.2}
+.th-view{margin-top:6px;color:var(--red);font-size:14px;font-weight:600}
+.th-phone{display:none}
+.th-foot{margin-top:28px;padding-bottom:36px;border-bottom:1px solid var(--line);text-align:center}
+.button.th-cta{min-width:min(342px,100%);justify-content:center;background:var(--red);border-color:var(--red);color:#fff;text-align:center;white-space:normal}
+.button.th-cta:hover{background:#c40000;border-color:#c40000;color:#fff}
+.button.th-cta:focus-visible{outline:3px solid var(--red);outline-offset:3px}
+.th-note{margin:14px 0 0;color:var(--muted);font-size:14px}
+.th-panel{padding:40px 28px 26px;border-radius:24px;background:#0b0d10;color:#fff;text-align:center}
+.th-panel .eyebrow{color:#ff6b6b}
+.th-panel h2{color:#fff}
+.th-panel>p:not(.eyebrow):not(.th-panel-note){max-width:760px;margin:12px auto 26px;color:#c9ccd2;font-size:18px;line-height:1.55}
+.th-panel .button.th-cta{min-width:min(545px,100%)}
+.th-panel .button.th-cta:focus-visible{outline-color:#fff}
+.th-panel-note{margin:14px 0 0;color:#b4b7be;font-size:14px}
+.th-service{padding-top:32px}
+.th-service+.service-context{padding-top:48px}
+.th-service-link{margin-left:18px}
+.th-footer-link a{flex-direction:column;align-items:flex-start;justify-content:flex-start;padding-top:8px}
+.th-footer-link small{margin-top:2px;color:#a5a7ad;font-size:12px;font-weight:400}
+@media(prefers-reduced-motion:reduce){.th-card{transition:none}.th-card:hover{transform:none}}
+@media(max-width:900px){.th-name{font-size:18px}.th-card{padding:8px 8px 14px}}
+@media(max-width:640px){
+ .th-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:24px}
+ .th-main,.th-phone{grid-column:1/-1}
+ .th-main .th-name{font-size:22px}
+ .th-phone{display:block;padding:18px 0 14px;text-align:center}
+ .th-phone p{margin:0}
+ .th-count{color:var(--muted);font-size:15px;font-weight:500}
+ .th-hint{margin-top:10px!important;color:var(--muted);font-size:13px}
+ .th-phone .eyebrow{margin-top:34px;color:var(--red)}
+ .th-phone h3{margin:10px 0 8px;color:var(--ink);font-size:24px;line-height:1.2}
+ .th-other .th-card{padding:6px 6px 12px;border-radius:14px}
+ .th-other .th-bar{height:22px;padding:0 8px;gap:4px}
+ .th-other .th-bar i{width:5px;height:5px}
+ .th-other .th-bar b{font-size:10px}
+ /* The compact cards show more of the page, as in the report. */
+ .th-other .th-frame img{aspect-ratio:1280/820}
+ .th-other .th-industry{margin-top:10px;font-size:12px;letter-spacing:0;text-transform:none}
+ .th-other .th-name{margin-top:4px;font-size:16px}
+ .th-other .th-view{font-size:13px}
+ .th-foot{margin-top:24px}
+ .button.th-cta,.th-panel .button.th-cta{width:100%;min-width:0}
+ .th-panel{padding:32px 18px 22px}
+ .th-panel>p:not(.eyebrow):not(.th-panel-note){font-size:16px}
+ .th-service-link{display:block;margin:12px 0 0}
+}

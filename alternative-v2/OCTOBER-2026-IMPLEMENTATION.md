@@ -573,6 +573,27 @@ The private statistics panel at `itdks.tech/stats/admin` still had its September
     - the panel under its strict policy with a test key in the header; wrong key; export; no inline code.
   - **Other checks:** the regression suites, axe and the panel at 1440 and 390 px pass as above.
 
+## ITD Themes in the main site, report of 1 November 2026 (ITD_Themes_Integrimi_ne_Webfaqe_SQ_EN_DE_01-11-2026.pdf)
+
+The catalogue stays at `themes.itdks.tech`; the main site only leads to it. Layer `report_themes.py` with `assets/themes.css` and `assets/themes/`, main version only (the M build is guarded and unchanged).
+
+- **Home:** a section after "Katër fusha" and before "Pak nga puna jonë", with three cards (Monolith House, Altura Five, Lumen Eyewear), one red button without an arrow, a note and a hairline. On phones: one large card, "220 modele · 20 industri", the hint, a second heading and two compact cards side by side. No automatic rotation.
+- **Web & software:** a dark block after the three benefits and before "Nga nevoja reale". **Services:** a text link at "Zhvillim dhe dizajn i faqeve web".
+- **Footer:** "Modele website" / "Website models" / "Website-Vorlagen" closes the Company column on all 72 pages, with a small "ITD Themes" beneath. The main menu keeps its nine items.
+- **Links:** cards open the model page and buttons the catalogue, in the visitor's language and in the same tab. All 12 addresses answered 200 on 2 November 2026.
+
+**Numbers:** 220 models and 20 industries were counted from the catalogue's own `assets/models.js` on 2 November 2026. All three demos are English only there, hence "Demo EN" in every language. If the catalogue grows, these texts change with it.
+
+**Screenshots:** they come from the report's PDF, so nothing was downloaded, and they are served from this site because the CSP allows only local images. They are demos of the catalogue, not client work, and need replacing when those demos change. Crop: the report's mock cuts through the headlines, so desktop and the large phone card use 1280/610, which shows whole headlines; the compact cards use 1280/820, as in the report.
+
+**Found while wiring the contact path:** the catalogue links to `/en/contact?...`, `/de/contact?...`, `/en/web-software` and `/de/web-software`, and all four answered 404 on the live site. The pages here are `/contact-en` and so on. `production.htaccess` now redirects `/(en|de)/<page>` to `/<page>-<lang>` (301) when that page exists, keeping the query string, so "Zgjedh këtë model" reaches the form in the visitor's language with the model selected. `theme=T111` travels in the address and `site.js` ignores it; the model reaches the team through the `service` field. **The rule has not run on Apache:** the test emulates it from the built `.htaccess`, and the upload notes ask for a check after the upload.
+
+**Measurement:** a `service` starting with "ITD Themes" counts as `web-software` in `generate_lead`. The model itself is not sent to Google.
+
+**Not in the report, translated from the Albanian:** "A direction for every business." / "Eine Richtung für jedes Unternehmen.", and "220 models · 20 industries · Tailored to your project" / "220 Vorlagen · 20 Branchen · Anpassung an Ihr Projekt". The red label on the black block is the lighter `#ff6b6b` used by the other dark boxes, because `--red` on black fails AA contrast.
+
+**Checked on the production build, with the site's CSP and every outside host intercepted:** 103 checks at 390, 768 and 1440 px in SQ, EN and DE. Axe and overflow on all 72 pages: 0.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.
