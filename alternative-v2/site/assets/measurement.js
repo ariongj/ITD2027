@@ -140,7 +140,7 @@
    // Withdrawing a category also removes the cookies it had set on this domain (and the site statistics ids).
    if(!next.analytics)try{for(const [name,store] of statsIds)store().removeItem(name);}catch{}
    for(const cookie of document.cookie.split(';')){const name=cookie.trim().split('=')[0];if((!next.analytics&&name.startsWith('_ga'))||(!next.ads&&name.startsWith('_gcl_'))){for(const domain of ['',location.hostname,'.'+location.hostname])document.cookie=name+'=; Max-Age=0; Path=/'+(domain?'; Domain='+domain:'')+'; SameSite=Lax';}}
-   panel.hidden=true;settings.focus();
+   panel.hidden=true;settings.focus({preventScroll:true});
   }
   for(const [label,kind] of [[locale.all,'all'],[locale.none,'none'],[locale.save,'save']]){
    const b=document.createElement('button');b.type='button';b.className='button'+(kind==='all'?'':' outline');b.dataset.consent=kind;b.textContent=label;

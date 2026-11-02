@@ -594,6 +594,12 @@ The catalogue stays at `themes.itdks.tech`; the main site only leads to it. Laye
 
 **Checked on the production build, with the site's CSP and every outside host intercepted:** 103 checks at 390, 768 and 1440 px in SQ, EN and DE. Axe and overflow on all 72 pages: 0.
 
+## Privacy panel no longer jumps to the footer (2 November 2026)
+
+Reported by the owner: choosing in the privacy panel sent the visitor down to the footer. On closing, `measurement.js` moved focus to the "privacy settings" button in the footer without `preventScroll`, so the browser scrolled there (present since October). The focus still moves, so keyboard users don't lose their place, but the page stays where it is. Side effect: that jump also made GA4 send its first hit with consent sooner, through the automatic scroll event; without it the hit leaves about 5 seconds after the click, with the same address.
+
+The report's redirect ran correctly on the live Apache server after the 2026-11-02 upload.
+
 ## Deferred, missing or not live-verified
 
 1. **Real client case studies — user deferred to the next update.** Bring this up at the next ITD website update: request approved public client names/projects, screenshots, problem/solution and verified results. Current examples remain labelled illustrative. This is recorded in the project and as a requested context reminder, not a scheduled notification.
