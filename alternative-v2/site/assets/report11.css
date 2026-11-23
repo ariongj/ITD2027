@@ -212,3 +212,6 @@ body[data-page=ai-agents] .agent-card>h3{align-self:stretch;margin-top:4px}
  .r11-hero-grid{gap:12px}
  .r11-steps li{padding:8px 11px;font-size:13px}}
 @media(prefers-reduced-motion:reduce){.r11-stage,.r11-stage *,.r11-hero,.r11-hero *{animation:none!important}.r11-caret{opacity:0!important}}
+/* SEO checklist (20 November 2026), item 12: between 541 and 800 px the brandbook covers took their width only once
+   the image arrived, which moved the page (CLS 0.11). The link now fills its column from the start; same size as before. */
+@media(max-width:800px) and (min-width:541px){.creative-books>a{width:100%}.creative-books img{width:100%;height:auto}}

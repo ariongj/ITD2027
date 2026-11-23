@@ -232,6 +232,7 @@ exec(compile((BASE/"report_seo.py").read_text(encoding="utf-8-sig"),str(BASE/"re
 exec(compile((BASE/"report_audit.py").read_text(encoding="utf-8-sig"),str(BASE/"report_audit.py"),"exec"))
 exec(compile((BASE/"report_projects.py").read_text(encoding="utf-8-sig"),str(BASE/"report_projects.py"),"exec"))
 exec(compile((BASE/"report_themes.py").read_text(encoding="utf-8-sig"),str(BASE/"report_themes.py"),"exec"))
+exec(compile((BASE/"report_seo_checklist.py").read_text(encoding="utf-8-sig"),str(BASE/"report_seo_checklist.py"),"exec"))
 exec(compile((BASE/"theme_m.py").read_text(encoding="utf-8-sig"),str(BASE/"theme_m.py"),"exec"))
 
 import os

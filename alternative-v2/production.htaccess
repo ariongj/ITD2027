@@ -14,35 +14,41 @@ Require all denied
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteCond %{HTTP_HOST} ^www\.itdks\.tech$ [NC]
-RewriteRule ^ https://itdks.tech%{REQUEST_URI} [R=301,L,NE]
+# Every redirect names the final address (https, without www), so any old form of a URL arrives in one hop
+# (SEO checklist of 20 November 2026, item 05). The www rule comes after them and catches the rest.
+# Hostinger's CDN turns http into https before this file runs; that hop cannot be removed here.
 # Remove only the obsolete template parameter; preserve all other URL semantics.
 # (A trailing "?" drops the query string on every Apache/LiteSpeed version, unlike QSD.)
 RewriteCond %{QUERY_STRING} ^optech_footer=[^&]*$ [NC]
-RewriteRule ^ %{REQUEST_URI}? [R=301,L,NE]
+RewriteRule ^(.*)$ https://itdks.tech/$1? [R=301,L,NE]
 # Redirects and routes the live site already has.
 RewriteCond %{THE_REQUEST} ^[A-Z]+\s/+index\.html[?\s] [NC]
-RewriteRule ^index\.html$ / [R=301,L]
+RewriteRule ^index\.html$ https://itdks.tech/ [R=301,L]
 RewriteCond %{THE_REQUEST} ^[A-Z]+\s/+index-en\.html[?\s] [NC]
-RewriteRule ^index-en\.html$ /en [R=301,L]
+RewriteRule ^index-en\.html$ https://itdks.tech/en [R=301,L]
 RewriteCond %{THE_REQUEST} ^[A-Z]+\s/+index-de\.html[?\s] [NC]
-RewriteRule ^index-de\.html$ /de [R=301,L]
-RewriteRule ^index$ / [R=301,L]
-RewriteRule ^index-en$ /en [R=301,L]
-RewriteRule ^index-de$ /de [R=301,L]
-RewriteRule ^stats/?$ /stats/admin [R=301,L]
+RewriteRule ^index-de\.html$ https://itdks.tech/de [R=301,L]
+RewriteRule ^index$ https://itdks.tech/ [R=301,L]
+RewriteRule ^index-en$ https://itdks.tech/en [R=301,L]
+RewriteRule ^index-de$ https://itdks.tech/de [R=301,L]
+RewriteRule ^stats/?$ https://itdks.tech/stats/admin [R=301,L]
 RewriteRule ^stats/storage/ - [F,L]
 # The ITD Themes catalogue links to /en/contact and /de/contact (with the chosen model) and to /en/web-software and
 # /de/web-software. This site's pages are /contact-en and so on; the query string travels with the redirect.
 RewriteCond %{DOCUMENT_ROOT}/$2-$1.html -f
-RewriteRule ^(en|de)/([a-z0-9-]+)/?$ /$2-$1 [R=301,L,NE]
+RewriteRule ^(en|de)/([a-z0-9-]+)/?$ https://itdks.tech/$2-$1 [R=301,L,NE]
 # .html -> clean URL. Anchored to the requested path, so ".html" in a query string or an
 # internal rewrite can never trigger it (the unanchored form could loop).
 RewriteCond %{THE_REQUEST} ^[A-Z]+\s/+([^?\s]+?)\.html[?\s] [NC]
-RewriteRule ^(.+?)\.html$ /$1 [R=301,L,NE]
+RewriteRule ^(.+?)\.html$ https://itdks.tech/$1 [R=301,L,NE]
+# A trailing slash is removed only when the page without it exists; anything else answers 404 at once
+# (before, /teams/ was sent to /teams only to get a 404 there).
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_URI} .+/$
-RewriteRule ^(.+)/$ /$1 [R=301,L]
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f [OR]
+RewriteCond $1 ^(en|de)$
+RewriteRule ^(.+)/$ https://itdks.tech/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} ^www\.itdks\.tech$ [NC]
+RewriteRule ^ https://itdks.tech%{REQUEST_URI} [R=301,L,NE]
 RewriteRule ^en$ index-en.html [L]
 RewriteRule ^de$ index-de.html [L]
 RewriteRule ^stats/admin$ stats/admin.html [L]
